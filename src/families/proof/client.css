@@ -1,0 +1,36 @@
+/* proof: the pieces' fills mix fixed hues into the theme's paper, so they follow a theme switch. */
+.hesap-proof{--tone-n:color-mix(in oklab,var(--ink-2) 24%,var(--paper));--tone-a:color-mix(in oklab,#3d85c6 55%,var(--paper));
+  --tone-b:color-mix(in oklab,#e0a224 60%,var(--paper));--tone-c:color-mix(in oklab,var(--accent) 55%,var(--paper));
+  --tone-ab:color-mix(in oklab,#3fa37a 52%,var(--paper))}
+.hesap-proof .proof-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;--k:1}
+
+/* Every colour of the pieces is a theme token, so a theme switch needs no redraw. */
+.hesap-proof .proof-sh{transform-box:fill-box;transform-origin:center;fill:var(--fill,var(--tone-n));stroke:var(--ink);stroke-width:2;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;transition:fill .5s,stroke .4s,stroke-width .3s}
+.hesap-proof .proof-a{--fill:var(--tone-a)}
+.hesap-proof .proof-b{--fill:var(--tone-b)}
+.hesap-proof .proof-c{--fill:var(--tone-c)}
+.hesap-proof .proof-ab{--fill:var(--tone-ab)}
+/* A shape drawn whole has edges in its fill colour, so the pieces it will break into stay hidden. */
+.hesap-proof .proof-flat>.proof-sh{stroke:var(--fill,var(--tone-n))}
+.hesap-proof :is(.proof-frame,.proof-ghost,.proof-cut,.proof-mark,.proof-line)>.proof-sh{fill:none}
+.hesap-proof .proof-frame>.proof-sh{stroke-width:2.5}
+.hesap-proof .proof-ghost>.proof-sh{stroke:var(--ink-2);stroke-dasharray:6 5}
+.hesap-proof .proof-cut>.proof-sh{stroke:var(--accent);stroke-width:2.5;stroke-dasharray:8 6}
+.hesap-proof .proof-mark>.proof-sh{stroke-width:2.5}
+.hesap-proof .proof-text>.proof-sh{fill:var(--ink);stroke:none;font-family:var(--body);font-weight:600;dominant-baseline:central;font-variant-numeric:tabular-nums}
+.hesap-proof .proof-result>.proof-sh{fill:var(--accent);font-weight:700}
+/* The step's result and what the text points at stand out. */
+.hesap-proof .proof-lit:not(.proof-text)>.proof-sh{stroke:var(--accent);stroke-width:3.5}
+.hesap-proof .proof-hot:not(.proof-text)>.proof-sh{stroke:var(--accent);stroke-width:4}
+.hesap-proof :is(.proof-lit,.proof-hot).proof-text>.proof-sh{fill:var(--accent)}
+
+/* A challenge's triangles follow the pointer. Chrome reads touch-action on the svg and not on its pieces. */
+.hesap-proof .proof-drags{touch-action:none}
+.hesap-proof .proof-grab{cursor:grab;touch-action:none;outline:none}
+.hesap-proof .proof-grab.drag{cursor:grabbing;filter:drop-shadow(0 6px 6px rgb(0 0 0/.35))}
+.hesap-proof .proof-grab:is(:focus-visible,.drag)>.proof-sh{stroke:var(--accent);stroke-width:3.5}
+
+@media (max-width:900px){
+  /* The proof ends above the peek card, which covers the foot of the stage until the reader closes it. */
+  .hesap-proof .proof-svg{height:calc(100% - var(--hesap-peek,0px))}
+}

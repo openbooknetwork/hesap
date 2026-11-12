@@ -1,0 +1,72 @@
+/* wave: the cosine and tangent colours turn the theme's accent round the colour wheel, so they keep its lightness in
+   every theme. */
+.hesap-wave{--wave-sin:var(--accent);--wave-cos:var(--ink-2);--wave-tan:var(--ink);--wave-sum:var(--ink);--wave-arc:var(--wave-tan);
+  @supports (color:oklch(from red l c h)){--wave-cos:oklch(from var(--accent) l c calc(h + 200));--wave-tan:oklch(from var(--accent) l c calc(h + 115))}}
+/* A finger on the figure turns the point. The browser only honours touch-action on the svg itself. */
+.hesap-wave .wave-svg{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;touch-action:none}
+
+/* Every colour in the figure is a theme token, so a theme switch needs no redraw. */
+.hesap-wave .wave-svg *{pointer-events:none}
+.hesap-wave .axis{stroke:var(--ink-2);stroke-width:1.5}
+.hesap-wave .axis.touch{stroke-dasharray:6 4}
+.hesap-wave .guide{fill:none;stroke:var(--rule);stroke-width:1;stroke-dasharray:3 5}
+.hesap-wave .asymptote{stroke:var(--ink-2);stroke-dasharray:5 5;opacity:.7}
+.hesap-wave .ring{fill:none;stroke:var(--ink);stroke-width:2.5}
+.hesap-wave .ring.rides{stroke:var(--ink-2);stroke-width:1.5}
+.hesap-wave .arm{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round}
+.hesap-wave .arm[class*="t-"]{stroke-width:4}
+.hesap-wave .ray{stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:6 5}
+.hesap-wave .wedge{fill:var(--ink-2);opacity:.25}
+.hesap-wave .rim{fill:none;stroke:var(--wave-arc);stroke-width:7;stroke-linecap:round;opacity:.75}
+.hesap-wave .leg,.hesap-wave .bar{stroke-width:5;stroke-linecap:round}
+.hesap-wave .t-sin{stroke:var(--wave-sin)} .hesap-wave .t-cos{stroke:var(--wave-cos)} .hesap-wave .t-tan{stroke:var(--wave-tan)} .hesap-wave .t-sum{stroke:var(--wave-sum)}
+.hesap-wave .wave-ghost{fill:none;stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:4 5;opacity:.8}
+.hesap-wave .wave-ahead{fill:none;stroke-width:2;opacity:.3}
+.hesap-wave .wave-part{fill:none;stroke-width:2.5;opacity:.6}
+.hesap-wave .trace{fill:none;stroke-width:3.5;stroke-linejoin:round;stroke-linecap:round}
+.hesap-wave .join{stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:2 5;stroke-linecap:round}
+.hesap-wave .mark{fill:none;stroke:var(--ink-2);stroke-width:1.5}
+.hesap-wave .mark-label{fill:var(--ink-2);font:600 14px var(--body);text-anchor:middle}
+.hesap-wave .tick{fill:var(--ink-2);font:13px var(--body);font-variant-numeric:tabular-nums;stroke:var(--paper);stroke-width:4;paint-order:stroke;stroke-linejoin:round}
+.hesap-wave .tick.x{text-anchor:middle;dominant-baseline:hanging}
+.hesap-wave .tick.y{text-anchor:end;dominant-baseline:central}
+.hesap-wave .letter{fill:var(--ink);font:italic 600 18px var(--display);text-anchor:middle;dominant-baseline:central;stroke:var(--paper);stroke-width:4;paint-order:stroke}
+.hesap-wave .tip{fill:var(--ink);stroke:var(--paper);stroke-width:2}
+.hesap-wave .tip[class*="t-"]{fill:var(--paper);stroke-width:3}
+.hesap-wave .tip.t-sin{stroke:var(--wave-sin)} .hesap-wave .tip.t-cos{stroke:var(--wave-cos)}
+.hesap-wave .tip.t-tan{fill:var(--wave-tan);stroke:var(--paper)}
+.hesap-wave .q{fill:var(--paper);stroke-width:3}
+.hesap-wave .start{fill:var(--paper);stroke:var(--ink-2);stroke-width:2.5;stroke-dasharray:3 2.5}
+.hesap-wave .ceiling{stroke:var(--ink);stroke-width:4;stroke-linecap:round}
+.hesap-wave .coil{fill:none;stroke:var(--ink-2);stroke-width:2;stroke-linejoin:round}
+.hesap-wave .weight{fill:var(--wave-sin);stroke:none}
+/* What the reader points at in the text or the panel stands out. */
+.hesap-wave .leg.hot,.hesap-wave .bar.hot,.hesap-wave .arm.hot{stroke-width:8}
+.hesap-wave .trace.hot,.hesap-wave .wave-part.hot{stroke-width:5;opacity:1}
+.hesap-wave .wedge.hot,.hesap-wave .rim.hot{opacity:.6}
+.hesap-wave .q.hot,.hesap-wave .start.hot,.hesap-wave .tip.hot{stroke-width:5}
+.hesap-wave .mark.hot{stroke:var(--accent);stroke-width:2.5}
+/* A challenge marks its target height or wave in grey and the spots found in the accent. */
+.hesap-wave .level{stroke:var(--ink-2);stroke-width:2;stroke-dasharray:8 6;opacity:.8}
+.hesap-wave .wave-target{fill:none;stroke:var(--ink-2);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.4}
+.hesap-wave .pin{fill:var(--accent);stroke:var(--paper);stroke-width:2}
+.hesap-wave .ripple{fill:none;stroke:var(--accent);stroke-width:3}
+
+/* The finger moves the point, so the page under it stays still. */
+.hesap-wave .hit,.hesap-wave .handle,.hesap-wave .handle *{pointer-events:auto}
+.hesap-wave .hit{fill:transparent;cursor:pointer;touch-action:none}
+.hesap-wave .handle{cursor:grab;touch-action:none;outline:none}
+.hesap-wave .wave-svg.dragging .hit,.hesap-wave .wave-svg.dragging .handle{cursor:grabbing}
+.hesap-wave .grip{fill:transparent}
+.hesap-wave .handle .tip{transition:r .15s}
+.hesap-wave .handle:hover .tip,.hesap-wave .handle:focus-visible .tip,.hesap-wave .wave-svg.dragging .handle .tip{r:10px}
+.hesap-wave .handle:focus-visible .grip{stroke:var(--accent);stroke-width:2.5}
+
+/* The angle slider is named by the scene's letter, and a readout's swatch takes the colour of what it measures. */
+.hesap-wave .wave-scrub span{font:italic 600 1.143rem var(--display);color:var(--ink);min-width:1.4rem;text-align:center}
+.hesap-wave .wave-sw-sin{color:var(--wave-sin)} .hesap-wave .wave-sw-cos{color:var(--wave-cos)} .hesap-wave .wave-sw-tan{color:var(--wave-tan)}
+.hesap-wave .wave-sw-sum{color:var(--wave-sum)} .hesap-wave .wave-sw-arc{color:var(--wave-arc)}
+@media (max-width:900px){
+  /* The figure ends above the peek card. */
+  .hesap-wave .wave-svg{height:calc(100% - var(--hesap-peek,0px))}
+}

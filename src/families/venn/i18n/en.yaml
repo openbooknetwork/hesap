@@ -1,0 +1,15 @@
+venn_apple: apple
+venn_pear: pear
+venn_cherry: cherry
+venn_lemon: lemon
+venn_grapes: grapes
+venn_banana: banana
+venn_orange: orange
+venn_strawberry: strawberry
+venn_melon: watermelon
+venn_peach: peach
+venn_kiwi: kiwi
+venn_pineapple: pineapple
+venn_goal-match: Make every condition true at the same time.
+venn_goal-regions: "Put exactly {x} in every region inside the circles."
+venn_lead: "Drag an element into a set or out of it and watch the sets change."

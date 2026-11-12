@@ -1,0 +1,28 @@
+/* graph: one JSXGraph board, or two stacked over the same x. JSXGraph writes colours as attributes, so a theme switch
+   draws the boards again. */
+.hesap-graph .graph-stage{position:absolute;inset:0;display:flex;flex-direction:column;gap:.286rem;padding:.571rem}
+.hesap-graph .graph-view{flex:1;min-height:0;display:flex;flex-direction:column}
+.hesap-graph .graph-two .graph-view+.graph-view{border-top:1px solid var(--rule);padding-top:.286rem}
+.hesap-graph .graph-plot{flex:1;min-height:0;position:relative}
+.hesap-graph .graph-labels,.hesap-graph .graph-hit{position:absolute;inset:0}
+/* JSXGraph sets its box relative, which would let the board keep the height it was drawn at. */
+.hesap-graph .graph-board{position:absolute !important;inset:0}
+.hesap-graph .graph-board .JXGtext{font-family:var(--body) !important;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* The pointer layer lies over the board. A finger on it moves the nearest point, and the page under it stays still. */
+.hesap-graph .graph-hit{touch-action:none;cursor:grab}
+.hesap-graph .graph-hit.drag{cursor:grabbing}
+.hesap-graph .graph-labels{pointer-events:none;overflow:hidden}
+.hesap-graph .graph-label{position:absolute;left:0;top:0;font:600 .929rem var(--body);color:var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums;
+  text-shadow:0 0 3px var(--paper),0 0 3px var(--paper),0 0 2px var(--paper);transition:color .15s}
+.hesap-graph .graph-label[hidden]{display:none}
+.hesap-graph .graph-label.hot{color:var(--accent)}
+/* A line above each view says what it plots. */
+.hesap-graph .graph-cap{flex:none;min-height:1.714rem;padding:0 .286rem;color:var(--ink-2);font:600 .857rem var(--body);display:flex;align-items:center}
+.hesap-graph .graph-cap .katex{font-size:1.35em;color:var(--ink)}
+/* Start again ends the readouts' row. */
+.hesap-graph .graph-reset{margin-inline-start:auto}
+
+@media (max-width:900px){
+  .hesap-graph .graph-stage{padding:.286rem .286rem var(--hesap-peek,0px)}
+  .hesap-graph .graph-label{font-size:.857rem}
+}

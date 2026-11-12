@@ -1,0 +1,45 @@
+{
+  "name": "@openbooknetwork/hesap",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Hesap: the maths engine of the Open Book Network, figures a reader can move with the numbers and formulas that follow them",
+  "keywords": [
+    "maths",
+    "geometry",
+    "interactive",
+    "education",
+    "static-site"
+  ],
+  "license": "MIT",
+  "author": "Can Bascil",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openbooknetwork/hesap.git"
+  },
+  "homepage": "https://github.com/openbooknetwork/hesap#readme",
+  "bugs": {
+    "url": "https://github.com/openbooknetwork/hesap/issues"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "exports": {
+    ".": "./src/index.mjs",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "scripts/assemble.mjs"
+  ],
+  "scripts": {
+    "assemble": "node scripts/assemble.mjs",
+    "test": "node scripts/assemble.mjs --check && node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@openbooknetwork/kitap": "file:../kitap",
+    "animejs": "^4.5.0",
+    "jsxgraph": "^1.14.3",
+    "katex": "^0.19.1"
+  }
+}

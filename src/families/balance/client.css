@@ -1,0 +1,92 @@
+/* balance: the lines of the equation stand above the scale, and every colour is a theme token, so a theme switch
+   needs no redraw. */
+.hesap-balance .hesap-stage{display:flex;flex-direction:column}
+
+/* The lines of the equation stack with the newest at the foot. The area keeps one height, so the scale under it
+   stays still while lines come and go, and older lines scroll away upwards. */
+.balance-lines{flex:none;height:13rem;overflow:auto;display:flex;flex-direction:column;padding:.857rem 1rem .429rem;scrollbar-width:thin;mask-image:linear-gradient(transparent,#000 1.4rem)}
+.balance-lines.solo{height:8.6rem}
+.balance-sheet{margin-top:auto;position:relative;padding-top:.5rem}
+.balance-grid{display:grid;grid-template-columns:4rem 1fr auto 1fr;align-items:baseline;row-gap:.25em;font-size:1.15rem;color:var(--ink-2);width:100%;max-width:40rem;margin-inline:auto}
+.balance-row{display:contents}
+.balance-row.now{font-size:2.3em;color:var(--ink)}
+.balance-row.check{font-size:1.45em;color:var(--ink)}
+.balance-op{font-size:1rem;color:var(--accent);justify-self:start;white-space:nowrap}
+.balance-row.now .balance-op{font-weight:700}
+.balance-cell{display:flex;align-items:baseline;white-space:nowrap}
+.balance-cell.l{justify-self:end}
+.balance-cell.r{justify-self:start}
+.balance-cell.rel{margin:0 .32em;justify-self:center}
+.balance-tok[data-key="r.ok"]{margin-inline-start:.3em}
+.balance-tok{display:inline-block}
+.balance-tok.sign{margin:0 .24em}
+.balance-tok.sign.unary{margin:0 .04em 0 0}
+.hesap-balance .op,.balance-tok.op{color:var(--accent)}
+.balance-cell.hot{background:color-mix(in srgb,var(--accent) 18%,transparent);border-radius:6px}
+.balance-grid.hot .balance-op{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.balance-fx{position:absolute;inset:0;pointer-events:none}
+.balance-fx .ghost{position:absolute;margin:0;color:var(--ink)}
+.balance-frame{position:absolute;overflow:visible}
+.balance-frame rect{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-dasharray:1}
+.balance-ring{position:absolute;border:2px solid var(--accent);border-radius:12px;opacity:0}
+
+.balance-fig{flex:1;min-height:0;position:relative}
+.balance-fig svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.hesap-balance .a{transform-box:fill-box;transform-origin:center}
+.hesap-balance .floor{stroke:var(--rule);stroke-width:3;stroke-linecap:round}
+.hesap-balance .stand{fill:var(--paper-2);stroke:var(--ink-2);stroke-width:2.5;stroke-linejoin:round}
+.hesap-balance .pivot{fill:var(--ink);stroke:var(--paper);stroke-width:2}
+.hesap-balance .bar{fill:var(--ink-2)}
+.hesap-balance .end{fill:var(--ink)}
+.hesap-balance .post{stroke:var(--ink-2);stroke-width:4;stroke-linecap:round}
+.hesap-balance .plate{fill:var(--ink);transition:fill .15s}
+.hesap-balance .pan.drop .plate,.hesap-balance .pan.hot .plate{fill:var(--accent)}
+.hesap-balance .dial .arc{fill:none;stroke:var(--rule);stroke-width:3;stroke-linecap:round}
+.hesap-balance .dial .mark{stroke:var(--ink-2);stroke-width:3;stroke-linecap:round;transition:stroke .2s}
+.hesap-balance .needle{stroke:var(--ink);stroke-width:3;stroke-linecap:round;transition:stroke .2s}
+.hesap-balance .dial.level .mark,.hesap-balance .dial.level~.beam .needle{stroke:var(--accent)}
+.hesap-balance .dial.hot .arc{stroke:var(--accent)}
+.hesap-balance .thing .body{stroke:var(--ink);stroke-width:2}
+.hesap-balance .thing .label{font:700 14px var(--body);text-anchor:middle;dominant-baseline:central;fill:var(--ink);pointer-events:none}
+.hesap-balance .thing .label.var{font:italic 600 22px var(--display)}
+.hesap-balance .box .body{fill:var(--accent)}
+.hesap-balance .box .label{fill:var(--paper);font-size:16px}
+.hesap-balance .unit .body,.hesap-balance .block .body{fill:var(--paper-2)}
+.hesap-balance .skin{fill:var(--panel);stroke:var(--ink-2);stroke-width:2}
+.hesap-balance .xballoon .skin{stroke:var(--accent);stroke-width:2.5}
+.hesap-balance .balloon .label{font-size:12px}
+.hesap-balance .xballoon .label.var{font-size:16px}
+.hesap-balance .knot{fill:var(--ink-2)}
+.hesap-balance .string{stroke:var(--ink-2);stroke-width:1.2}
+/* On a drag page the scale takes the finger, so a touch drag goes on instead of panning the page. Chrome reads
+   touch-action on the svg and passes over elements inside it. */
+.hesap-balance svg.drags{touch-action:none}
+.hesap-balance .drags .unit,.hesap-balance .tray{cursor:grab}
+.hesap-balance .drags .unit .body{transition:stroke .15s}
+.hesap-balance .drags .unit:hover .body,.hesap-balance .unit.drag .body{stroke:var(--accent);stroke-width:3}
+.hesap-balance .unit.drag{cursor:grabbing;filter:drop-shadow(0 4px 5px rgb(0 0 0/.35))}
+.hesap-balance .tray .box{fill:var(--panel);stroke:var(--ink-2);stroke-width:2}
+.hesap-balance .tray .spare{fill:var(--paper-2);stroke:var(--ink);stroke-width:2}
+.hesap-balance .tray-label{font:600 11px var(--body);fill:var(--ink-2);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+
+/* The steps share a caption, and each sets its step in KaTeX. */
+.balance-both{display:inline-flex;flex-wrap:wrap;align-items:center;gap:.286rem}
+.balance-do{min-width:3.6rem;font-size:1.05rem;font-weight:700;padding:0 .571rem}
+.balance-do .katex{font-size:1.1em}
+/* A page without a challenge says Solved on the row of its buttons. */
+.balance-foot{display:flex;flex-wrap:wrap;align-items:center;gap:.429rem .857rem}
+.balance-foot .hesap-goal{flex:1;min-width:0}
+@media (max-width:900px){
+  /* A caption stands above its buttons, so the steps and the number share one row. */
+  .balance-both,.hesap-balance .hesap-step{position:relative;padding-top:1.143rem;gap:.286rem}
+  :is(.balance-both .hesap-seg-name,.hesap-balance .hesap-step span){position:absolute;top:0;inset-inline-start:0;margin:0;font-size:.786rem;white-space:nowrap}
+  .balance-lines{height:7.6rem;padding:.429rem .571rem .286rem}
+  .balance-lines.solo{height:6rem}
+  .balance-grid{font-size:.95rem;grid-template-columns:3rem 1fr auto 1fr}
+  .balance-row.now{font-size:1.8em}
+  .balance-row.check{font-size:1.3em}
+  .balance-op{font-size:.85rem}
+  .balance-do{min-width:3.1rem;padding:0 .357rem}
+  /* The scale ends above the peek card. */
+  .balance-fig svg{height:calc(100% - var(--hesap-peek,0px))}
+}

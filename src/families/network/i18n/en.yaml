@@ -1,0 +1,103 @@
+network_shorter: Shorter
+network_longer: Longer
+network_settled: Vertices settled
+network_colour: "Colour {n}"
+network_node: "Vertex {node} has degree {degree}."
+network_edge: "Edge {a}–{b}"
+network_tool-move: Move
+network_tool-add: Add
+network_tool-join: Join
+network_tool-remove: Remove
+network_tool-walk: Walk
+network_tool-route: Route
+network_tool-weight: Length
+network_tool-paint: Paint
+network_say-move: Drag a vertex to move it.
+network_say-add: Tap an empty spot to add a vertex there.
+network_say-join: Drag from one vertex to another to join them with an edge.
+network_say-remove: Tap a vertex or an edge to remove it.
+network_say-walk: Tap a vertex to start the walk.
+network_say-walk-on: "You are at {node}. Tap the next vertex across an edge you have not used."
+network_say-route: Tap the vertex where the route starts.
+network_say-route-to: Now tap the vertex where the route ends.
+network_say-search: Drag the slider to run the search one step at a time, or tap a vertex to start the search there.
+network_say-search-from: "Drag the slider to run the search from {from}."
+network_say-settles: "Step {k} settles {node} at distance {dist} and tries the edges out of it."
+network_say-weight: Tap an edge, then change its length with − and +.
+network_say-paint: Pick a colour, then tap a vertex to paint it. Tap it again to clear it.
+network_say-added: "You added vertex {node}."
+network_say-joined: "You joined {a} and {b}."
+network_say-removed: "You removed {what}."
+network_say-full: "The graph holds at most {n} vertices."
+network_say-twice: "{a} and {b} are joined already."
+network_say-join-from: "Tap another vertex to join it to {node}."
+network_say-no-edge: "No unused edge joins {a} and {b}."
+network_say-used: That edge is used already.
+network_say-off: "That edge does not touch {node}."
+network_say-stuck: "You are stuck at {node}. The number of edges left to cross is {left}."
+network_say-routed: "The shortest route from {from} to {to} has length {length}."
+network_say-no-route: "No route joins {from} and {to}."
+network_say-length: "You picked edge {a}–{b}. Change its length with − and +."
+network_say-clash: "{a} and {b} are joined and share a colour."
+network_say-split: "The graph falls into {n} pieces."
+network_say-crossed: Some edges cross. Move vertices until no edges cross.
+network_m-nodes: vertices V
+network_m-edges: edges E
+network_m-degree-sum: sum of degrees
+network_m-degree: "degree of {node}"
+network_m-odd-nodes: odd vertices
+network_m-components: pieces
+network_m-extra: extra edges
+network_m-tree: tree
+network_m-walk: walk possible
+network_m-used: edges crossed
+network_m-from: start
+network_m-to: end
+network_m-total: total length
+network_m-distance: distance
+network_m-path: route
+network_m-colours: colours
+network_m-conflicts: clashes
+network_m-uncoloured: blank vertices
+network_m-chromatic: fewest colours
+network_m-crossings: crossings
+network_m-faces: faces F
+network_m-euler: V − E + F
+network_short-nodes: V
+network_short-edges: E
+network_short-degree-sum: degrees
+network_short-degree: "d({node})"
+network_short-odd-nodes: odd
+network_short-components: pieces
+network_short-extra: extra
+network_short-tree: tree
+network_short-walk: walk
+network_short-used: crossed
+network_short-from: start
+network_short-to: end
+network_short-total: total
+network_short-distance: distance
+network_short-path: route
+network_short-colours: colours
+network_short-conflicts: clashes
+network_short-uncoloured: blank
+network_short-chromatic: fewest
+network_short-crossings: crossings
+network_short-faces: F
+network_short-euler: V − E + F
+network_near-open: The walk crosses every edge once but ends away from its start.
+network_near-dearer: "This tree has total length {total}. A tree with a smaller total exists."
+network_near-lost: The tree must keep every vertex. Undo brings a removed vertex back.
+network_hint-circuit: A walk that ends where it started needs an even degree at every vertex. The rings mark odd ones.
+network_hint-coloured: Start with the vertex that has the most neighbours.
+network_hint-cheapest-tree: Remove the longest edge of a lit loop. Repeat until no loop is left.
+network_say-another: The edges have new lengths.
+network_say-undone: The last change is undone.
+network_say-nothing: There is nothing to undo.
+network_goal-walked: Cross every edge once.
+network_goal-circuit: Cross every edge once and end where you started.
+network_goal-coloured: Paint every vertex so that no edge joins two vertices of one colour.
+network_goal-tree: Make the graph a tree.
+network_goal-cheapest-tree: Find the tree that joins every vertex with the smallest total length.
+network_goal-untangled: Move the vertices until no edges cross.
+network_lead: "Pick a tool under the graph, then tap or drag its vertices and edges."

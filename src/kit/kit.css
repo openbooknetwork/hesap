@@ -1,0 +1,89 @@
+/* Hesap has a layer of its own, so nothing in a figure rises over a phone's text. Each family draws inside its own
+   box, which fills the viewport while one of its pages shows. */
+.hesap{position:absolute;inset:0;background:var(--paper);isolation:isolate;user-select:none;-webkit-user-select:none;font-family:var(--body);color:var(--ink)}
+.hesap-family{position:absolute;inset:0;display:flex;flex-direction:column}
+.hesap-family[hidden],.hesap-stage[hidden],.hesap-panel[hidden],.hesap-cover[hidden],.hesap-panel [hidden]{display:none}
+.hesap-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.hesap-stage{flex:1;min-height:0;position:relative}
+/* On a screen with room the readouts stand above the figure in large type. */
+.hesap-head{padding:.857rem 1.143rem 0}
+.hesap-head[hidden]{display:none}
+.hesap-head .hesap-out{gap:.571rem 1.714rem;align-items:flex-end}
+.hesap-head .hesap-chip{flex-direction:column;align-items:flex-start;gap:.071rem;border:0;border-radius:0;padding:0;background:none;box-shadow:none}
+.hesap-head .hesap-chip small{font-size:.857rem}
+.hesap-head .hesap-chip b{font-family:var(--display);font-size:2.286rem;line-height:1.1;text-align:start}
+.hesap-head .hesap-chip.hot b,.hesap-head .hesap-chip[aria-pressed="true"] b{color:var(--accent)}
+.hesap-head .hesap-btn{margin-inline-start:auto}
+
+/* The panel under the figure holds a challenge's line, then the controls, then the readouts. */
+.hesap-panel{position:relative;border-top:1px solid var(--rule);background:var(--panel);padding:.571rem .857rem;display:flex;flex-direction:column;gap:.5rem}
+.hesap-ctls,.hesap-acts{display:flex;flex-wrap:wrap;gap:.429rem .857rem;align-items:center}
+.hesap-acts{margin-inline-start:auto}
+.hesap-out{display:flex;flex-wrap:wrap;gap:.357rem .429rem;align-items:center}
+.hesap-panel .hot{outline:2px solid var(--accent);outline-offset:2px}
+
+/* A slider takes the room the other controls leave on its row. */
+.hesap-ctl{flex:1 1 14rem;display:flex;align-items:center;gap:.571rem;min-height:44px;border-radius:6px}
+.hesap-ctl span{color:var(--ink-2);white-space:nowrap}
+.hesap-ctl input{flex:1;min-width:0;min-height:44px;margin:0;accent-color:var(--accent)}
+.hesap-ctl output{font-variant-numeric:tabular-nums;font-weight:700;text-align:end;min-width:3ch}
+
+.hesap-btn,.hesap-seg button,.hesap-step button{min-height:44px;min-width:44px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);font:inherit;cursor:pointer;border-radius:6px;display:inline-flex;align-items:center;justify-content:center;gap:.357rem;padding:0 .714rem;white-space:nowrap}
+.hesap-btn:disabled,.hesap-step button:disabled{opacity:.45;cursor:default}
+.hesap-icon{width:18px;height:18px;flex:none}
+:is(.hesap-btn,.hesap-seg button,.hesap-step button,.hesap-chip):focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.hesap-btn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+/* The one button that starts something stands out. */
+.hesap-primary{background:var(--accent);border-color:var(--accent);color:var(--paper);font-weight:700;padding:0 1.143rem}
+
+.hesap-seg{display:inline-flex;align-items:center}
+.hesap-seg-name{color:var(--ink-2);font-size:.857rem;margin-inline-end:.429rem}
+.hesap-seg button{border-radius:0;margin-inline-start:-1px;font-variant-numeric:tabular-nums;padding:0 .571rem}
+.hesap-seg button:first-of-type{border-start-start-radius:6px;border-end-start-radius:6px;margin-inline-start:0}
+.hesap-seg button:last-of-type{border-start-end-radius:6px;border-end-end-radius:6px}
+.hesap-seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink);position:relative}
+
+.hesap-step{display:inline-flex;align-items:center;gap:.357rem}
+.hesap-step span{color:var(--ink-2);margin-inline-end:.214rem}
+.hesap-step output{min-width:2.5ch;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+
+.hesap-chip{display:inline-flex;gap:.429rem;align-items:baseline;border:1px solid var(--rule);border-radius:999px;padding:.286rem .786rem;background:var(--paper);color:var(--ink);font:inherit}
+button.hesap-chip{cursor:pointer;min-height:36px;align-items:center}
+.hesap-chip small{color:var(--ink-2);font-size:.857rem;white-space:nowrap}
+.hesap-chip b{font-variant-numeric:tabular-nums;text-align:end}
+.hesap-swatch{width:.714rem;height:.714rem;border-radius:50%;flex:none;align-self:center;background:currentColor}
+.hesap-short{display:none}
+.hesap-chip.hot{outline:none;border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.hesap-chip[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+
+/* A challenge's line holds the goal, whether it is reached, another target and a hint. The goal takes a line of its
+   own, so a longer status keeps the panel's height. */
+.hesap-goal{display:flex;flex-wrap:wrap;align-items:center;gap:.286rem .571rem}
+.hesap-goal-text{margin:0;flex-basis:100%;font-weight:600}
+.hesap-goal-state{display:inline-flex;align-items:center;gap:.286rem;color:var(--ink-2);flex:1;min-width:0}
+.hesap-goal.solved .hesap-goal-state{color:var(--accent)}
+.hesap-goal-state svg{width:20px;height:20px}
+.hesap-hint{margin:0;flex-basis:100%;color:var(--ink-2)}
+.hesap-hint[hidden]{display:none}
+
+/* The values in the text follow the figure. A worked formula takes its own line, and scrolls sideways on a narrow
+   screen. */
+aside.story .place[data-live]{font-variant-numeric:tabular-nums;font-weight:700}
+aside.story .place[data-formula],aside.story .place[data-formula]:is(:hover,:focus-visible,.on){display:block;text-decoration:none;background:none;overflow-x:auto;overflow-y:hidden;padding:.143rem 0}
+aside.story .place[data-formula] .katex-display{margin:0;text-align:start}
+aside.story .place[data-formula] .katex-display>.katex{text-align:start}
+
+@media (max-width:900px){
+  .hesap-panel{padding:.429rem .571rem;gap:.357rem}
+  .hesap-ctls,.hesap-acts{gap:.286rem .571rem}
+  .hesap-btn,.hesap-seg button,.hesap-step button{min-height:42px}
+  .hesap-chip{padding:.214rem .643rem}
+  .hesap-chip small{font-size:.786rem}
+  .hesap-long{display:none}
+  .hesap-short{display:inline}
+  /* A compact button shows its glyph alone. */
+  .hesap-compact{min-width:44px;padding:0}
+  .hesap-compact span{display:none}
+  /* The peek card sits above the panel. A figure stays clear of the card by leaving --hesap-peek free at its foot. */
+  .peek{bottom:calc(var(--hesap-panel,0px) + .571rem)}
+}

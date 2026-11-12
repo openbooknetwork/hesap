@@ -1,0 +1,106 @@
+/* network: the paint colours mix with the paper, so they follow the theme. */
+.hesap-network{
+  --network-c0:color-mix(in oklab,#e3a230 72%,var(--paper));--network-c1:color-mix(in oklab,#3d8fd6 72%,var(--paper));--network-c2:color-mix(in oklab,#4daa57 72%,var(--paper));
+  --network-c3:color-mix(in oklab,#c25fc2 72%,var(--paper));--network-c4:color-mix(in oklab,#2bb3a3 72%,var(--paper));--network-c5:color-mix(in oklab,#e2694c 72%,var(--paper));
+  --network-water:color-mix(in oklab,#3d8bd9 32%,var(--panel))}
+.hesap-network .hesap-stage{display:flex;flex-direction:column}
+.hesap-network .network-fig{flex:1;min-height:0;position:relative}
+.hesap-network .network-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;touch-action:none}
+.hesap-network .network-say{padding:.571rem .857rem 0;height:2.4rem;font:500 .95rem/1.35 var(--body);color:var(--ink-2);overflow:hidden}
+
+/* Every colour in the figure is a theme token, so a theme switch needs no redraw. */
+.hesap-network .box{fill:var(--panel);stroke:var(--rule);stroke-width:2}
+.hesap-network .water{fill:var(--network-water)}
+.hesap-network .land{fill:var(--panel);stroke:var(--rule);stroke-width:2}
+.hesap-network .face{opacity:.4;transition:opacity .2s;pointer-events:none}
+.hesap-network .face.c0{fill:var(--network-c0)}.hesap-network .face.c1{fill:var(--network-c1)}.hesap-network .face.c2{fill:var(--network-c2)}.hesap-network .face.c3{fill:var(--network-c3)}
+.hesap-network .faces.hot .face{opacity:.75}
+.hesap-network .face-n{fill:var(--ink-2);font:700 15px var(--body);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.hesap-network .face-n.out{text-anchor:start}
+.hesap-network .faces.hot .face-n{fill:var(--ink)}
+
+/* A wide clear path takes an edge's taps. */
+.hesap-network .edge{outline:none;cursor:default}
+.hesap-network .edge.gone,.hesap-network .node.gone{pointer-events:none}
+.hesap-network .edge .hit{fill:none;stroke:transparent;stroke-width:24;pointer-events:stroke}
+.hesap-network .edge .line{fill:none;stroke:var(--ink-2);stroke-width:3.5;stroke-linecap:round;transition:stroke .15s,stroke-width .15s;pointer-events:none}
+.hesap-network .edge .glow{fill:none;stroke:var(--accent);stroke-width:7;stroke-linecap:round;opacity:0;pointer-events:none}
+.hesap-network .edge.used .glow,.hesap-network .edge.path .glow,.hesap-network .edge.win .glow{opacity:1}
+.hesap-network .edge.loop .line,.hesap-network .edge.tried .line,.hesap-network .edge.hot .line{stroke:var(--accent)}
+.hesap-network .edge.tried .line,.hesap-network .edge.hot .line{stroke-width:6}
+/* The edge whose length the stepper sets stands out in ink, apart from the route. */
+.hesap-network .edge.chosen .line{stroke:var(--ink);stroke-width:6;stroke-dasharray:10 6}
+.hesap-network .edge.chosen .tag rect{fill:var(--ink);stroke:var(--ink)}
+.hesap-network .edge.chosen .tag text{fill:var(--paper)}
+.hesap-network .edge.clash .line{stroke:var(--accent);stroke-width:5;stroke-dasharray:9 7}
+.hesap-network .edge:focus-visible .line{stroke:var(--accent);stroke-width:6}
+.hesap-network[data-tool=remove] .edge,.hesap-network[data-tool=weight] .edge,.hesap-network[data-tool=walk] .edge{cursor:pointer}
+.hesap-network[data-tool=remove] .edge:hover .line{stroke:var(--accent);stroke-dasharray:6 6}
+.hesap-network[data-tool=weight] .edge:hover .line,.hesap-network[data-tool=walk] .edge:hover .line{stroke:var(--accent);stroke-width:5}
+.hesap-network .edge .tag rect{fill:var(--paper);stroke:var(--ink-2);stroke-width:1.5}
+.hesap-network .edge .tag text{fill:var(--ink);font:700 14px var(--body);text-anchor:middle;dominant-baseline:central;font-variant-numeric:tabular-nums}
+.hesap-network .edge.used .tag rect{fill:var(--accent);stroke:none}
+.hesap-network .edge.used .tag text{fill:var(--paper)}
+.hesap-network .edge.path .tag rect{stroke:var(--accent);stroke-width:2.5}
+.hesap-network .tag{pointer-events:none}
+
+/* The finger moves a vertex, so the page under it stays still. */
+.hesap-network .node{cursor:pointer;outline:none}
+.hesap-network[data-tool=move] .node{cursor:grab}
+.hesap-network .node.drag{cursor:grabbing}
+.hesap-network .node .hit{fill:transparent}
+.hesap-network .node .disc{fill:var(--paper);stroke:var(--ink);stroke-width:3;transition:stroke .15s,fill .2s}
+.hesap-network .node .ring{fill:none;stroke:var(--accent);stroke-width:3;opacity:0;transition:opacity .15s;pointer-events:none}
+.hesap-network .node .label{fill:var(--ink);font:700 17px var(--body);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.hesap-network .node .lift{transform-box:fill-box;transform-origin:center;transition:transform .15s}
+.hesap-network .node:hover .lift,.hesap-network .node:focus-visible .lift{transform:scale(1.12)}
+.hesap-network .node.drag .lift{transform:scale(1.22);filter:drop-shadow(0 5px 6px rgb(0 0 0/.35))}
+.hesap-network .node.hot .disc,.hesap-network .node.picked .disc,.hesap-network .node.aim .disc,.hesap-network .node.clash .disc,
+.hesap-network .node.now .disc,.hesap-network .node:focus-visible .disc{stroke:var(--accent);stroke-width:5}
+.hesap-network[data-tool=remove] .node:hover .disc{stroke:var(--accent);stroke-dasharray:6 4}
+.hesap-network .node.odd .ring{opacity:1;stroke-dasharray:5 4}
+.hesap-network .node.here .disc,.hesap-network .node.start .disc,.hesap-network .node.end .disc{fill:var(--accent);stroke:var(--accent)}
+.hesap-network .node.here .label,.hesap-network .node.start .label,.hesap-network .node.end .label{fill:var(--paper)}
+.hesap-network .node.here .ring{opacity:1;stroke-dasharray:none}
+.hesap-network .node[data-paint="0"] .disc{fill:var(--network-c0)}.hesap-network .node[data-paint="1"] .disc{fill:var(--network-c1)}.hesap-network .node[data-paint="2"] .disc{fill:var(--network-c2)}
+.hesap-network .node[data-paint="3"] .disc{fill:var(--network-c3)}.hesap-network .node[data-paint="4"] .disc{fill:var(--network-c4)}.hesap-network .node[data-paint="5"] .disc{fill:var(--network-c5)}
+.hesap-network .node[data-paint] .label{stroke:var(--paper);stroke-width:3;paint-order:stroke}
+.hesap-network .node .badge{pointer-events:none}
+.hesap-network .node .badge circle{fill:var(--ink)}
+.hesap-network .node.odd .badge circle{fill:var(--accent)}
+.hesap-network .node .badge text{fill:var(--paper);font:700 12px var(--body);text-anchor:middle;dominant-baseline:central}
+.hesap-network .node .badge.dist circle{fill:var(--paper);stroke:var(--accent);stroke-width:2.5}
+.hesap-network .node .badge.dist text{fill:var(--ink)}
+.hesap-network .node .badge.dist.maybe circle{stroke:var(--ink-2);stroke-dasharray:3 2.5}
+.hesap-network .node .badge.dist.maybe text{fill:var(--ink-2)}
+/* This marks a distance the last step of the search made smaller. */
+.hesap-network .node .badge.dist.maybe.dropped circle{stroke:var(--accent)}
+.hesap-network .node .badge.dist.maybe.dropped text{fill:var(--ink)}
+
+.hesap-network .band{stroke:var(--ink-2);stroke-width:3;stroke-dasharray:6 6;stroke-linecap:round;pointer-events:none}
+.hesap-network .band.on{stroke:var(--accent);stroke-dasharray:none}
+.hesap-network .walker{fill:var(--accent);stroke:var(--paper);stroke-width:2;pointer-events:none}
+.hesap-network .cross{fill:none;stroke:var(--accent);stroke-width:3.5;stroke-linecap:round;pointer-events:none}
+
+/* The panel's own parts: tool icons, colour swatches and the stepper that hides. */
+.hesap-network .network-icon{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hesap-network .network-tools button{gap:.357rem;padding:0 .714rem}
+.hesap-network .network-swatches{display:flex;gap:.429rem}
+.hesap-network .network-swatch{width:44px;height:44px;border-radius:50%;border:2px solid var(--rule);background:var(--swatch);cursor:pointer}
+.hesap-network .network-swatch[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:2px}
+.hesap-network .hesap-step[hidden]{display:none}
+.hesap-network .hesap-step span{min-width:3ch}
+.hesap-network .network-reset{margin-inline-start:auto}
+@media (max-width:900px){
+  /* The line that says what to do leaves room for the info button in the corner. */
+  .hesap-network .network-say{padding:.429rem 3.8rem 0 .571rem;height:2.9rem;font-size:.857rem;line-height:1.3}
+  .hesap-network .network-tools button{min-height:42px;padding:0 .429rem;gap:.214rem;font-size:.857rem}
+  .hesap-network .network-tools .network-icon{width:16px;height:16px}
+  /* The readouts sit closer, to leave the figure its height. */
+  .hesap-network .hesap-chip{min-height:34px;padding:.143rem .571rem;gap:.357rem;font-size:.857rem}
+  .hesap-network .hesap-out{gap:.286rem}
+  .hesap-network .network-swatch{width:40px;height:40px}
+  .hesap-network .hesap-step button{min-width:40px;min-height:40px}
+  /* The figure ends above the peek card. */
+  .hesap-network .network-svg{height:calc(100% - var(--hesap-peek,0px))}
+}

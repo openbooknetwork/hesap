@@ -1,0 +1,15 @@
+wave_angle: Angle
+wave_amplitude: Amplitude A
+wave_frequency: Frequency k
+wave_phase: Shift φ
+wave_found: "{n} of {need} found."
+wave_goal-equal: Make the two legs the same length.
+wave_done-equal: Here sin θ equals cos θ.
+wave_hint-equal: The legs are equal when the radius lies halfway between the two axes. There is more than one such place.
+wave_goal-same-sine: Find both angles where sin θ = {height}.
+wave_done-same-sine: Both angles are marked.
+wave_hint-same-sine: The wave climbs to its top at 90° and falls the same way after it. It does the same either side of its bottom at 270°.
+wave_goal-match: Lay your wave on the grey wave.
+wave_done-match: The two waves match.
+wave_hint-match: Count the waves across the graph to find k. Then set A to the height of the grey wave, and slide your wave into place with φ.
+wave_lead: "Drag the point round the circle, or move the slider under the figure, and watch the wave it draws."

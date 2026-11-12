@@ -1,0 +1,15 @@
+hint: Move the figure and watch the numbers follow it.
+tab_map: Figure
+map_data: Data
+map_view: View
+chronology: Contents
+layout_center: Figure in the middle
+view_reset: Reset
+hesap_start: Start
+hesap_time: Time
+hesap_reset: Start again
+hesap_undo: Undo
+hesap_hint: Hint
+hesap_another: Another one
+hesap_solved: Solved
+hesap_not-yet: Not solved yet.

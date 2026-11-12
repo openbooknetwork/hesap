@@ -1,0 +1,103 @@
+network_shorter: Kısalt
+network_longer: Uzat
+network_settled: Kesinleşen köşeler
+network_colour: "Renk {n}"
+network_node: "{node} köşesinin derecesi {degree}."
+network_edge: "{a}–{b} kenarı"
+network_tool-move: Taşı
+network_tool-add: Ekle
+network_tool-join: Bağla
+network_tool-remove: Sil
+network_tool-walk: Yürü
+network_tool-route: Yol
+network_tool-weight: Uzunluk
+network_tool-paint: Boya
+network_say-move: Taşımak için bir köşeyi sürükleyin.
+network_say-add: Oraya köşe eklemek için boş bir yere dokunun.
+network_say-join: İki köşeyi bir kenarla bağlamak için birinden ötekine sürükleyin.
+network_say-remove: Silmek için bir köşeye ya da kenara dokunun.
+network_say-walk: Yürüyüşe başlamak için bir köşeye dokunun.
+network_say-walk-on: "{node} köşesindesiniz. Kullanmadığınız bir kenarın öbür ucundaki köşeye dokunun."
+network_say-route: Yolun başladığı köşeye dokunun.
+network_say-route-to: Şimdi yolun bittiği köşeye dokunun.
+network_say-search: Aramayı adım adım yürütmek için kaydırıcıyı sürükleyin ya da aramayı başlatmak için bir köşeye dokunun.
+network_say-search-from: "Aramayı {from} köşesinden yürütmek için kaydırıcıyı sürükleyin."
+network_say-settles: "{k}. adım {node} köşesini {dist} uzaklığında kesinleştiriyor ve ondan çıkan kenarları deniyor."
+network_say-weight: Bir kenara dokunun, sonra uzunluğunu − ve + ile değiştirin.
+network_say-paint: Bir renk seçin, sonra boyamak için bir köşeye dokunun. Rengi silmek için yeniden dokunun.
+network_say-added: "{node} köşesi eklendi."
+network_say-joined: "{a} ile {b} bağlandı."
+network_say-removed: "{what} silindi."
+network_say-full: "Çizgede en çok {n} köşe olabilir."
+network_say-twice: "{a} ile {b} zaten bağlı."
+network_say-join-from: "{node} köşesine bağlamak için başka bir köşeye dokunun."
+network_say-no-edge: "{a} ile {b} arasında kullanılmamış kenar yok."
+network_say-used: Bu kenar zaten kullanıldı.
+network_say-off: "Bu kenar {node} köşesine değmiyor."
+network_say-stuck: "{node} köşesinde kaldınız. Geçilecek kenar sayısı {left}."
+network_say-routed: "{from} köşesinden {to} köşesine en kısa yolun uzunluğu {length}."
+network_say-no-route: "{from} ile {to} arasında yol yok."
+network_say-length: "{a}–{b} kenarını seçtiniz. Uzunluğunu − ve + ile değiştirin."
+network_say-clash: "{a} ile {b} bağlı ve aynı renkte."
+network_say-split: "Çizge {n} parçaya ayrıldı."
+network_say-crossed: Bazı kenarlar kesişiyor. Hiçbir kenar kesişmeyene dek köşeleri taşıyın.
+network_m-nodes: köşeler V
+network_m-edges: kenarlar E
+network_m-degree-sum: derecelerin toplamı
+network_m-degree: "{node} köşesinin derecesi"
+network_m-odd-nodes: tek dereceli köşeler
+network_m-components: parçalar
+network_m-extra: fazla kenarlar
+network_m-tree: ağaç
+network_m-walk: yürüyüş olası
+network_m-used: geçilen kenarlar
+network_m-from: başlangıç
+network_m-to: bitiş
+network_m-total: toplam uzunluk
+network_m-distance: uzaklık
+network_m-path: yol
+network_m-colours: renkler
+network_m-conflicts: çakışmalar
+network_m-uncoloured: boyasız
+network_m-chromatic: en az renk
+network_m-crossings: kesişmeler
+network_m-faces: yüzler F
+network_m-euler: V − E + F
+network_short-nodes: V
+network_short-edges: E
+network_short-degree-sum: dereceler
+network_short-degree: "d({node})"
+network_short-odd-nodes: tek
+network_short-components: parça
+network_short-extra: fazla
+network_short-tree: ağaç
+network_short-walk: yürüyüş
+network_short-used: geçilen
+network_short-from: başlangıç
+network_short-to: bitiş
+network_short-total: toplam
+network_short-distance: uzaklık
+network_short-path: yol
+network_short-colours: renk
+network_short-conflicts: çakışma
+network_short-uncoloured: boyasız
+network_short-chromatic: en az
+network_short-crossings: kesişme
+network_short-faces: F
+network_short-euler: V − E + F
+network_near-open: Yürüyüş her kenardan bir kez geçiyor ama başladığı yerden başka bir yerde bitiyor.
+network_near-dearer: "Bu ağacın toplam uzunluğu {total}. Toplamı daha küçük bir ağaç var."
+network_near-lost: Ağaç her köşeyi tutmalı. Geri al düğmesi silinen köşeyi geri getirir.
+network_hint-circuit: Başladığı yerde biten bir yürüyüşte her köşenin derecesi çifttir. Halkalar tek olanları gösteriyor.
+network_hint-coloured: En çok komşusu olan köşeden başlayın.
+network_hint-cheapest-tree: Işıklı bir döngünün en uzun kenarını silin. Döngü kalmayana dek bunu yineleyin.
+network_say-another: Kenarların uzunlukları değişti.
+network_say-undone: Son değişiklik geri alındı.
+network_say-nothing: Geri alınacak bir şey yok.
+network_goal-walked: Her kenardan bir kez geçin.
+network_goal-circuit: Her kenardan bir kez geçin ve başladığınız yerde bitirin.
+network_goal-coloured: Her köşeyi, hiçbir kenar aynı renkte iki köşeyi bağlamayacak biçimde boyayın.
+network_goal-tree: Çizgeyi bir ağaç yapın.
+network_goal-cheapest-tree: Her köşeyi en küçük toplam uzunlukla bağlayan ağacı bulun.
+network_goal-untangled: Hiçbir kenar kesişmeyene dek köşeleri taşıyın.
+network_lead: "Çizgenin altından bir araç seçin, sonra köşelerine ve kenarlarına dokunun ya da onları sürükleyin."

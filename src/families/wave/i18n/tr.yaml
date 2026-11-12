@@ -1,0 +1,15 @@
+wave_angle: Açı
+wave_amplitude: Genlik A
+wave_frequency: Frekans k
+wave_phase: Kayma φ
+wave_found: "{need} açıdan {n} tanesi bulundu."
+wave_goal-equal: İki dik kenarı aynı uzunlukta yapın.
+wave_done-equal: Burada sin θ ile cos θ eşittir.
+wave_hint-equal: Yarıçap iki eksenin tam ortasında durduğunda dik kenarlar eşit olur. Böyle birden fazla yer var.
+wave_goal-same-sine: sin θ = {height} olan iki açıyı da bulun.
+wave_done-same-sine: İki açı da işaretlendi.
+wave_hint-same-sine: Dalga 90°'de tepesine çıkar ve ondan sonra aynı biçimde iner. 270°'deki dibinin iki yanında da aynısını yapar.
+wave_goal-match: Kendi dalganızı gri dalganın üzerine yerleştirin.
+wave_done-match: İki dalga örtüşüyor.
+wave_hint-match: k değerini bulmak için grafikteki dalgaları sayın. Sonra A'yı gri dalganın yüksekliğine ayarlayın ve φ ile dalganızı yerine kaydırın.
+wave_lead: "Noktayı çemberin üzerinde sürükleyin ya da şeklin altındaki kaydırıcıyı hareket ettirin ve çizdiği dalgayı izleyin."

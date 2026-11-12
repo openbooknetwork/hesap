@@ -1,0 +1,16 @@
+geo_width: Width
+geo_height: Height
+geo_radius: Radius
+geo_angle: Angle
+geo_n: Sides
+geo_side: Side length
+geo_area: Area
+geo_perimeter: Perimeter
+geo_angle-sum: Sum of the angles
+geo_circumference: Circumference
+geo_diameter: Diameter
+geo_sector-area: Area of the sector
+geo_arc-length: Length of the arc
+geo_goal: Goal
+geo_right-angle: Right angle
+geo_lead: "Drag a point or move a slider, and watch the measures follow."

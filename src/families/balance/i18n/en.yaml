@@ -1,0 +1,17 @@
+balance_both: Do to both sides
+balance_number: Pick the number
+balance_check: Check
+balance_left: Left pan
+balance_right: Right pan
+balance_tray: weights
+balance_do_subtract: Take {n} from both sides
+balance_do_add: Add {n} to both sides
+balance_do_subtract-x: Take {n} x from both sides
+balance_do_add-x: Add {n} x to both sides
+balance_do_divide: Divide both sides by {n}
+balance_do_multiply: Multiply both sides by {n}
+balance_goal_solve: Get x alone on one side.
+balance_goal_one: Get x alone in one step.
+balance_goal_most: Get x alone in {n} steps or fewer.
+balance_over: x is alone after {k} steps. Undo and look for a shorter way.
+balance_lead: "Do the same to both sides and keep the scale level."

@@ -1,0 +1,51 @@
+chance_new-run: New run
+chance_size: Sample size
+chance_face-heads: H
+chance_face-tails: T
+chance_heads: Heads
+chance_tails: Tails
+chance_flips: Flips
+chance_share-heads: Share of heads
+chance_share-tails: Share of tails
+chance_p-heads: P(heads)
+chance_p-tails: P(tails)
+chance_streak: Longest run
+chance_gap: Gap
+chance_rolls: Rolls
+chance_p-face: P(one face)
+chance_expected: Expected
+chance_count-face: "{x}s"
+chance_share-face: "Share of {x}s"
+chance_outcomes: Outcomes
+chance_pick-sum: Picked sum
+chance_count-sum: "Sum {x}"
+chance_share-sum: "Share of {x}"
+chance_ways-sum: "Ways to make {x}"
+chance_p-sum: "P({x})"
+chance_samples: Samples
+chance_mean: Mean
+chance_spread: Spread
+chance_expected-mean: Expected mean
+chance_expected-spread: Expected spread
+chance_balls: Balls
+chance_rows: Rows
+chance_bins: Bins
+chance_paths: Paths
+chance_pick-bin: Picked bin
+chance_count-bin: "Bin {x}"
+chance_share-bin: "Share in bin {x}"
+chance_ways-bin: "Paths to bin {x}"
+chance_p-bin: "P(bin {x})"
+chance_axis-share-heads: Share of heads
+chance_axis-flips: Flips
+chance_legend-rolls: rolls
+chance_legend-expected: expected
+chance_goal-sum-chance: "Pick a sum that comes up with probability {x}."
+chance_goal-share-band: "Set the flips so that all {n} runs keep their share of heads within {x} of 1/2 over their second half."
+chance_goal-spread-range: "Pick a sample size that gives a spread between {a} and {b} over {n} samples."
+chance_note-inside: "{x} of {n} runs stay inside the band."
+chance_note-spread-was: "This run's spread is {x}."
+chance_hint-sum-chance: Count the cells of a sum in the grid. A sum with k cells comes up with probability k/36.
+chance_hint-share-band: The more flips a run has, the closer its share stays to 1/2.
+chance_hint-spread-range: The spread of the mean of n dice is about 1.71 divided by the square root of n.
+chance_lead: "Press Start to run the trials. The slider goes back and forth through the same run."

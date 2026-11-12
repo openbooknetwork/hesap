@@ -1,0 +1,46 @@
+axes_x: x
+axes_y: y
+axes_z: z
+axes_distance: Uzaklık
+axes_quadrant: Bölge
+axes_dx: Δx
+axes_dy: Δy
+axes_r: Uzaklık r
+axes_angle: Açı θ
+axes_radians: Radyan cinsinden θ
+axes_arc: Yay s
+axes_a: a
+axes_k: k
+axes_rho: Uzaklık ρ
+axes_angle-phi: Açı φ
+axes_b: b
+axes_c: c
+axes_h: Yükseklik h
+axes_n: Kenar sayısı n
+axes_fold: Katlanma %
+axes_volume: Hacim V
+axes_surface: Yüzey alanı S
+axes_base: Taban alanı B
+axes_slant: Yan yükseklik
+axes_face: Bir yüz
+axes_radius: Yarıçap r
+axes_goal-point-at: "P'yi {at} noktasına taşıyın."
+axes_hint-point-at: "İlk sayı x'tir. x ekseninde {x} değerini bulun, sonra y eksenindeki {y} hizasına gelene kadar dik olarak yukarı ya da aşağı gidin."
+axes_goal-apart: "A ile B'yi aralarında tam {d} uzaklık olacak biçimde, eğik bir doğru üzerine yerleştirin."
+axes_hint-apart: "Δx² + Δy² toplamı {d}², yani {sq} etmeli."
+axes_goal-polar-at: "Noktayı x = {x}, y = {y} konumuna taşıyın."
+axes_hint-polar-at: "Önce θ'yı orijinden o yere bakacak biçimde çevirin, sonra r'yi oranın orijine uzaklığına ayarlayın."
+axes_goal-rose-once: "{n} yapraklı bir gül çizin ve eğrinin kapandığı yerde durun."
+axes_hint-rose-once: "Tek bir k, k yaprak verir. Çift bir k bunun iki katını verir. Gülün kapandığı açıdan sonra nokta aynı yaprakların üzerinden yeniden geçer."
+axes_goal-square-box: "Tabanı kare, hacmi {v} olan bir kutu yapın."
+axes_hint-square-box: "Kare taban a = b demektir. O zaman hacim a × a × c olur."
+axes_goal-same-volume: "Cismi, {solid} kadar hacim tutacak biçimde boyutlandırın."
+axes_hint-same-volume: "Eşlenecek hacim {v}."
+axes_solid-cube: "kenarı {a} olan bir küp"
+axes_solid-cuboid: "{a} × {b} × {c} boyutlarında bir kutu"
+axes_solid-prism: "tabanı {n} kenarlı, kenarı {a}, yüksekliği {h} olan bir prizma"
+axes_solid-pyramid: "tabanı {n} kenarlı, kenarı {a}, yüksekliği {h} olan bir piramit"
+axes_solid-solid-cylinder: "yarıçapı {radius}, yüksekliği {h} olan bir silindir"
+axes_solid-cone: "yarıçapı {radius}, yüksekliği {h} olan bir koni"
+axes_solid-ball: "yarıçapı {radius} olan bir küre"
+axes_lead: "Bir noktayı sürükleyin, bir kaydırıcıyı oynatın ya da görünümü çevirin ve sayıların değişmesini izleyin."

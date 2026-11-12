@@ -1,0 +1,28 @@
+/* The board in shared/board.js, which the geo and axes families both draw on, with its labels and Reset. */
+/* JSXGraph writes position:relative on the board, which would size it by its drawing and stop it from shrinking. */
+:is(.hesap-geo,.hesap-axes) .geo-board{position:absolute !important;inset:0;touch-action:none;user-select:none;-webkit-user-select:none}
+:is(.hesap-geo,.hesap-axes) .co{--c:var(--accent);cursor:default;font-variant-numeric:tabular-nums}
+:is(.hesap-geo,.hesap-axes) .co[hidden]{display:none}
+/* A wide screen writes the labels on the figure, without boxes. */
+:is(.hesap-geo,.hesap-axes) .geo-inline .co{background:none;border:0;box-shadow:none;padding:0;font-size:.929rem;pointer-events:none}
+:is(.hesap-geo,.hesap-axes) .geo-inline .co.open{color:var(--accent)}
+:is(.hesap-geo,.hesap-axes) .co b{font-family:var(--body)}
+:is(.hesap-geo,.hesap-axes) .callouts circle{fill:var(--ink-2)}
+:is(.hesap-geo,.hesap-axes) .callouts circle.on{fill:var(--ink)}
+:is(.hesap-geo,.hesap-axes) .geo-board .JXGtext{font-family:var(--body) !important;font-variant-numeric:tabular-nums;white-space:nowrap}
+/* Reset stands at the end of the readouts. The readouts' row keeps its height, and an idle Reset keeps its room. */
+:is(.hesap-geo,.hesap-axes) .hesap-out{min-height:44px}
+:is(.hesap-geo,.hesap-axes) .hesap-out .geo-reset{margin-inline-start:auto}
+:is(.hesap-geo,.hesap-axes) .geo-reset.geo-idle{visibility:hidden}
+/* On a challenge page without readouts Reset stands in the goal's line, before its other buttons. */
+:is(.hesap-geo,.hesap-axes) .hesap-goal>.hesap-btn:not(.geo-reset){order:1}
+:is(.hesap-geo,.hesap-axes) .hesap-goal>.hesap-hint{order:2}
+@media (max-width:900px){
+  /* The board leaves a column on each side for the labels, and its foot clear of the peek card. */
+  :is(.hesap-geo,.hesap-axes) .geo-board{inset:.571rem 4rem calc(.571rem + var(--hesap-peek,0px))}
+}
+
+/* The geo family's own rules. A challenge's goal shows its parts as chips with a dashed edge. */
+.hesap-geo .hesap-goal-text{display:flex;flex-wrap:wrap;gap:.429rem;align-items:center}
+.hesap-geo .hesap-goal-text small{color:var(--ink-2);font-size:.857rem;font-weight:400}
+.hesap-geo .geo-want{border-style:dashed;border-color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}

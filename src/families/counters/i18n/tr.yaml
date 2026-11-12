@@ -1,0 +1,52 @@
+counters_lead: "Sayaçları sürükleyin, hücrelere dokunun ve iki parçanın bütünü nasıl oluşturduğunu izleyin."
+counters_whole: Bütün
+counters_first: Birinci parça
+counters_second: İkinci parça
+counters_empty: Boş hücreler
+counters_added: Eklenen mavi
+counters_found: Bulunan ayrımlar
+counters_ways: Tüm ayrımlar
+counters_hands-first: Sol el
+counters_hands-second: Sağ el
+counters_hands-whole: Boncuklar
+counters_one-first: Sayaçlar
+counters_one-found: Bulunan ikililer
+counters_one-ways: Tüm ikililer
+counters_two-first: Kırmızı
+counters_two-second: Mavi
+counters_cup-first: Görünen parça
+counters_cup-second: Gizli parça
+counters_cup-added: Eklenen mavi
+counters_pins-first: Ayakta
+counters_pins-empty: Devrilen
+counters_cars-first: Park eden
+counters_cars-empty: Boş yerler
+counters_ctl-whole: Bütün
+counters_swap: Yer değiştir
+counters_fill: İkinci çerçeveyi doldur
+counters_unfill: İkinci çerçeveyi boşalt
+counters_lift: Bardağı kaldır
+counters_lower: Bardağı geri koy
+counters_check: Kontrol et
+counters_blue: Mavi sayaçlar
+counters_tray: Tepsi
+counters_pile: Yığın
+counters_cup: Bardak
+counters_counter: Sayaç
+counters_car: Araba
+counters_cell: "Hücre {x}"
+counters_pin-up: "Lobut {x}, ayakta"
+counters_pin-down: "Lobut {x}, devrik"
+counters_free: Boş
+counters_pair: "{a} ve {b}"
+counters_list-splits: "{x} sayısının ayrımları"
+counters_list-pairs: "{x} yapan ikililer"
+counters_goal-make-whole: "Kırmızı tepside {part} sayaç var. Çerçeve {whole} sayaç tutacak biçimde mavi sayaçları ayarlayın, sonra Kontrol et düğmesine basın."
+counters_goal-make-whole-two: "Kırmızı tepside {part} sayaç var. İki çerçeve {whole} sayaç tutacak biçimde mavi sayaçları ayarlayın, sonra Kontrol et düğmesine basın."
+counters_goal-hidden-part: "Bütün {whole}, görünen parça {part}. Bardağın altındaki parçayı tepside kurun, sonra bardağı kaldırın."
+counters_note-short: Bazı hücreler hâlâ boş.
+counters_note-over: Bazı sayaçlara hücre kalmadı.
+counters_note-more: Tepside bardaktakinden çok sayaç var.
+counters_note-fewer: Tepside bardaktakinden az sayaç var.
+counters_hint-make-whole: "{part} sayısından {whole} sayısına kadar ileri sayın. {part} sayısından sonra söylediğiniz her sayı bir mavi sayaçtır."
+counters_hint-hidden-part: "{part} sayısından {whole} sayısına kadar ileri sayın. {part} sayısından sonra söylediğiniz her sayı bardağın altındaki bir sayaçtır."

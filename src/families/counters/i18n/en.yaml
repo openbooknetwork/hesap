@@ -1,0 +1,52 @@
+counters_lead: "Drag the counters, tap the cells and watch the two parts make the whole."
+counters_whole: Whole
+counters_first: First part
+counters_second: Second part
+counters_empty: Empty cells
+counters_added: Blue added
+counters_found: Splits found
+counters_ways: Splits in all
+counters_hands-first: Left hand
+counters_hands-second: Right hand
+counters_hands-whole: Beads
+counters_one-first: Counters
+counters_one-found: Pairs found
+counters_one-ways: Pairs in all
+counters_two-first: Red
+counters_two-second: Blue
+counters_cup-first: Part in sight
+counters_cup-second: Hidden part
+counters_cup-added: Blue added
+counters_pins-first: Standing
+counters_pins-empty: Knocked down
+counters_cars-first: Parked
+counters_cars-empty: Free spaces
+counters_ctl-whole: Whole
+counters_swap: Swap
+counters_fill: Fill the second frame
+counters_unfill: Empty the second frame
+counters_lift: Lift the cup
+counters_lower: Put the cup back
+counters_check: Check
+counters_blue: Blue counters
+counters_tray: Tray
+counters_pile: Pile
+counters_cup: Cup
+counters_counter: Counter
+counters_car: Car
+counters_cell: "Cell {x}"
+counters_pin-up: "Pin {x}, standing"
+counters_pin-down: "Pin {x}, knocked down"
+counters_free: Free
+counters_pair: "{a} and {b}"
+counters_list-splits: "Splits of {x}"
+counters_list-pairs: "Pairs that make {x}"
+counters_goal-make-whole: "The red tray holds {part}. Set the blue counters so that the frame holds {whole}, then press Check."
+counters_goal-make-whole-two: "The red tray holds {part}. Set the blue counters so that the two frames hold {whole}, then press Check."
+counters_goal-hidden-part: "The whole is {whole}, and the part in sight is {part}. Build the part under the cup in the tray, then lift the cup."
+counters_note-short: Some cells are still empty.
+counters_note-over: Some counters found no cell.
+counters_note-more: The tray holds more counters than the cup.
+counters_note-fewer: The tray holds fewer counters than the cup.
+counters_hint-make-whole: "Count on from {part} to {whole}. Each number you say after {part} is one blue counter."
+counters_hint-hidden-part: "Count on from {part} to {whole}. Each number you say after {part} is one counter under the cup."

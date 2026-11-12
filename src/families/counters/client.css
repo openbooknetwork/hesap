@@ -1,0 +1,96 @@
+/* counters: the colours are theme tokens and the two counter colours of the family, so a theme switch needs no
+   redraw. */
+.hesap-counters .counters-svg{position:absolute;left:0;top:0;width:100%;height:100%;touch-action:none;font-family:var(--body);overflow:visible}
+.hesap-counters text{fill:var(--ink);text-anchor:middle;dominant-baseline:central;pointer-events:none;font-variant-numeric:tabular-nums}
+.hesap-counters .counters-a{--c:var(--z-counters-red,#d1453b)}
+.hesap-counters .counters-b{--c:var(--z-counters-blue,#2a6bd1)}
+
+/* A counter is a disc, a bead or a car, with a touch target round it. */
+.hesap-counters .counters-hit{fill:transparent}
+.hesap-counters .counters-body{fill:var(--c);stroke:var(--paper);stroke-width:1.5}
+.hesap-counters .counters-ring{fill:none;stroke:var(--paper);stroke-width:2;opacity:.6}
+.hesap-counters .counters-shine{fill:var(--paper);opacity:.55}
+.hesap-counters .counters-glass{fill:var(--paper);opacity:.7}
+.hesap-counters .counters-bead .counters-body{fill:var(--z-counters-blue,#2a6bd1)}
+/* The cars of a car park come in six paints. */
+.hesap-counters .counters-paint-0 .counters-body{fill:#d1453b}
+.hesap-counters .counters-paint-1 .counters-body{fill:#2a6bd1}
+.hesap-counters .counters-paint-2 .counters-body{fill:#2e9d5b}
+.hesap-counters .counters-paint-3 .counters-body{fill:#d99a1f}
+.hesap-counters .counters-paint-4 .counters-body{fill:#8a56c9}
+.hesap-counters .counters-paint-5 .counters-body{fill:#1f9aa3}
+.hesap-counters .counters-moves{cursor:grab;outline:none}
+.hesap-counters .counters-moves.drag{cursor:grabbing}
+.hesap-counters .counters-moves:focus-visible .counters-hit{stroke:var(--accent);stroke-width:2.5}
+.hesap-counters .counters-tapping .counters-layer{pointer-events:none}
+.hesap-counters .counters-over .counters-body{stroke:var(--ink);stroke-width:2.5;stroke-dasharray:4 3}
+
+/* The part-whole diagram: the whole above, the two parts below, joined by lines. */
+.hesap-counters .counters-link{stroke:var(--rule);stroke-width:3}
+.hesap-counters .counters-whole{fill:var(--panel);stroke:var(--ink);stroke-width:2.5}
+.hesap-counters .counters-part{fill:var(--paper);stroke:var(--ink-2);stroke-width:2}
+.hesap-counters .counters-a-ring{stroke:var(--z-counters-red,#d1453b);stroke-width:3}
+.hesap-counters .counters-b-ring{stroke:var(--z-counters-blue,#2a6bd1);stroke-width:3}
+.hesap-counters .counters-big{font-size:28px;font-weight:700}
+.hesap-counters .counters-badge{font-size:20px;font-weight:700;fill:var(--ink-2)}
+.hesap-counters .counters-hot{stroke:var(--accent);stroke-width:4}
+.hesap-counters g.counters-hot .counters-slot-box{stroke:var(--accent)}
+
+/* The cup hides a part until the reader lifts it. */
+.hesap-counters .counters-cup{cursor:pointer;outline:none}
+.hesap-counters .counters-cup-body{fill:var(--ink-2);stroke:var(--ink);stroke-width:2}
+.hesap-counters .counters-cup-rim,.hesap-counters .counters-cup-knob{fill:var(--ink);stroke:none}
+.hesap-counters .counters-cup:focus-visible .counters-cup-body{stroke:var(--accent);stroke-width:4}
+
+/* The hands hold the beads on their palms. */
+.hesap-counters .counters-hand{fill:var(--panel);stroke:var(--ink-2);stroke-width:2}
+.hesap-counters .counters-palm{stroke-width:2.5}
+
+/* Ten frames, and the cells a reader taps. */
+.hesap-counters .counters-frame-box{fill:var(--paper);stroke:var(--ink);stroke-width:2.5}
+.hesap-counters .counters-frame line{stroke:var(--ink-2);stroke-width:1.5}
+.hesap-counters .counters-cell{fill:transparent;cursor:pointer;outline:none}
+.hesap-counters .counters-cell:hover{fill:var(--accent);fill-opacity:.1}
+.hesap-counters .counters-cell:focus-visible{stroke:var(--accent);stroke-width:3}
+
+/* The list keeps a slot for each split, and a slot fills when the reader finds its split. */
+.hesap-counters .counters-list-title{font-size:15px;font-weight:600;fill:var(--ink-2)}
+.hesap-counters .counters-slot-box{fill:none;stroke:var(--rule);stroke-width:1.5;stroke-dasharray:4 4}
+.hesap-counters .counters-slot-text{font-size:15px;font-weight:600}
+.hesap-counters .counters-found .counters-slot-box{fill:var(--panel);stroke:var(--ink-2);stroke-dasharray:none}
+.hesap-counters .counters-now .counters-slot-box{stroke:var(--accent);stroke-width:2.5}
+.hesap-counters .counters-slot[hidden]{display:none}
+
+/* The lane of pins: a pin falls over when the reader knocks it down. */
+.hesap-counters .counters-lane{fill:var(--panel);stroke:var(--rule);stroke-width:2}
+.hesap-counters .counters-pin{cursor:pointer;outline:none}
+.hesap-counters .counters-pin-shape{fill:var(--paper);stroke:var(--ink);stroke-width:2}
+.hesap-counters .counters-pin-stripe{fill:var(--z-counters-red,#d1453b)}
+.hesap-counters .counters-spot{fill:var(--rule)}
+.hesap-counters .counters-down .counters-pin-body{opacity:.45}
+.hesap-counters .counters-pin:focus-visible .counters-hit{stroke:var(--accent);stroke-width:2.5}
+
+/* The car park: two rows of spaces, an aisle, and a sign that shows the free spaces. */
+.hesap-counters .counters-ground{fill:var(--panel);stroke:var(--rule);stroke-width:2}
+.hesap-counters .counters-space{fill:transparent;cursor:pointer;outline:none}
+.hesap-counters .counters-space:hover{fill:var(--accent);fill-opacity:.1}
+.hesap-counters .counters-space:focus-visible{stroke:var(--accent);stroke-width:3}
+.hesap-counters .counters-bay{stroke:var(--ink-2);stroke-width:2}
+.hesap-counters .counters-road{stroke:var(--rule);stroke-width:3;stroke-dasharray:14 10}
+.hesap-counters .counters-sign-box{fill:var(--ink);stroke:none}
+.hesap-counters .counters-sign-word{fill:var(--paper);font-size:12px;font-weight:600}
+.hesap-counters .counters-sign-num{fill:var(--paper);font-size:24px;font-weight:700}
+.hesap-counters .counters-sign.counters-hot .counters-sign-box{fill:var(--accent)}
+
+/* The trays of the challenges, and the pile the reader takes counters from. */
+.hesap-counters .counters-tray{fill:var(--panel);stroke:var(--ink-2);stroke-width:2}
+.hesap-counters .counters-tray-label{font-size:14px;font-weight:600;fill:var(--ink-2)}
+.hesap-counters .counters-heap-floor{fill:var(--rule);opacity:.6}
+.hesap-counters .counters-press{cursor:pointer;outline:none}
+.hesap-counters rect.counters-press:not(.counters-tray){fill:transparent}
+.hesap-counters .counters-press:focus-visible{stroke:var(--accent);stroke-width:3}
+
+@media (max-width:900px){
+  /* The figure ends above the peek card, which covers the foot of the stage until the reader closes it. */
+  .hesap-counters .counters-svg{height:calc(100% - var(--hesap-peek,0px))}
+}

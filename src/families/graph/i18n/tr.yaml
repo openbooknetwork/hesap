@@ -1,0 +1,32 @@
+graph_none: yok
+graph_rule: Kural
+graph_rule_line: Doğru
+graph_rule_parabola: Parabol
+graph_rule_cubic: Kübik
+graph_rule_sine: Sinüs
+graph_below_slope: Eğrinin eğimi
+graph_below_area: "{from} ile x arasındaki alan"
+graph_x: x
+graph_y: y
+graph_a: a
+graph_b: b
+graph_c: c
+graph_d: d
+graph_m: m
+graph_p: P'nin x'i
+graph_q: Q'nun x'i
+graph_h: Aralık h
+graph_n: Dikdörtgen n
+graph_vertex: Tepe
+graph_run: Yatay
+graph_rise: Dikey
+graph_slope: Eğim
+graph_secant: Kesen eğimi
+graph_width: Genişlik
+graph_sum: Toplam
+graph_area: Alan
+graph_difference: Fark
+graph_height: Yükseklik
+graph_miss: En büyük sapma
+graph_within: En fazla fark
+graph_lead: "Bir noktayı eğri boyunca sürükleyin ya da bir kaydırıcıyı oynatın."
