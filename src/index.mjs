@@ -10,8 +10,8 @@ import { LINK, list, links } from './node.mjs';
 const { z, check } = schema;
 const PKG = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const family = id => FAMILIES.find(f => f.id === id);
-// A page names a scene as <family>/<scene>, such as chance/coin. A family whose one scene has the family's name is
-// named alone, such as venn.
+// A page names a scene as <family>/<scene>, such as counters/bonds. A family whose one scene has the family's name is
+// named alone.
 const nameOf = (fam, scene) => scene === fam.id ? scene : `${fam.id}/${scene}`;
 const SCENES = FAMILIES.flatMap(f => f.scenes.map(s => nameOf(f, s)));
 function owner(name) {
@@ -71,11 +71,12 @@ export default {
   dir: PKG,
   schemas: { page: PageHesap },
   ui: new URL('./i18n/', import.meta.url),
-  // The browser imports hesap's own modules, JSXGraph and KaTeX's stylesheet through kitap's import map, from
-  // folders named after each package's version. JSXGraph loads only with a family that draws with it.
+  // The browser imports hesap's own modules and KaTeX's stylesheet through kitap's import map, from folders named
+  // after each package's version. A family that draws with a library of its own adds it here, so the library
+  // loads with that family alone.
   client: { script: new URL('./client.js', import.meta.url), styles: new URL('./client.css', import.meta.url), module: true,
     libraries: [['animejs', 'dist/bundles/anime.umd.min.js'], ['katex', 'dist/katex.min.js']],
-    imports: { 'hesap/': ['@openbooknetwork/hesap', 'src'], jsxgraph: ['jsxgraph', 'distrib', 'jsxgraphcore.mjs'], 'katex-dist/': ['katex', 'dist'] } },
+    imports: { 'hesap/': ['@openbooknetwork/hesap', 'src'], 'katex-dist/': ['katex', 'dist'] } },
   read: { page: readPage, finish },
   bundle,
 };

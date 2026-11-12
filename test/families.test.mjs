@@ -43,7 +43,7 @@ for (const f of FAMILIES) {
     const file = path.join(dir(f), 'client.css');
     if (!fs.existsSync(file)) return;
     const css = fs.readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/@(media|supports)[^{]*\{/g, '').replace(/@keyframes[^{]*\{[\s\S]*?\}\s*\}/g, '');
-    const own = new RegExp(`(\\.hesap-${f.id}\\b|\\.${f.id}-|\\.hesap-(geo|axes)\\b)`);
+    const own = new RegExp(`(\\.hesap-${f.id}\\b|\\.${f.id}-)`);
     // A selector list splits at its commas, apart from the commas inside :is() and :not().
     const stray = [...css.matchAll(/(^|\})\s*([^{}]+)\{/g)].flatMap(m => m[2].split(/,(?![^()]*\))/)).map(s => s.trim()).filter(s => s && !own.test(s));
     assert.deepEqual(stray, [], 'selectors outside the family');

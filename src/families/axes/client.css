@@ -1,3 +1,0 @@
-/* axes: the board and its labels follow the shared board rules in geo/client.css. A ring spreads from a place that
-   reaches a goal. */
-.hesap-axes .callouts circle.axes-ripple{fill:none;stroke:var(--accent)}

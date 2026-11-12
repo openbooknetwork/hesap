@@ -7,12 +7,13 @@ formulas in the text following it. Hesap runs under [kitap](../kitap), which bui
 
 ```yaml
 hesap:
-  scene: chance/flips          # the figure: a family and one of its scenes, from the table below
-  trials: 2000                 # the scene's own fields
-  readout: [heads, share-heads, gap]
+  scene: counters/bonds        # the figure: a family and one of its scenes, from the table below
+  look: frames                 # the scene's own fields
+  frames: 2
+  readout: [first, empty]
 ```
 
-The text links a value as `[0](@heads)` and a worked formula as `[...](@formula-share)`. The page writes the live
+The text links a value as `[0](@first)` and a worked formula as `[...](@formula-<id>)`. The page writes the live
 value in the link's place, and `kitap check` prints the words to write when a text differs from what the page
 shows as it opens.
 
@@ -20,37 +21,32 @@ A challenge page adds a goal and its targets:
 
 ```yaml
 hesap:
-  scene: chance/dice
-  trials: 1000
-  challenge:
-    goal: sum-chance
-    targets: [[1, 12], [1, 18]]
+  scene: counters/bonds
+  look: frames
+  frames: 1
+  challenge: { goal: make-whole, whole: 10, part: [1, 9] }
 ```
 
-The panel then shows the goal in words, whether it is reached, Hint and Another one.
+The page draws the challenge from those ranges as it opens and again on "Another one", so a reader meets new
+numbers each time. The panel shows the goal in words and whether it is reached. The build draws 300 targets for
+each challenge and fails a page where one is solved as the page opens or lies out of the controls' reach.
 
 ## Scenes
 
 Scenes come in families. Each family is a folder under `src/families/`. A page names a scene as
-`<family>/<scene>`. A family whose one scene has the family's name is named alone, such as `scene: venn`.
+`<family>/<scene>`. A family whose one scene has the family's name is named alone.
 
 | Family | Scenes |
 |---|---|
-| `geo` | `circle`, `triangle`, `rectangle`, `quadrilateral`, `regular-polygon` |
-| `axes` | `number-line`, `point`, `quadrants`, `distance`, `point-3d`, `distance-3d`, `polar-point`, `to-polar`, `radians`, `spiral`, `rose`, `cylinder`, `sphere`, `cube`, `cuboid`, `prism`, `pyramid`, `solid-cylinder`, `cone`, `ball`, `net` |
-| `graph` | `plot`, `secant`, `tangent`, `slope`, `area`, `accumulate` |
-| `wave` | `unit`, `sine`, `cosine`, `stretch`, `shift`, `general`, `sum`, `tangent`, `spring` |
-| `linear` | `slide`, `turn`, `mirror`, `stretch`, `matrix` |
-| `chance` | `coin`, `flips`, `die`, `dice`, `means`, `galton` |
-| `machine` | `single`, `mystery`, `chain`, `map`, `maker` |
-| `parts` | `shade`, `fraction`, `equivalent`, `simplest`, `compare`, `add`, `mixed`, `convert`, `between` |
-| `grid` | `multiples`, `common`, `factors`, `sieve`, `width`, `remainders`, `spiral`, `mark`, `two` |
-| `venn` | `venn` |
-| `balance` | `balance` |
-| `network` | `network` |
-| `proof` | `proof` |
+| `counters` | `bonds` |
 
-Each family's `index.mjs` holds the schema of its scenes' fields, with a comment on every field.
+`counters/bonds` shows a whole and its two parts: a part-whole diagram, one or two ten frames with counters of two
+colours, a cup that hides a part and a list of the splits found. Its `index.mjs` holds the schema of its fields,
+with a comment on every field.
+
+The tag `prototypes` holds 13 more families from the prototype stories: `geo`, `axes`, `graph`, `wave`, `linear`,
+`chance`, `machine`, `parts`, `grid`, `venn`, `balance`, `network` and `proof`. A family comes back from there with
+the first story that needs it: `git checkout prototypes -- src/families/<id>`, then its line in `src/families.mjs`.
 
 ## Layout
 
@@ -73,6 +69,7 @@ The kit:
 | `goal.js` | `goalRow`, the line a challenge shows |
 | `text.js` | `live` for the links in the text, `math` for a formula |
 | `play.js` | `player`, a Start button's run with a time slider |
+| `random.js` | `dice` and `fresh`, the seeded draws of a challenge |
 | `drag.js` | `drag` and `nudge` for pointer and arrow key dragging |
 | `motion.js` | `tracker`, anime.js animations that a page change stops |
 | `format.js` | `numbers` per language, `aligned`, `fill` |
@@ -84,8 +81,8 @@ The Node half, `index.mjs`:
 
 ```js
 export default {
-  id: 'chance',
-  scenes: ['coin', 'flips'],           // the scenes it owns
+  id: 'counters',
+  scenes: ['bonds'],                   // the scenes it owns
   schema,                              // strict zod object of a page's fields, without scene
   read(pg, { at, pid }, ctx) { ... },  // checks the page, returns { data, has, offers }
   start(spec, lang, id) { ... },       // the words a link shows when the page opens
@@ -96,12 +93,12 @@ export default {
 The browser half, `client.js`:
 
 ```js
-export default function chance({ host, box, stage, panel, T, lang, moving, motion, data }) {
+export default function counters({ host, box, stage, panel, T, lang, moving, motion, data }) {
   return { show(spec, page) { ... }, hide() { ... }, point(id, on) { ... }, lang() { ... } };
 }
 ```
 
-`families/chance/` is the family to read first. A new family is added to `src/families.mjs`.
+`families/counters/` is the family to read first. A new family is added to `src/families.mjs`.
 
 Strings sit in the family's `i18n/en.yaml` and `i18n/tr.yaml` under the prefix `<id>_`, and `<id>_lead` is the
 line the book shows under the story's title. Styles sit in the family's `client.css` under `.hesap-<id>`. Run
@@ -109,8 +106,8 @@ line the book shows under the story's title. Styles sit in the family's `client.
 
 ## Libraries
 
-JSXGraph plots and draws geometry, anime.js animates, and KaTeX sets formulas. A family that draws with JSXGraph
-imports it (`import JXG from 'jsxgraph'`), so it loads with that family alone.
+anime.js animates and KaTeX sets formulas. A family that draws with a library of its own names it in the engine's
+`client.imports`, so it loads with that family alone.
 
 Kitap serves hesap's browser modules from a folder named after hesap's version. A release raises the version in
 `package.json`.

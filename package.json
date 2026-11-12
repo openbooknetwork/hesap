@@ -1,7 +1,6 @@
 {
   "name": "@openbooknetwork/hesap",
   "version": "0.1.0",
-  "private": true,
   "type": "module",
   "description": "Hesap: the maths engine of the Open Book Network, figures a reader can move with the numbers and formulas that follow them",
   "keywords": [
@@ -32,14 +31,17 @@
     "src",
     "scripts/assemble.mjs"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "assemble": "node scripts/assemble.mjs",
-    "test": "node scripts/assemble.mjs --check && node --test test/*.test.mjs"
+    "test": "node scripts/assemble.mjs --check && node --test test/*.test.mjs",
+    "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "@openbooknetwork/kitap": "file:../kitap",
+    "@openbooknetwork/kitap": "^0.7.2",
     "animejs": "^4.5.0",
-    "jsxgraph": "^1.14.3",
     "katex": "^0.19.1"
   }
 }
