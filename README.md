@@ -38,11 +38,15 @@ Scenes come in families. Each family is a folder under `src/families/`. A page n
 
 | Family | Scenes |
 |---|---|
-| `counters` | `bonds` |
+| `counters` | `bonds`, `count` |
 
 `counters/bonds` shows a whole and its two parts: a part-whole diagram, one or two ten frames with counters of two
 colours, a cup that hides a part and a list of the splits found. Its `index.mjs` holds the schema of its fields,
 with a comment on every field.
+
+`counters/count` counts objects one by one: apples, birds, cups, shells or counters that take the next number when
+tapped, a closed box to count on from, counters that leave a tray, a marker in rows of ten, a bus and a staircase.
+Its `count.mjs` holds the schema of its fields.
 
 The tag `prototypes` holds 13 more families from the prototype stories: `geo`, `axes`, `graph`, `wave`, `linear`,
 `chance`, `machine`, `parts`, `grid`, `venn`, `balance`, `network` and `proof`. A family comes back from there with

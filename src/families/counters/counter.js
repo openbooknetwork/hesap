@@ -1,10 +1,30 @@
-// A counter of the family: a disc, a bead or a car, in red or blue. Every scene of the family draws its counters here.
+// A counter of the family: a disc, a bead, a car, or one of the objects the count scene counts, such as an apple or a
+// bird. Every scene of the family draws its counters here.
 import { svg as el } from '../../kit/dom.js';
 
 // The radius of a counter in the figure's units, and the reach of its touch target, about 44px across on a phone.
 export const R = 16, HIT = 22;
 
+// The objects of the count scene. Each stands round 0, 0 inside a circle of radius r, apart from the walker, who
+// stands on 0, 0.
+const OBJECTS = {
+  apple: r => [el('path', { class: 'counters-stem', d: `M 0 ${-r * 0.7} Q 1 ${-r * 1.05} 4 ${-r * 1.2}` }), el('ellipse', { class: 'counters-leaf', cx: r * 0.42, cy: -r * 1.02, rx: r * 0.34, ry: r * 0.16, transform: `rotate(-25 ${r * 0.42} ${-r * 1.02})` }),
+    el('path', { class: 'counters-body', d: `M 0 ${-r * 0.62} C ${r * 0.5} ${-r * 0.95} ${r * 1.05} ${-r * 0.6} ${r * 0.95} 0 C ${r * 0.88} ${r * 0.62} ${r * 0.4} ${r * 0.98} 0 ${r * 0.82} C ${-r * 0.4} ${r * 0.98} ${-r * 0.88} ${r * 0.62} ${-r * 0.95} 0 C ${-r * 1.05} ${-r * 0.6} ${-r * 0.5} ${-r * 0.95} 0 ${-r * 0.62} Z` }),
+    el('ellipse', { class: 'counters-shine', cx: -r * 0.4, cy: -r * 0.25, rx: r * 0.16, ry: r * 0.28 })],
+  bird: r => [el('path', { class: 'counters-body', d: `M ${-r * 1.15} ${-r * 0.1} L ${-r * 0.55} ${-r * 0.15} Q ${-r * 0.2} ${-r * 0.75} ${r * 0.45} ${-r * 0.55} Q ${r * 0.95} ${-r * 0.95} ${r * 1.05} ${-r * 0.35} L ${r * 1.35} ${-r * 0.25} L ${r * 1.0} ${-r * 0.1} Q ${r * 0.85} ${r * 0.6} ${-r * 0.1} ${r * 0.55} Q ${-r * 0.6} ${r * 0.4} ${-r * 0.75} ${r * 0.1} Z` }),
+    el('circle', { class: 'counters-eye', cx: r * 0.72, cy: -r * 0.48, r: r * 0.1 }), el('path', { class: 'counters-feet', d: `M ${-r * 0.1} ${r * 0.5} L ${-r * 0.1} ${r * 0.85} M ${r * 0.25} ${r * 0.5} L ${r * 0.25} ${r * 0.85}` })],
+  shell: r => [el('path', { class: 'counters-body', d: `M 0 ${r * 0.9} L ${-r * 0.95} ${-r * 0.05} Q ${-r * 0.75} ${-r * 0.95} 0 ${-r * 0.95} Q ${r * 0.75} ${-r * 0.95} ${r * 0.95} ${-r * 0.05} Z` }),
+    el('path', { class: 'counters-ribs', d: [-0.6, -0.3, 0, 0.3, 0.6].map(k => `M 0 ${r * 0.8} L ${k * r * 1.1} ${-r * 0.8}`).join(' ') }),
+    el('rect', { class: 'counters-body', x: -r * 0.32, y: r * 0.72, width: r * 0.64, height: r * 0.3, rx: r * 0.1 })],
+  person: r => [el('path', { class: 'counters-body', d: `M ${-r * 0.8} ${r} Q ${-r * 0.8} ${r * 0.05} 0 ${r * 0.05} Q ${r * 0.8} ${r * 0.05} ${r * 0.8} ${r} Z` }),
+    el('circle', { class: 'counters-skin', cy: -r * 0.42, r: r * 0.42 })],
+  walker: r => [el('path', { class: 'counters-legs', d: `M ${-r * 0.2} ${-r} L ${-r * 0.3} 0 M ${r * 0.2} ${-r} L ${r * 0.35} 0` }),
+    el('rect', { class: 'counters-body', x: -r * 0.45, y: -r * 2.05, width: r * 0.9, height: r * 1.2, rx: r * 0.35 }),
+    el('circle', { class: 'counters-skin', cy: -r * 2.5, r: r * 0.42 })],
+};
+
 function glyph(kind, r) {
+  if (OBJECTS[kind]) return OBJECTS[kind](r);
   if (kind === 'bead') return [el('circle', { class: 'counters-body', r }), el('circle', { class: 'counters-shine', r: r * 0.32, cx: -r * 0.35, cy: -r * 0.35 })];
   if (kind === 'car') {
     const w = r * 1.5, l = r * 2.5;
@@ -22,7 +42,7 @@ const PAINTS = 6;
 // CSS transform on an element would override its transform attribute. n is the counter's number among its kind.
 export function counter(kind, colour, r = R, n = 0) {
   const pop = el('g', { class: 'counters-pop a' }, [el('circle', { class: 'counters-hit', r: Math.max(r, HIT) }), ...glyph(kind, r)]);
-  const paint = kind === 'car' ? ` counters-paint-${n % PAINTS}` : '';
+  const paint = kind === 'car' || kind === 'person' ? ` counters-paint-${n % PAINTS}` : '';
   const g = el('g', { class: `counters-counter counters-${colour} counters-${kind}${paint}` }, [pop]);
   return { g, pop, at: { x: 0, y: 0 }, colour };
 }

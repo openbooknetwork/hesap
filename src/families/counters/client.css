@@ -94,3 +94,57 @@
   /* The figure ends above the peek card, which covers the foot of the stage until the reader closes it. */
   .hesap-counters .counters-svg{height:calc(100% - var(--hesap-peek,0px))}
 }
+
+/* The count scene: the places objects lie in, the objects, and the numbers the reader gives them. */
+.hesap-counters .counters-sand{fill:#e8d3a6;stroke:#c9ad78;stroke-width:2}
+.hesap-counters .counters-table{fill:#b98a5a;stroke:#8a6238;stroke-width:2}
+.hesap-counters .counters-awning-0{fill:#d1453b}
+.hesap-counters .counters-awning-1{fill:#f4ede1}
+.hesap-counters .counters-wire{fill:none;stroke:var(--ink);stroke-width:2.5}
+.hesap-counters .counters-pole{stroke:var(--ink-2);stroke-width:6;stroke-linecap:round}
+.hesap-counters .counters-row-label{font-size:16px;font-weight:700;fill:var(--ink-2)}
+.hesap-counters .counters-stem{fill:none;stroke:#6b4a2b;stroke-width:2.5;stroke-linecap:round}
+.hesap-counters .counters-leaf{fill:#3f9a4a}
+.hesap-counters .counters-apple .counters-shine{fill:#fff;opacity:.45}
+.hesap-counters .counters-bird .counters-body{fill:var(--ink-2)}
+.hesap-counters .counters-eye{fill:var(--paper)}
+.hesap-counters .counters-feet{stroke:#d99a1f;stroke-width:2}
+.hesap-counters .counters-trail{fill:none;stroke:var(--accent);stroke-width:3;stroke-dasharray:7 6;stroke-linecap:round;stroke-linejoin:round;opacity:.8}
+.hesap-counters .counters-shell .counters-body{fill:#f2a679;stroke:#c46a3c}
+.hesap-counters .counters-ribs{stroke:#c46a3c;stroke-width:1.5;fill:none}
+.hesap-counters .counters-skin{fill:#e0ac7e;stroke:var(--paper);stroke-width:1.5}
+.hesap-counters .counters-legs{stroke:var(--ink);stroke-width:5;stroke-linecap:round}
+.hesap-counters .counters-walker .counters-body{fill:var(--accent)}
+.hesap-counters .counters-tag{pointer-events:none}
+.hesap-counters .counters-tag-box{fill:var(--paper);stroke:var(--ink);stroke-width:1.5}
+.hesap-counters .counters-tag-text{font-size:12px;font-weight:700}
+.hesap-counters .counters-pale .counters-body{fill:var(--panel);stroke:var(--rule)}
+.hesap-counters .counters-pale .counters-ring{display:none}
+.hesap-counters .counters-marked .counters-body{stroke:var(--accent);stroke-width:3.5}
+.hesap-counters .counters-gap{fill:none;stroke:var(--rule);stroke-width:2;stroke-dasharray:4 3;opacity:0;pointer-events:none;outline:none}
+.hesap-counters .counters-gap-on{opacity:1;pointer-events:all;cursor:pointer}
+.hesap-counters .counters-gap-on:focus-visible{stroke:var(--accent);stroke-width:3}
+.hesap-counters g.counters-counter[role=button]{cursor:pointer;outline:none}
+.hesap-counters g.counters-counter[role=button]:focus-visible .counters-hit{stroke:var(--accent);stroke-width:2.5}
+
+/* The closed box, the room beside it, and the basket. */
+.hesap-counters .counters-box{fill:#c99a62;stroke:#8a6238;stroke-width:2.5}
+.hesap-counters .counters-lid{fill:#b5844e;stroke:#8a6238;stroke-width:2.5}
+.hesap-counters .counters-tape{stroke:#e8d3a6;stroke-width:8}
+.hesap-counters .counters-box-num{font-size:34px;font-weight:700;fill:#2b1d0e}
+.hesap-counters .counters-box.counters-hot{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-beside{fill:none;stroke:var(--rule);stroke-width:2;stroke-dasharray:6 5}
+.hesap-counters .counters-basket{fill:#c99a62;stroke:#8a6238;stroke-width:2.5}
+.hesap-counters .counters-weave{stroke:#8a6238;stroke-width:1.5;opacity:.6}
+.hesap-counters .counters-rim{fill:#b5844e;stroke:#8a6238;stroke-width:2}
+
+/* The bus and its stop, and the staircase. */
+.hesap-counters .counters-bus{fill:#d1453b;stroke:var(--ink);stroke-width:2.5}
+.hesap-counters .counters-window,.hesap-counters .counters-glass-front{fill:#dfeaf5;stroke:var(--ink);stroke-width:1.5}
+.hesap-counters .counters-door{fill:#9fb7cc;stroke:var(--ink);stroke-width:1.5}
+.hesap-counters .counters-wheel{fill:var(--ink);stroke:var(--ink-2);stroke-width:5}
+.hesap-counters .counters-stop{fill:#2e9d5b}
+.hesap-counters .counters-stop-word{fill:#fff;font-size:12px;font-weight:700}
+.hesap-counters .counters-kerb{stroke:var(--ink-2);stroke-width:3}
+.hesap-counters .counters-stairs{fill:var(--panel);stroke:var(--ink-2);stroke-width:2;stroke-linejoin:round}
+.hesap-counters .counters-step-num{font-size:11px;font-weight:600;fill:var(--ink-2)}

@@ -13,7 +13,7 @@ hesap_hint: Hint
 hesap_another: Another one
 hesap_solved: Solved
 hesap_not-yet: Not solved yet.
-counters_lead: "Drag the counters, tap the cells and watch the two parts make the whole."
+counters_lead: "Tap and drag the counters, and watch the numbers follow them."
 counters_whole: Whole
 counters_first: First part
 counters_second: Second part
@@ -65,3 +65,37 @@ counters_note-more: The tray holds more counters than the cup.
 counters_note-fewer: The tray holds fewer counters than the cup.
 counters_hint-make-whole: "Count on from {part} to {whole}. Each number you say after {part} is one blue counter."
 counters_hint-hidden-part: "Count on from {part} to {whole}. Each number you say after {part} is one counter under the cup."
+counters_total: How many
+counters_tag-count: Last number said
+counters_take-count: Left
+counters_place-count: Number
+counters_marker-count: Marker
+counters_bus-count: Passengers
+counters_stairs-count: Step
+counters_clear: Clear
+counters_ctl-box: In the box
+counters_ctl-marker: Marker
+counters_ctl-step: Step
+counters_kind-disc: Counter
+counters_kind-apple: Apple
+counters_kind-bird: Bird
+counters_kind-walker: Walker
+counters_kind-shell: Shell
+counters_kind-person: Person
+counters_gap: Empty place
+counters_basket: Basket
+counters_stop-sign: Bus
+counters_goal-fill-basket: "Put {target} apples in the basket, then press Check."
+counters_goal-count-on: "The box holds {box}. Put counters beside it until there are {target} in all, then press Check."
+counters_goal-count-back: "Take counters away until {target} are left, then press Check."
+counters_note-fill-basket-more: The basket holds more apples than that.
+counters_note-fill-basket-fewer: The basket holds fewer apples than that.
+counters_note-count-on-more: The box and the counters make more than that.
+counters_note-count-on-fewer: The box and the counters make fewer than that.
+counters_note-count-back-more: More counters are left than that.
+counters_note-count-back-fewer: Fewer counters are left than that.
+counters_hint-fill-basket: "Say one number for each apple you put in, and stop at {target}."
+counters_hint-count-on: "Start from {box} and say the next number for each counter you put beside the box. Stop at {target}."
+counters_hint-count-back: "Start from {start} and say the number before for each counter you take away. Stop at {target}."
+counters_roll: Roll the ball
+counters_set-up: Set up the pins

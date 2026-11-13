@@ -1,18 +1,19 @@
-// The Node half of the counters family: counters a reader moves between parts, cells of ten frames, and the skins of
-// the same figure for the world pages. It checks a page's fields against its scene and says what each link shows
+// The Node half of the counters family. The bonds scene moves counters between parts and fills ten frames, and the
+// count scene counts objects one by one. It checks a page's fields against its scene and says what each link shows
 // when the page opens.
 import { schema } from '@openbooknetwork/kitap';
 import { LOOKS, modeOf, capOf, opening, counts, measuresOf } from './model.js';
 import { GOALS, challengeStart } from './goals.js';
+import count from './count.mjs';
 import { numbers } from '../../kit/format.js';
-import { list, challenge, drawn } from '../../node.mjs';
+import { list, challenge, drawn, value } from '../../node.mjs';
 
-const { z } = schema;
+const { z, check } = schema;
 const Int = z.number().int();
 const Range = z.tuple([Int, Int]);
 const Slider = z.object({ slider: Range, start: Int.optional() }).strict();
 const Stepper = z.object({ stepper: Range, start: Int.optional() }).strict();
-const Fields = z.object({
+const BondsFields = z.object({
   look: z.enum(LOOKS).default('diagram'), // The diagram, ten frames alone, or the skin of a world page.
   whole: z.union([Int, Stepper]).optional(), // The whole as a number, or on a stepper.
   first: z.union([Int, Slider, Stepper]).optional(), // The first part, or the red counters, as the page opens.
@@ -23,21 +24,15 @@ const Fields = z.object({
   fill: z.boolean().default(false), // A button fills the second frame with red counters and empties it again.
   cup: z.boolean().default(false), // A cup hides the second part until the reader lifts it.
   list: z.boolean().default(false), // A list logs each split the reader finds.
+  still: z.boolean().default(false), // The counters stay where they are, for a page that sums up.
+  roll: z.boolean().default(false), // A ball knocks down pins at random, and the pins take no taps.
   readout: z.array(z.string()).default([]),
   // A challenge names a goal of goals.js and the ranges it draws its targets from.
   challenge: z.object({ goal: z.string(), whole: z.union([Int, Range]), part: Range.optional() }).strict().optional(),
 }).strict();
 
-// value reads a number, a slider or a stepper as its starting value and its range.
-function value(v) {
-  if (v == null) return { n: null, ctl: null };
-  if (typeof v === 'number') return { n: v, ctl: null };
-  const kind = v.slider ? 'slider' : 'stepper', [lo, hi] = v[kind];
-  return { n: v.start ?? lo, ctl: { kind, lo, hi } };
-}
-
-function read(pg, { at }, ctx) {
-  const fail = words => ctx.fail(at, words);
+function readBonds(fields, { at }, ctx) {
+  const pg = { scene: 'bonds', ...check(BondsFields, fields, at) }, fail = words => ctx.fail(at, words);
   const look = pg.look, whole = value(pg.whole), first = value(pg.first);
   if (pg.frames !== undefined && !['diagram', 'frames'].includes(look)) fail(`frames belongs to the diagram and frames looks, the ${look} look has its own places`);
   const frames = look === 'frames' ? pg.frames ?? 1 : look === 'diagram' ? pg.frames ?? 0 : 0;
@@ -58,6 +53,7 @@ function read(pg, { at }, ctx) {
     if (pg.swap && look === 'hands') fail('swap belongs to the diagram, leave it out of the hands');
   } else {
     if (pg.swap) fail('swap belongs to the diagram without frames, where the parts hold the counters');
+    if (pg.roll && look !== 'pins') fail('roll belongs to the pins look, where a ball knocks pins down');
     if (spec.second != null && (whole.n != null || pg.cup)) fail('second is set by the whole on this page, leave it out');
     const red = first.ctl?.hi ?? spec.first, blue = spec.second ?? 0;
     if (red + blue > cap || (whole.ctl?.hi ?? spec.whole ?? 0) > cap) fail(`the counters reach ${Math.max(red + blue, whole.ctl?.hi ?? spec.whole ?? 0)}, and the ${look === 'frames' || look === 'diagram' ? `${frames} frame${frames > 1 ? 's hold' : ' holds'}` : `${look} hold`} ${cap}`);
@@ -91,13 +87,18 @@ function readChallenge(pg, spec, mode, at, ctx) {
 }
 
 // A link shows a count as the page opens.
-function start(spec, lang, id) {
+function startBonds(spec, lang, id) {
   if (!measuresOf(spec).includes(id)) return null;
   return numbers(lang).int(counts(spec, opening(spec))[id]);
 }
+
+// Each scene checks its own fields, so the family's schema lets every field through to the scene.
+const Fields = z.object({}).passthrough();
+const read = ({ scene, ...fields }, info, ctx) => scene === 'count' ? count.read(fields, info, ctx) : readBonds(fields, info, ctx);
+const start = (spec, lang, id) => spec.scene === 'count' ? count.start(spec, lang, id) : startBonds(spec, lang, id);
 
 // The two colours of the counters, a red and a blue that readers with any colour vision tell apart, each with a step
 // for the dark themes.
 const bundle = () => ({ families: { 'counters-red': { color: '#d1453b', color_dark: '#f0776d' }, 'counters-blue': { color: '#2a6bd1', color_dark: '#6fa4f5' } } });
 
-export default { id: 'counters', scenes: ['bonds'], schema: Fields, read, start, bundle };
+export default { id: 'counters', scenes: ['bonds', 'count'], schema: Fields, read, start, bundle };

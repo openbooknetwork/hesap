@@ -1,4 +1,4 @@
-counters_lead: "Sayaçları sürükleyin, hücrelere dokunun ve iki parçanın bütünü nasıl oluşturduğunu izleyin."
+counters_lead: "Sayaçlara dokunun, onları sürükleyin ve sayıların onları nasıl izlediğine bakın."
 counters_whole: Bütün
 counters_first: Birinci parça
 counters_second: İkinci parça
@@ -50,3 +50,37 @@ counters_note-more: Tepside bardaktakinden çok sayaç var.
 counters_note-fewer: Tepside bardaktakinden az sayaç var.
 counters_hint-make-whole: "{part} sayısından {whole} sayısına kadar ileri sayın. {part} sayısından sonra söylediğiniz her sayı bir mavi sayaçtır."
 counters_hint-hidden-part: "{part} sayısından {whole} sayısına kadar ileri sayın. {part} sayısından sonra söylediğiniz her sayı bardağın altındaki bir sayaçtır."
+counters_total: Kaç tane
+counters_tag-count: Son söylenen sayı
+counters_take-count: Kalan
+counters_place-count: Sayı
+counters_marker-count: İşaret
+counters_bus-count: Yolcular
+counters_stairs-count: Basamak
+counters_clear: Temizle
+counters_ctl-box: Kutuda
+counters_ctl-marker: İşaret
+counters_ctl-step: Basamak
+counters_kind-disc: Sayaç
+counters_kind-apple: Elma
+counters_kind-bird: Kuş
+counters_kind-walker: Yürüyen kişi
+counters_kind-shell: Deniz kabuğu
+counters_kind-person: Kişi
+counters_gap: Boş yer
+counters_basket: Sepet
+counters_stop-sign: Durak
+counters_goal-fill-basket: "Sepete {target} elma koyun, sonra Kontrol et düğmesine basın."
+counters_goal-count-on: "Kutuda {box} tane var. Hepsi {target} olana kadar yanına sayaç koyun, sonra Kontrol et düğmesine basın."
+counters_goal-count-back: "{target} sayaç kalana kadar sayaç alın, sonra Kontrol et düğmesine basın."
+counters_note-fill-basket-more: Sepette bundan çok elma var.
+counters_note-fill-basket-fewer: Sepette bundan az elma var.
+counters_note-count-on-more: Kutu ve sayaçlar bundan çok ediyor.
+counters_note-count-on-fewer: Kutu ve sayaçlar bundan az ediyor.
+counters_note-count-back-more: Bundan çok sayaç kaldı.
+counters_note-count-back-fewer: Bundan az sayaç kaldı.
+counters_hint-fill-basket: "Koyduğunuz her elma için bir sayı söyleyin ve {target} sayısında durun."
+counters_hint-count-on: "{box} sayısından başlayın ve kutunun yanına koyduğunuz her sayaç için bir sonraki sayıyı söyleyin. {target} sayısında durun."
+counters_hint-count-back: "{start} sayısından başlayın ve aldığınız her sayaç için bir önceki sayıyı söyleyin. {target} sayısında durun."
+counters_roll: Topu yuvarla
+counters_set-up: Lobutları diz

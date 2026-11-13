@@ -1,8 +1,9 @@
 // The browser half of the counters family. It hands each page to the scene the page names. The scenes share the
 // family's counters, ten frames, places and motion.
 import bonds from './bonds.js';
+import count from './count.js';
 
-const SCENES = { bonds };
+const SCENES = { bonds, count };
 
 export default function counters(api) {
   // made holds each scene once it has been made, and now is the scene on show.

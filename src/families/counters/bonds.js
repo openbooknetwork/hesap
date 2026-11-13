@@ -131,7 +131,7 @@ export default function bonds({ host, stage, panel, T, lang, moving, motion: fx 
 
   // wire lets the reader tap the pins, the spaces of the car park, the tray, the pile and the cup.
   function wire() {
-    for (const p of geo.refs.pins?.pins ?? []) press(p.g, () => tapCell(Number(p.g.dataset.cell)));
+    if (!spec.roll) for (const p of geo.refs.pins?.pins ?? []) press(p.g, () => tapCell(Number(p.g.dataset.cell)));
     for (const sp of geo.refs.park?.spaces ?? []) press(sp, () => parkIn(Number(sp.dataset.cell)));
     for (const t of geo.refs.tray?.press ?? []) press(t, () => { const from = t.dataset.place, id = s[from].at(-1); if (id) tapAt(id, from); });
     const cup = geo.refs.diagram?.cup;
@@ -196,7 +196,7 @@ export default function bonds({ host, stage, panel, T, lang, moving, motion: fx 
     const c = spec.challenge;
     const homes = c?.goal === 'hidden-part' ? ['tray', 'pile'] : !c && mode() === 'parts' ? ['left', 'right'] : spec.look === 'cars' ? ['cells', 'gate'] : null;
     const from = () => homes?.find(h => h === 'cells' ? s.cells.includes(id) : h === 'gate' ? s.gate === id : s[h]?.includes(id));
-    if (!homes || !from()) return n;
+    if (!homes || !from() || spec.still) return n;
     n.g.setAttribute('tabindex', 0); n.g.setAttribute('role', 'button'); n.g.setAttribute('aria-label', T(spec.look === 'cars' ? 'car' : 'counter'));
     n.g.classList.add('counters-moves');
     let dx = 0, dy = 0;
@@ -245,6 +245,15 @@ export default function bonds({ host, stage, panel, T, lang, moving, motion: fx 
   function lower() { if (spec.challenge?.goal === 'hidden-part' && cs.lifted) { cs.lifted = false; liftWords(); } }
 
   // A tap on a cell adds a counter of the page's part or takes it away. A tap on a pin knocks it down or stands it up.
+  // roll knocks down a random number of the pins still standing, at least one, and setUp stands every pin again.
+  function roll() {
+    const up = s.cells.flatMap((id, i) => id ? [i] : []);
+    if (!up.length) return;
+    const d = dice(fresh());
+    for (const i of d.some(up, d.int(1, up.length))) s.cells[i] = null;
+    changed();
+  }
+  function setUp() { s.cells = s.cells.map(id => id ?? newId('a')); changed(); }
   function tapCell(i) {
     if (spec.look === 'pins') { s.cells[i] = s.cells[i] ? null : newId('a'); return changed(); }
     const colour = spec.tap === 'second' ? 'b' : 'a', id = s.cells[i];
@@ -362,6 +371,7 @@ export default function bonds({ host, stage, panel, T, lang, moving, motion: fx 
       if (spec.swap) ctls.push(button({ label: T('swap'), act: 'swap', press: () => { [s.left, s.right] = [s.right, s.left]; changed(); } }));
       if (spec.fill) ctls.push(fillBtn = button({ label: T(s.extra ? 'unfill' : 'fill'), act: 'fill', press: fill }));
       if (spec.cup) ctls.push(liftBtn = button({ label: T(s.lifted ? 'lower' : 'lift'), act: 'lift', press: lift }));
+      if (spec.roll) ctls.push(button({ label: T('roll'), act: 'roll', primary: true, press: roll }), button({ label: T('set-up'), act: 'set-up', press: setUp }));
       chips = spec.readout.map(id => chip({ id, label: label(id) }));
       for (const k of chips) k.width(2);
     }
