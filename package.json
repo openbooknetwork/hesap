@@ -1,6 +1,6 @@
 {
   "name": "@openbooknetwork/hesap",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "description": "Hesap: the maths engine of the Open Book Network, figures a reader can move with the numbers and formulas that follow them",
   "keywords": [
