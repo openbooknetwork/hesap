@@ -56,15 +56,18 @@ export function segment({ id, label, items, value, pick }) {
   set(value);
   return { el, set, get: () => value };
 }
-// stepper is a whole number with a button on each side to take one away or add one.
-export function stepper({ id, label, min, max, step = 1, value, write = String, change }) {
+// stepper is a whole number with a button on each side to take one away or add one. A stepper made with shown: false
+// keeps its number out of sight and out of speech and holds its room, for a page whose reader must not read the
+// count, and show puts the number on or off.
+export function stepper({ id, label, min, max, step = 1, value, write = String, change, shown = true }) {
   const out = h('output'), less = h('button', { type: 'button', 'aria-label': `${label} −` }, '−'), more = h('button', { type: 'button', 'aria-label': `${label} +` }, '+');
   const el = h('div', { class: 'hesap-step', role: 'group', 'aria-label': label, 'data-ref': id }, [h('span', {}, label), less, out, more]);
   const set = v => { value = Math.max(min, Math.min(max, v)); out.textContent = write(value); less.disabled = value <= min; more.disabled = value >= max; };
   less.addEventListener('click', () => { set(value - step); change(value); });
   more.addEventListener('click', () => { set(value + step); change(value); });
-  set(value);
-  return { el, set, get: () => value };
+  const show = on => { out.style.visibility = on ? '' : 'hidden'; out.setAttribute('aria-hidden', on ? 'false' : 'true'); };
+  set(value); show(shown);
+  return { el, set, show, get: () => value };
 }
 // row groups parts of the panel: ctl for controls, out for readouts, acts for buttons.
 export const row = (kind, parts) => h('div', { class: `hesap-${kind}` }, parts.filter(Boolean).map(p => p.el ?? p));

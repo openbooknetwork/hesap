@@ -210,7 +210,7 @@ aside.story .place[data-formula] .katex-display>.katex{text-align:start}
 .hesap-counters .counters-tag-text{font-size:12px;font-weight:700}
 .hesap-counters .counters-pale .counters-body{fill:var(--panel);stroke:var(--rule)}
 .hesap-counters .counters-pale .counters-ring{display:none}
-.hesap-counters .counters-marked .counters-body{stroke:var(--accent);stroke-width:3.5}
+.hesap-counters .counters-marked .counters-body{stroke:var(--ink);stroke-width:3.5}
 .hesap-counters .counters-gap{fill:none;stroke:var(--rule);stroke-width:2;stroke-dasharray:4 3;opacity:0;pointer-events:none;outline:none}
 .hesap-counters .counters-gap-on{opacity:1;pointer-events:all;cursor:pointer}
 .hesap-counters .counters-gap-on:focus-visible{stroke:var(--accent);stroke-width:3}
@@ -238,3 +238,91 @@ aside.story .place[data-formula] .katex-display>.katex{text-align:start}
 .hesap-counters .counters-kerb{stroke:var(--ink-2);stroke-width:3}
 .hesap-counters .counters-stairs{fill:var(--panel);stroke:var(--ink-2);stroke-width:2;stroke-linejoin:round}
 .hesap-counters .counters-step-num{font-size:11px;font-weight:600;fill:var(--ink-2)}
+
+/* The match scene: the pair lines, the ring on a counter without a partner, the words between the rows, and the
+   cups and saucers. */
+.hesap-counters .counters-wire{stroke:var(--ink);stroke-width:3;stroke-linecap:round}
+.hesap-counters .counters-rubber{stroke:var(--accent);stroke-width:3;stroke-linecap:round;pointer-events:none}
+.hesap-counters .counters-lone{fill:none;stroke:var(--ink);stroke-width:3;pointer-events:none}
+.hesap-counters .counters-picked .counters-body{stroke:var(--ink);stroke-width:3}
+.hesap-counters .counters-word{pointer-events:none}
+.hesap-counters .counters-word-box{fill:var(--paper);stroke:var(--accent);stroke-width:2}
+.hesap-counters .counters-word-text{font-size:17px;font-weight:700}
+.hesap-counters .counters-handle{fill:none;stroke:var(--c);stroke-width:3.5;stroke-linecap:round}
+.hesap-counters .counters-saucer .counters-body{fill:var(--paper);stroke:var(--c);stroke-width:2.5}
+.hesap-counters .counters-well{fill:none;stroke:var(--c);stroke-width:1.5;opacity:.5}
+.hesap-counters .counters-rowtag{pointer-events:none}
+.hesap-counters .counters-rowtag-box{fill:var(--paper);stroke:var(--c);stroke-width:2}
+.hesap-counters .counters-rowtag-text{font-size:15px;font-weight:700;stroke:none}
+.hesap-counters .counters-rowtag.counters-hot .counters-rowtag-box{stroke:var(--accent);stroke-width:3}
+.hesap-counters .counters-hollow .counters-body{fill:var(--paper);stroke:var(--c);stroke-width:3}
+.hesap-counters .counters-hollow .counters-ring{display:none}
+.hesap-counters .counters-void{fill:none;stroke:var(--ink-2);stroke-width:2;stroke-dasharray:4 3}
+.hesap-counters .counters-chair .counters-legs{stroke:var(--c);stroke-width:3.5}
+.hesap-counters .counters-crown{fill:#d99a1f;stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round;pointer-events:none}
+.hesap-counters .counters-sway{animation:counters-sway 1.1s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes counters-sway{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+.hesap-counters .counters-row-name{font-size:20px;font-weight:600;fill:var(--ink-2);text-anchor:start}
+
+/* The tiles of a sides page: the number, with the number before and the number after to tap. */
+.hesap-counters .counters-tile-box{fill:var(--panel);stroke:var(--rule);stroke-width:2}
+.hesap-counters .counters-tile-num{font-size:24px;font-weight:700;fill:var(--ink-2)}
+.hesap-counters .counters-tile-main{font-size:34px;fill:var(--ink)}
+.hesap-counters .counters-tile-word{font-size:13px;font-weight:600;fill:var(--ink-2)}
+.hesap-counters .counters-tile-open{cursor:pointer;outline:none}
+.hesap-counters .counters-tile-open .counters-tile-box{fill:var(--paper);stroke:var(--ink);stroke-width:2.5}
+.hesap-counters .counters-tile-open .counters-tile-num{fill:var(--ink)}
+.hesap-counters .counters-tile-open:focus-visible .counters-tile-box,.hesap-counters .counters-tile.counters-hot .counters-tile-box{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-tile.counters-hot{stroke:none}
+.hesap-counters .counters-next{fill:none;stroke:var(--ink-2);stroke-width:2;stroke-dasharray:4 3;pointer-events:none}
+.hesap-counters .counters-row-name.counters-hot{stroke:none;fill:var(--accent)}
+
+/* The order scene: markers on one count, blocks of rows of ten, the line of words and the number cards. */
+.hesap-counters .counters-reading{font-size:22px;font-weight:700}
+.hesap-counters .counters-reading.counters-hot,.hesap-counters .counters-block-num.counters-hot{stroke:none;fill:var(--accent)}
+.hesap-counters .counters-both .counters-body{fill:var(--ink-2)}
+.hesap-counters .counters-light{opacity:.5}
+.hesap-counters .counters-pin{pointer-events:none}
+.hesap-counters .counters-pin-ring{fill:none;stroke:var(--c);stroke-width:3;pointer-events:none}
+.hesap-counters .counters-pin-box{fill:var(--c);stroke:var(--paper);stroke-width:1.5}
+.hesap-counters .counters-pin-num{font-size:13px;font-weight:700;fill:#fff}
+.hesap-counters .counters-pin.counters-hot{stroke:none}
+.hesap-counters .counters-pin.counters-hot .counters-pin-box{stroke:var(--accent);stroke-width:3}
+.hesap-counters .counters-block-num{font-size:32px;font-weight:700;fill:var(--c)}
+.hesap-counters .counters-decide{fill:none;stroke:var(--accent);stroke-width:3.5;pointer-events:none}
+.hesap-counters .counters-cover rect{fill:var(--panel);stroke:var(--ink-2);stroke-width:2}
+.hesap-counters .counters-cover-mark{font-size:64px;font-weight:700;fill:var(--ink-2)}
+.hesap-counters .counters-card-box{fill:var(--paper);stroke:var(--ink);stroke-width:2}
+.hesap-counters .counters-card:focus-visible .counters-card-box{stroke:var(--accent);stroke-width:3.5}
+.hesap-counters .counters-card-num{font-size:26px;font-weight:700}
+.hesap-counters .counters-mini{fill:var(--z-counters-blue,#2a6bd1)}
+.hesap-counters .counters-place{fill:none;stroke:var(--ink-2);stroke-width:2;stroke-dasharray:6 5}
+.hesap-counters .counters-place-word{font-size:16px;font-weight:600;fill:var(--ink-2)}
+.hesap-counters .counters-between{font-size:14px;font-weight:700}
+.hesap-counters .counters-tick{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+
+/* A line of two numbers with a sign: the sign tile, the mark that says true or false, and the scoreboard. */
+.hesap-counters .counters-line-num{font-size:34px;font-weight:700;fill:var(--c)}
+.hesap-counters .counters-line-num.counters-hot{stroke:none;text-decoration:underline}
+.hesap-counters .counters-sign-tile-box{fill:none;stroke:none}
+.hesap-counters .counters-sign-tile-text{font-size:36px;font-weight:700}
+.hesap-counters .counters-sign-tile-open{cursor:pointer;outline:none}
+.hesap-counters .counters-sign-tile-open .counters-sign-tile-box{fill:var(--paper);stroke:var(--ink);stroke-width:2.5}
+.hesap-counters .counters-sign-tile-open:focus-visible .counters-sign-tile-box{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-mark{pointer-events:none}
+.hesap-counters .counters-mark.counters-hot{stroke:none}
+.hesap-counters .counters-mark-sign{fill:none;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.hesap-counters .counters-mark-word{font-size:20px;font-weight:700;text-anchor:start}
+.hesap-counters .counters-mark-true .counters-mark-sign{stroke:#2e9d5b}
+.hesap-counters .counters-mark-false .counters-mark-sign{stroke:var(--ink-2)}
+.hesap-counters .counters-mark-false .counters-mark-word{fill:var(--ink-2)}
+.hesap-counters .counters-board{fill:var(--panel);stroke:var(--ink);stroke-width:3}
+.hesap-counters .counters-team{font-size:18px;font-weight:700;fill:var(--c)}
+.hesap-counters .counters-score{font-size:60px;font-weight:700}
+.hesap-counters .counters-score.counters-hot{stroke:none;fill:var(--accent)}
+.hesap-counters .counters-score-sign{font-size:44px;font-weight:700}
+.hesap-counters .counters-patch{fill:var(--paper);opacity:.85}
+.hesap-counters .counters-chip-wide{flex:1 0 100%}
+.hesap-counters .counters-line-card{fill:var(--panel);stroke:var(--c);stroke-width:2}
+.hesap-counters .counters-added .counters-ring{display:none}
+.hesap-counters .counters-plus{fill:none;stroke:var(--paper);stroke-width:4;stroke-linecap:round;pointer-events:none}

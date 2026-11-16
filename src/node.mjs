@@ -1,6 +1,9 @@
 // What every family's Node half shares: escaping, the link pattern of a text, the links object kitap asks for and
 // the checks every challenge gets.
+import { fileURLToPath } from 'url';
+import { loadCatalogues } from '@openbooknetwork/kitap';
 import { dice } from './kit/random.js';
+import { fill } from './kit/format.js';
 
 export const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 export const list = ids => [...ids].join(', ');
@@ -47,4 +50,11 @@ export function value(v) {
   if (typeof v === 'number') return { n: v, ctl: null };
   const kind = v.slider ? 'slider' : 'stepper', [lo, hi] = v[kind];
   return { n: v.start ?? lo, ctl: { kind, lo, hi } };
+}
+// string reads one of hesap's strings in a language, for a link that shows a word. A language hesap has no strings
+// for reads the English ones. vars fill the string's {name} places.
+const I18N = fileURLToPath(new URL('./i18n/', import.meta.url)), STRINGS = new Map();
+export function string(lang, key, vars) {
+  if (!STRINGS.has(lang)) { const cats = loadCatalogues(I18N, [lang, 'en']); STRINGS.set(lang, cats[lang] ?? cats.en); }
+  return fill(STRINGS.get(lang)[key], vars);
 }

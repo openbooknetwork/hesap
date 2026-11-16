@@ -2,21 +2,18 @@
 // family's counters, ten frames, places and motion.
 import bonds from './bonds.js';
 import count from './count.js';
+import match from './match.js';
+import order from './order.js';
+import { scenes } from './scenes.js';
 
-const SCENES = { bonds, count };
+const SCENES = { bonds, count, match, order };
 
 export default function counters(api) {
-  // made holds each scene once it has been made, and now is the scene on show.
-  const made = {};
-  let now = null;
+  const all = scenes(Object.fromEntries(Object.entries(SCENES).map(([name, make]) => [name, () => make(api)])), api.stage);
   return {
-    show(spec, page) {
-      const next = made[spec.scene] ??= SCENES[spec.scene](api);
-      if (now && now !== next) now.hide();
-      now = next; now.show(spec, page);
-    },
-    hide() { now?.hide(); now = null; },
-    point(id, on) { now?.point(id, on); },
-    lang() { now?.lang(); },
+    show(spec, page) { all.show(spec.scene, spec, page); },
+    hide() { all.hide(); },
+    point(id, on) { all.now()?.point(id, on); },
+    lang() { all.now()?.lang(); },
   };
 }

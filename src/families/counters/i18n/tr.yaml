@@ -84,3 +84,71 @@ counters_hint-count-on: "{box} sayısından başlayın ve kutunun yanına koydu�
 counters_hint-count-back: "{start} sayısından başlayın ve aldığınız her sayaç için bir önceki sayıyı söyleyin. {target} sayısında durun."
 counters_roll: Topu yuvarla
 counters_set-up: Lobutları diz
+counters_ctl-top: Üst sıra
+counters_ctl-bottom: Alt sıra
+counters_ctl-spread: Aralık
+counters_match-unpaired: Eşi olmayan
+counters_match-pairs: Çiftler
+counters_word-same: Aynı
+counters_tag-more: daha çok
+counters_tag-fewer: daha az
+counters_tag-same: aynı
+counters_tag-more-n: "{n} daha çok"
+counters_tag-fewer-n: "{n} daha az"
+counters_match-top: Üst sıra
+counters_match-bottom: Alt sıra
+counters_match-counted: Son söylenen sayı
+counters_match-added: Eklenen
+counters_match-taken: Çıkarılan
+counters_match-chairs-top: Oyuncular
+counters_match-chairs-bottom: Sandalyeler
+counters_chairs-stop: Müziği durdur
+counters_chairs-next: Sonraki tur
+counters_chairs-again: Yeniden oyna
+counters_row-now: şimdi
+counters_row-before: önce
+counters_match-trail-top: Şimdi
+counters_match-trail-bottom: Önce
+counters_one-less: bir eksik
+counters_one-more: bir fazla
+counters_sides-count: Sayı
+counters_sides-before: Önceki sayı
+counters_sides-after: Sonraki sayı
+counters_reading-less: "{a}, {b} sayısından küçüktür"
+counters_reading-same: "{a}, {b} ile aynıdır"
+counters_reading-greater: "{a}, {b} sayısından büyüktür"
+counters_is-less: küçüktür
+counters_is-greater: büyüktür
+counters_least: en küçük
+counters_greatest: en büyük
+counters_show-rows: Sıraları göster
+counters_order-top: Birinci sayı
+counters_order-bottom: İkinci sayı
+counters_order-top-rows: "Birinci, tam sıralar"
+counters_order-top-last: "Birinci, son sıra"
+counters_order-bottom-rows: "İkinci, tam sıralar"
+counters_order-bottom-last: "İkinci, son sıra"
+counters_reading-equal: "{a}, {b} sayısına eşittir"
+counters_verdict-true: "doğru"
+counters_verdict-false: "yanlış"
+counters_sign: İşaret
+counters_match-reading: Sözle
+counters_match-verdict: Satır
+counters_match-scoreboard-top: Ev sahibi
+counters_match-scoreboard-bottom: Deplasman
+counters_score-top: Ev sahibi golü
+counters_score-bottom: Deplasman golü
+counters_new-match: Yeni maç
+counters_goal-same-rows: "Üst sırayı alt sırayla aynı yapın, sonra Kontrol et düğmesine basın."
+counters_note-same-rows-top: Üst sıradaki bazı sayaçların eşi yok.
+counters_note-same-rows-bottom: Alt sıradaki bazı sayaçların eşi yok.
+counters_hint-same-rows: "Her üst sayaçtan bir alt sayaca çizgi çizin. Çizgisiz kalan sayaçlar neyi değiştireceğinizi gösterir."
+counters_goal-one-less: "Üst sıraya alt sıradan bir sayaç az verin, sonra Kontrol et düğmesine basın."
+counters_note-one-less-over: Üst sırada fazla sayaç var.
+counters_note-one-less-short: Üst sırada eksik sayaç var.
+counters_hint-one-less: "Sıraları eşleştirin. Bir sayaç az olunca alt sıranın bir sayacı eşsiz kalır."
+counters_goal-right-sign: "İki sıranın arasına satırı doğru yapan işareti koyun, sonra Kontrol et düğmesine basın."
+counters_note-right-sign-more: Üst sırada bu işaretin söylediğinden çok sayaç var.
+counters_note-right-sign-fewer: Üst sırada bu işaretin söylediğinden az sayaç var.
+counters_hint-right-sign: "Her üst sayaçtan bir alt sayaca çizgi çizin. Eşsiz sayacı kalan sırada daha çok sayaç vardır ve işaretin açık yanı ona bakar. Hiç sayaç kalmazsa işaret = olur."
+counters_new-numbers: Yeni sayılar

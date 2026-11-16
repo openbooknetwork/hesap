@@ -21,6 +21,17 @@ const OBJECTS = {
   walker: r => [el('path', { class: 'counters-legs', d: `M ${-r * 0.2} ${-r} L ${-r * 0.3} 0 M ${r * 0.2} ${-r} L ${r * 0.35} 0` }),
     el('rect', { class: 'counters-body', x: -r * 0.45, y: -r * 2.05, width: r * 0.9, height: r * 1.2, rx: r * 0.35 }),
     el('circle', { class: 'counters-skin', cy: -r * 2.5, r: r * 0.42 })],
+  // A cup seen from the side with its handle, and a saucer seen from above the table's edge.
+  mug: r => [el('path', { class: 'counters-handle', d: `M ${r * 0.62} ${-r * 0.4} Q ${r * 1.3} ${-r * 0.35} ${r * 1.12} ${r * 0.2} Q ${r * 0.98} ${r * 0.55} ${r * 0.56} ${r * 0.45}` }),
+    el('path', { class: 'counters-body', d: `M ${-r * 0.72} ${-r * 0.75} L ${r * 0.72} ${-r * 0.75} L ${r * 0.56} ${r * 0.78} Q 0 ${r * 0.95} ${-r * 0.56} ${r * 0.78} Z` }),
+    el('ellipse', { class: 'counters-shine', cy: -r * 0.75, rx: r * 0.72, ry: r * 0.17 })],
+  // A chair seen from the side: its back, its seat and two legs.
+  chair: r => [el('path', { class: 'counters-legs', d: `M ${-r * 0.55} ${r * 0.15} L ${-r * 0.55} ${r} M ${r * 0.6} ${r * 0.15} L ${r * 0.6} ${r}` }),
+    el('rect', { class: 'counters-body', x: -r * 0.75, y: -r, width: r * 0.4, height: r * 1.3, rx: r * 0.15 }),
+    el('rect', { class: 'counters-body', x: -r * 0.75, y: -r * 0.05, width: r * 1.55, height: r * 0.4, rx: r * 0.15 })],
+  // A football: a ball in its team's colour with a patch.
+  ball: r => [el('circle', { class: 'counters-body', r }), el('path', { class: 'counters-patch', d: `M 0 ${-r * 0.5} L ${r * 0.48} ${-r * 0.15} L ${r * 0.3} ${r * 0.42} L ${-r * 0.3} ${r * 0.42} L ${-r * 0.48} ${-r * 0.15} Z` })],
+  saucer: r => [el('ellipse', { class: 'counters-body', rx: r * 1.5, ry: r * 0.5 }), el('ellipse', { class: 'counters-well', rx: r * 0.8, ry: r * 0.24 })],
 };
 
 function glyph(kind, r) {

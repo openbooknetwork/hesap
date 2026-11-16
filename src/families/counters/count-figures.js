@@ -59,16 +59,36 @@ function line(look, n) {
   } }];
 }
 
+// tenPlace gives the place of counter i in rows of ten, with a gap after the fifth of each row. Every scene that
+// lays a number out in rows of ten places its counters here.
+export const tenPlace = (i, gap = ROW, five = FIVE) => ({ x: (i % 10 + 0.5) * gap + (i % 10 >= 5 ? five : 0), y: (Math.floor(i / 10) + 0.5) * gap });
+
 // rows stands n counters in rows of ten, with a gap after the fifth of each row and the count of each full row at
-// its end.
+// its end. tray is the width of the tray alone, without the counts.
 export function rows(n) {
   const lines = Math.ceil(n / 10), inner = 10 * ROW + FIVE, w = inner + 62, h = lines * ROW + 16;
-  return [{ w, h, draw(x, y) {
-    const ox = x + 8, oy = y + 8, spots = Array.from({ length: n }, (_, i) => ({ x: ox + (i % 10 + 0.5) * ROW + (i % 10 >= 5 ? FIVE : 0), y: oy + (Math.floor(i / 10) + 0.5) * ROW }));
+  return [{ w, h, tray: inner + 16, draw(x, y) {
+    const ox = x + 8, oy = y + 8, spots = Array.from({ length: n }, (_, i) => { const p = tenPlace(i); return { x: ox + p.x, y: oy + p.y }; });
     const labels = [];
     for (let k = 1; k <= lines; k++) if (n >= 10 * k) labels.push({ t: txt('counters-row-label', ox + inner + 32, oy + (k - 0.5) * ROW), n: 10 * k });
     const nodes = [el('rect', { class: 'counters-tray', x, y, width: inner + 16, height: h, rx: 10 }), ...labels.map(l => l.t)];
     return { nodes, places: { slots: { pos: i => spots[i], all: spots } }, refs: { labels } };
+  } }];
+}
+
+// sides is a strip of three tiles: the number before, the number in larger type and the number after. The outer
+// tiles carry the words less and more and take a tap.
+export function sides(less, more) {
+  const tw = 92, th = 62, mid = 104, gap = 12, w = 2 * tw + mid + 2 * gap, h = th + 30;
+  return [{ w, h, draw(x, y) {
+    const tile = (id, tx, wide, words) => {
+      const box = el('rect', { class: 'counters-tile-box', x: tx, y: y + 22, width: wide, height: th, rx: 10 });
+      const num = txt(`counters-tile-num${id === 'count' ? ' counters-tile-main' : ''}`, tx + wide / 2, y + 22 + th / 2 + 2);
+      const g = el('g', { class: 'counters-tile', 'data-ref': id }, [box, num, ...(words ? [txt('counters-tile-word', tx + wide / 2, y + 9, words)] : [])]);
+      return { g, num };
+    };
+    const tiles = { before: tile('before', x, tw, less), count: tile('count', x + tw + gap, mid), after: tile('after', x + tw + gap + mid + gap, tw, more) };
+    return { nodes: Object.values(tiles).map(t => t.g), refs: { tiles } };
   } }];
 }
 

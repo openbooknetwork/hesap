@@ -1,11 +1,11 @@
 // The count scene: objects counted one by one. The reader taps an object to give it the next number, counts on from
 // a closed box, takes counters out of a tray, steps a marker through rows of ten, fills a bus and climbs a staircase.
-import { modeOf, sizeOf, counts, contextOf, measuresOf, SEATS, STEPS } from './count-model.js';
+import { modeOf, sizeOf, counts, contextOf, measuresOf, SEATS, STEPS, SIDES } from './count-model.js';
 import { COUNT_GOALS, APPLES, LOOSE, countStart } from './count-goals.js';
 import { another } from './goals.js';
 import { counter, show, put, R } from './counter.js';
 import { arrange } from './places.js';
-import { place, rows, boxRow, pile, basket, bus, stairs } from './count-figures.js';
+import { place, rows, boxRow, pile, basket, bus, stairs, sides } from './count-figures.js';
 import { carry, press } from './move.js';
 import { driver } from './driver.js';
 import { svg as el, svgPoint } from '../../kit/dom.js';
@@ -85,6 +85,7 @@ export default function count({ host, stage, panel, T, lang, moving, motion: fx 
     if (mode === 'bus') return [bus(T('stop-sign'))];
     if (mode === 'stairs') return [stairs()];
     if (mode === 'pile') return [boxRow(spec.pile), pile(spec.pile, T('pile'))];
+    if (mode === 'sides') return [rows(100), sides(T('one-less'), T('one-more'))];
     if (spec.box != null) return [boxRow(sizeOf(spec))];
     return [spec.rows ? rows(sizeOf(spec)) : place(spec.look, sizeOf(spec))];
   }
@@ -103,7 +104,10 @@ export default function count({ host, stage, panel, T, lang, moving, motion: fx 
       drawn.push(...d.nodes); Object.assign(geo.places, d.places ?? {}); Object.assign(geo.refs, refs); geo.refs.press.push(...presses);
     }
     gaps = gapsOf();
-    back.replaceChildren(...drawn, ...gaps);
+    // A sides page outlines the place of the next counter, and a tap on an outer tile steps the group to its number.
+    geo.next = modeNow() === 'sides' ? el('circle', { class: 'counters-next', r: R - 2 }) : null;
+    for (const [id, by] of [['before', -1], ['after', 1]]) if (geo.refs.tiles) press(geo.refs.tiles[id].g, () => stepTo(s.ids.length + by));
+    back.replaceChildren(...drawn, ...gaps, ...(geo.next ? [geo.next] : []));
     for (const n of nodes.values()) n.tween?.pause();
     layer.replaceChildren(); nodes = new Map();
     for (const p of geo.refs.press) press(p, () => { const from = p.dataset.place, id = s.lists[from].at(-1); if (id) moveTo(id, otherOf(from)); });
@@ -171,7 +175,7 @@ export default function count({ host, stage, panel, T, lang, moving, motion: fx 
     }
     const mode = modeNow(), fixed = s.ids.includes(id), home = homeOf(id);
     if (kind === 'walker') return walker(n);
-    if (mode === 'marker' || spec.counted || (!fixed && !home)) return n;
+    if (mode === 'marker' || mode === 'sides' || spec.counted || (!fixed && !home)) return n;
     n.g.setAttribute('tabindex', 0); n.g.setAttribute('role', 'button'); n.g.setAttribute('aria-label', T(`kind-${kind}`));
     if (fixed && !spec.drag) { press(n.g, () => tapFixed(id)); return n; }
     if (home === 'seats' || home === 'stop') { press(n.g, () => moveTo(id, otherOf(homeOf(id)))); return n; }
@@ -226,6 +230,12 @@ export default function count({ host, stage, panel, T, lang, moving, motion: fx 
     if (to === 'seats') s.seats[s.seats.indexOf(null)] = id; else s.lists[to].push(id);
     changed();
   }
+  // stepTo sets the group of a sides page to n counters, one more or one fewer than it holds.
+  function stepTo(n) {
+    if (n < SIDES[0] || n > SIDES[1]) return;
+    if (n > s.ids.length) { s.ids.push(`o${seq++}`); s.here.push(true); } else { s.ids.pop(); s.here.pop(); }
+    changed();
+  }
   // A change takes back a challenge's check, so the reader checks again.
   function changed() { if (cs) cs.checked = false; render('move'); }
 
@@ -250,6 +260,19 @@ export default function count({ host, stage, panel, T, lang, moving, motion: fx 
     trail.setAttribute('points', path.map(p => `${p.x},${p.y}`).join(' '));
     if (geo.refs.num) geo.refs.num.textContent = int(s.box);
     for (const l of geo.refs.labels ?? []) l.t.textContent = int(l.n);
+    if (mode === 'sides') {
+      // The last counter wears the ring, and the count stands at the end of each full row.
+      const n = s.ids.length, p = geo.places.slots.pos(n);
+      for (const [id, c] of nodes) c.g.classList.toggle('counters-marked', id === s.ids.at(-1));
+      geo.next.setAttribute('cx', p.x); geo.next.setAttribute('cy', p.y);
+      for (const l of geo.refs.labels) l.t.setAttribute('display', l.n <= n ? 'inline' : 'none');
+      for (const [id, v] of [['before', n - 1], ['count', n], ['after', n + 1]]) {
+        const t = geo.refs.tiles[id], open = id !== 'count' && v >= SIDES[0] && v <= SIDES[1];
+        if (t.num.textContent !== int(v)) { t.num.textContent = int(v); if (anim) go.flash(t.num); }
+        t.g.classList.toggle('counters-tile-open', open);
+        for (const [name, val] of [['tabindex', 0], ['role', 'button'], ['aria-label', `${T(id === 'before' ? 'one-less' : 'one-more')}: ${int(v)}`]]) if (open) t.g.setAttribute(name, val); else t.g.removeAttribute(name);
+      }
+    }
   }
   function tag(n, words, anim) {
     const text = n.tagPop.lastChild;

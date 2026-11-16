@@ -1,7 +1,7 @@
 // The Node half of the count scene: objects counted one by one. It checks a page's fields and says what each link
 // shows when the page opens.
 import { schema } from '@openbooknetwork/kitap';
-import { COUNT_LOOKS, TAPS, ROOM, STOP, STEPS, modeOf, sizeOf, opening, counts, measuresOf } from './count-model.js';
+import { COUNT_LOOKS, TAPS, ROOM, STOP, STEPS, SIDES, modeOf, sizeOf, opening, counts, measuresOf } from './count-model.js';
 import { COUNT_GOALS, LOOSE, countStart } from './count-goals.js';
 import { numbers } from '../../kit/format.js';
 import { list, challenge, drawn, value } from '../../node.mjs';
@@ -24,6 +24,7 @@ const Fields = z.object({
   marker: z.union([Int, Stepper]).optional(), // A marker on one counter of the rows.
   waiting: Int.min(0).max(STOP).optional(), // The people at the bus stop.
   step: z.union([Int, Stepper]).optional(), // The step of the staircase the walker stands on.
+  sides: z.boolean().default(false), // Tiles show the number before and the number after, and a tap steps to one.
   readout: z.array(z.string()).default([]),
   // A challenge names a goal of count-goals.js and the ranges it draws its targets from.
   challenge: z.object({ goal: z.string(), target: Range.optional(), box: Range.optional(), more: Range.optional(),
@@ -34,9 +35,9 @@ const Fields = z.object({
 const USES = {
   tag: ['look', 'n', 'rows', 'tap', 'drag', 'clear', 'path', 'counted', 'box'], again: ['look', 'n', 'tap', 'clear'],
   place: ['look', 'n', 'rows', 'tap'], take: ['look', 'n', 'rows', 'tap'], marker: ['look', 'n', 'rows', 'marker'],
-  pile: ['look', 'box', 'pile'], bus: ['look', 'n', 'waiting'], stairs: ['look', 'step'],
+  pile: ['look', 'box', 'pile'], sides: ['look', 'n', 'rows', 'sides'], bus: ['look', 'n', 'waiting'], stairs: ['look', 'step'],
 };
-const DEFAULTS = { look: 'tray', rows: false, drag: false, clear: false, path: false, counted: false };
+const DEFAULTS = { look: 'tray', rows: false, drag: false, clear: false, path: false, counted: false, sides: false };
 
 function read(fields, { at }, ctx) {
   const pg = check(Fields, fields, at), fail = words => ctx.fail(at, words);
@@ -50,6 +51,7 @@ function read(fields, { at }, ctx) {
   for (const [f, v] of Object.entries(pg)) if (!['readout', ...(USES[mode] ?? [])].includes(f) && v !== undefined && v !== DEFAULTS[f]) fail(`${f} belongs to other pages, leave it out of this one`);
   if (mode === 'stairs' && (step.n == null || step.n < 0 || (step.ctl?.hi ?? step.n) > STEPS)) fail(`step is missing or past the staircase, write a step from 0 to ${STEPS}, or { stepper: [0, ${STEPS}], start: 3 }`);
   if (mode === 'bus' && (pg.n == null || pg.waiting == null || pg.n + pg.waiting > STOP)) fail(`n and waiting are the people on the bus and at the stop, write both, ${STOP} people in all at most`);
+  if (mode === 'sides' && (!pg.rows || pg.look !== 'tray' || pg.n == null || pg.n < SIDES[0] || pg.n > SIDES[1])) fail(`sides steps a group in rows of ten, write rows: true and n from ${SIDES[0]} to ${SIDES[1]}`);
   if (mode === 'pile' && (box.n == null || box.n < 0)) fail('box is missing, write the number the closed box holds, such as 5, or { stepper: [3, 20], start: 5 }');
   if (mode === 'marker' && (!pg.rows || (marker.ctl?.lo ?? marker.n) < 1 || (marker.ctl?.hi ?? marker.n) > n)) fail(`marker stands on a counter of the rows, write rows: true and a marker from 1 to ${n}`);
   if (['tag', 'again', 'place', 'take'].includes(mode)) {

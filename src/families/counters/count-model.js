@@ -11,10 +11,12 @@ export const ROOM = { tray: 20, stall: 20, sand: 20, wire: 12 };
 export const SEATS = 12; // The seats of the bus, on two decks.
 export const STOP = 10; // The people a bus stop holds.
 export const STEPS = 20; // The steps of the staircase.
+export const SIDES = [1, 99]; // The numbers a sides page steps through, each with a number on either side.
 
 // modeOf names what a page does: a world page, a marker in the rows, a pile beside a box, or the page's tap.
 export function modeOf(spec) {
   if (spec.look === 'bus' || spec.look === 'stairs') return spec.look;
+  if (spec.sides) return 'sides';
   if (spec.marker != null) return 'marker';
   if (spec.pile != null) return 'pile';
   return spec.tap;
@@ -39,6 +41,8 @@ export function counts(spec, s) {
     const count = s.box + s.said;
     return { count, total: s.tags.length && s.tags.every(t => t.length === 1) ? count : null };
   }
+  // A sides page shows the number of its counters with the number before and the number after.
+  if (mode === 'sides') { const n = s.here.filter(Boolean).length; return { count: n, before: n - 1, after: n + 1 }; }
   const count = { place: s.last, take: s.here.filter(Boolean).length, marker: s.marker, pile: s.box + s.beside, bus: s.riders, stairs: s.step }[mode];
   return { count };
 }
@@ -53,5 +57,6 @@ export function contextOf(spec) {
 export function measuresOf(spec) {
   if (spec.challenge) return [];
   const mode = modeOf(spec);
+  if (mode === 'sides') return ['count', 'before', 'after'];
   return mode === 'tag' || mode === 'again' ? ['count', 'total'] : ['count'];
 }

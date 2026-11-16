@@ -84,3 +84,71 @@ counters_hint-count-on: "Start from {box} and say the next number for each count
 counters_hint-count-back: "Start from {start} and say the number before for each counter you take away. Stop at {target}."
 counters_roll: Roll the ball
 counters_set-up: Set up the pins
+counters_ctl-top: Top row
+counters_ctl-bottom: Bottom row
+counters_ctl-spread: Spacing
+counters_match-unpaired: Without a partner
+counters_match-pairs: Pairs
+counters_word-same: The same
+counters_tag-more: more
+counters_tag-fewer: fewer
+counters_tag-same: the same
+counters_tag-more-n: "{n} more"
+counters_tag-fewer-n: "{n} fewer"
+counters_match-top: Top row
+counters_match-bottom: Bottom row
+counters_match-counted: Last number said
+counters_match-added: Added
+counters_match-taken: Taken away
+counters_match-chairs-top: Players
+counters_match-chairs-bottom: Chairs
+counters_chairs-stop: Stop the music
+counters_chairs-next: Next round
+counters_chairs-again: Play again
+counters_row-now: now
+counters_row-before: before
+counters_match-trail-top: Now
+counters_match-trail-bottom: Before
+counters_one-less: one less
+counters_one-more: one more
+counters_sides-count: Number
+counters_sides-before: Number before
+counters_sides-after: Number after
+counters_reading-less: "{a} is less than {b}"
+counters_reading-same: "{a} is the same as {b}"
+counters_reading-greater: "{a} is greater than {b}"
+counters_is-less: is less than
+counters_is-greater: is greater than
+counters_least: least
+counters_greatest: greatest
+counters_show-rows: Show the rows
+counters_order-top: First number
+counters_order-bottom: Second number
+counters_order-top-rows: "First, full rows"
+counters_order-top-last: "First, last row"
+counters_order-bottom-rows: "Second, full rows"
+counters_order-bottom-last: "Second, last row"
+counters_reading-equal: "{a} is equal to {b}"
+counters_verdict-true: "true"
+counters_verdict-false: "false"
+counters_sign: Sign
+counters_match-reading: In words
+counters_match-verdict: The line is
+counters_match-scoreboard-top: Home
+counters_match-scoreboard-bottom: Away
+counters_score-top: Home goal
+counters_score-bottom: Away goal
+counters_new-match: New match
+counters_goal-same-rows: "Make the top row the same as the bottom row, then press Check."
+counters_note-same-rows-top: Some counters of the top row have no partner.
+counters_note-same-rows-bottom: Some counters of the bottom row have no partner.
+counters_hint-same-rows: "Draw a line from each top counter to a bottom counter. The counters left without a line show what to change."
+counters_goal-one-less: "Give the top row one counter fewer than the bottom row, then press Check."
+counters_note-one-less-over: The top row has too many counters.
+counters_note-one-less-short: The top row has too few counters.
+counters_hint-one-less: "Pair the rows. One counter fewer leaves one counter of the bottom row without a partner."
+counters_goal-right-sign: "Put the sign between the two rows that makes the line true, then press Check."
+counters_note-right-sign-more: The top row has more counters than this sign says.
+counters_note-right-sign-fewer: The top row has fewer counters than this sign says.
+counters_hint-right-sign: "Draw a line from each top counter to a bottom counter. The row with counters left without a partner has more, and the open side of the sign faces it. With no counter left, the sign is =."
+counters_new-numbers: New numbers

@@ -1,10 +1,12 @@
-// The Node half of the counters family. The bonds scene moves counters between parts and fills ten frames, and the
-// count scene counts objects one by one. It checks a page's fields against its scene and says what each link shows
-// when the page opens.
+// The Node half of the counters family. The bonds scene moves counters between parts and fills ten frames, the
+// count scene counts objects one by one, and the match scene pairs two rows, and the order scene compares numbers. It checks a page's fields against its
+// scene and says what each link shows when the page opens.
 import { schema } from '@openbooknetwork/kitap';
 import { LOOKS, modeOf, capOf, opening, counts, measuresOf } from './model.js';
 import { GOALS, challengeStart } from './goals.js';
 import count from './count.mjs';
+import match from './match.mjs';
+import order from './order.mjs';
 import { numbers } from '../../kit/format.js';
 import { list, challenge, drawn, value } from '../../node.mjs';
 
@@ -94,11 +96,12 @@ function startBonds(spec, lang, id) {
 
 // Each scene checks its own fields, so the family's schema lets every field through to the scene.
 const Fields = z.object({}).passthrough();
-const read = ({ scene, ...fields }, info, ctx) => scene === 'count' ? count.read(fields, info, ctx) : readBonds(fields, info, ctx);
-const start = (spec, lang, id) => spec.scene === 'count' ? count.start(spec, lang, id) : startBonds(spec, lang, id);
+const SCENES = { bonds: { read: readBonds, start: startBonds }, count, match, order };
+const read = ({ scene, ...fields }, info, ctx) => SCENES[scene].read(fields, info, ctx);
+const start = (spec, lang, id) => SCENES[spec.scene].start(spec, lang, id);
 
 // The two colours of the counters, a red and a blue that readers with any colour vision tell apart, each with a step
 // for the dark themes.
 const bundle = () => ({ families: { 'counters-red': { color: '#d1453b', color_dark: '#f0776d' }, 'counters-blue': { color: '#2a6bd1', color_dark: '#6fa4f5' } } });
 
-export default { id: 'counters', scenes: ['bonds', 'count'], schema: Fields, read, start, bundle };
+export default { id: 'counters', scenes: Object.keys(SCENES), schema: Fields, read, start, bundle };

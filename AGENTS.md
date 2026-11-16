@@ -29,7 +29,9 @@ before a commit. The book's `agents/story.md` says how a story is checked.
   slide into a new arrangement, and that page gets a time slider, as in `proof`. A step that only shows a
   result appears without motion.
 - A simulation or a move that runs by itself begins when the reader presses Start, as in `chance` and `linear`.
-  Start runs it once to the end, and a slider beside it goes back and forth through the same run.
+  Start runs it once to the end, and a slider beside it goes back and forth through the same run. A looping motion
+  that marks a state, which the reader ends with a control and which is off under reduced motion, needs no Start, as
+  the players of `counters/match` sway while the music plays.
 - Controls and readouts are HTML, docked under the figure, so a phone shows the figure and its controls on one
   screen.
 - JSXGraph plots and draws geometry. anime.js animates, and was chosen over GSAP and Motion for its
@@ -48,6 +50,8 @@ before a commit. The book's `agents/story.md` says how a story is checked.
 - A reader cannot predict a challenge. The release spec asks for targets that the engine draws when the page opens
   and again on "Another one", from what the page declares. The prototypes still list fixed `targets`, and a new
   challenge is written to be drawn.
+- Colour is a second cue. Two parts of a figure that a reader has to tell apart differ by position, shape or a
+  written label as well, and every control and readout is named without a colour.
 - Colours are the theme's CSS tokens (`--paper`, `--panel`, `--ink`, `--ink-2`, `--rule`, `--accent`), so a theme
   switch needs no redraw.
 
