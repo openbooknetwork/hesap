@@ -236,3 +236,40 @@
 .hesap-counters .counters-line-card{fill:var(--panel);stroke:var(--c);stroke-width:2}
 .hesap-counters .counters-added .counters-ring{display:none}
 .hesap-counters .counters-plus{fill:none;stroke:var(--paper);stroke-width:4;stroke-linecap:round;pointer-events:none}
+
+/* The add scene: the dice over the frames and the tray, and the counters a link lights. */
+.hesap-counters .counters-die-box{fill:var(--paper);stroke:var(--ink);stroke-width:2.5}
+.hesap-counters .counters-pip{fill:var(--ink);stroke:none}
+.hesap-counters .counters-die.counters-hot{stroke:none}
+.hesap-counters .counters-die.counters-hot .counters-die-box{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-lit .counters-body{stroke:var(--accent);stroke-width:4}
+/* A counter taken away leaves a dashed ring in its cell. */
+.hesap-counters .counters-gone{display:none}
+.hesap-counters .counters-taken .counters-gone{display:inline}
+.hesap-counters .counters-taken .counters-body,.hesap-counters .counters-taken .counters-ring{display:none}
+.hesap-counters .counters-lit .counters-gone{stroke:var(--accent);stroke-width:3.5}
+/* The jam shelf: jars on wooden boards, and two crates for the jars sold. A sold jar's lid takes its crate's colour. */
+.hesap-counters .counters-jar-glass{fill:var(--paper);fill-opacity:.4;stroke:var(--ink-2);stroke-width:2}
+.hesap-counters .counters-jam{fill:#e08a1e}
+.hesap-counters .counters-jar-lid{fill:var(--c,var(--ink-2));stroke:var(--paper);stroke-width:1}
+.hesap-counters .counters-lit .counters-jar-glass{stroke:var(--accent);stroke-width:3.5}
+.hesap-counters .counters-shelf-board{fill:#b98a5a;stroke:#8a6238;stroke-width:2}
+.hesap-counters rect.counters-crate.counters-press{fill:var(--panel);stroke:#8a6238;stroke-width:3}
+.hesap-counters .counters-crate-name{font-size:16px;font-weight:700;fill:var(--ink-2)}
+.hesap-counters .counters-crate-name.counters-hot{stroke:none;fill:var(--accent)}
+/* The seed tray: cells of bare soil, grown seedlings and small sprouts. */
+.hesap-counters .counters-seedtray{fill:#8a6238;stroke:#5c3f22;stroke-width:2.5}
+.hesap-counters .counters-soil{fill:#6b4a2b;stroke:#5c3f22;stroke-width:1}
+.hesap-counters .counters-plant-stem{fill:none;stroke:#3f9a4a;stroke-width:3;stroke-linecap:round}
+/* The seed packet of the seed tray: a paper packet with a folded top, whose seeds turn into sprouts when sown. */
+.hesap-counters .counters-packet-paper{fill:#efe2c4;stroke:#a88a55;stroke-width:2}
+.hesap-counters .counters-packet-fold{stroke:#a88a55;stroke-width:2;stroke-dasharray:5 4}
+.hesap-counters .counters-packet.counters-hot .counters-packet-paper{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-seed{display:none}
+.hesap-counters .counters-in-packet .counters-seed{display:inline}
+.hesap-counters .counters-in-packet .counters-body:not(.counters-seed),.hesap-counters .counters-in-packet .counters-plant-stem{display:none}
+/* The link pairs lights each paired counter with a filled halo of the accent, which stays plain on a small phone
+   figure and differs from the ink ring of a counter without a partner. */
+.hesap-counters .counters-paired-lit .counters-hit{fill:var(--accent);fill-opacity:.6;stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-paired-lit .counters-body{stroke:var(--paper);stroke-width:2.5}
+.hesap-counters .counters-wire.counters-hot{stroke:var(--accent);stroke-width:5}

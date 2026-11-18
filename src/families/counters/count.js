@@ -2,7 +2,6 @@
 // a closed box, takes counters out of a tray, steps a marker through rows of ten, fills a bus and climbs a staircase.
 import { modeOf, sizeOf, counts, contextOf, measuresOf, SEATS, STEPS, SIDES } from './count-model.js';
 import { COUNT_GOALS, APPLES, LOOSE, countStart } from './count-goals.js';
-import { another } from './goals.js';
 import { counter, show, put, R } from './counter.js';
 import { arrange } from './places.js';
 import { place, rows, boxRow, pile, basket, bus, stairs, sides } from './count-figures.js';
@@ -10,11 +9,11 @@ import { carry, press } from './move.js';
 import { driver } from './driver.js';
 import { svg as el, svgPoint } from '../../kit/dom.js';
 import { nudge } from '../../kit/drag.js';
-import { stepper, chip, button, row } from '../../kit/panel.js';
+import { stepper, chip, button, row, check } from '../../kit/panel.js';
 import { goalRow } from '../../kit/goal.js';
 import { live } from '../../kit/text.js';
 import { numbers } from '../../kit/format.js';
-import { dice, fresh } from '../../kit/random.js';
+import { dice, fresh, another } from '../../kit/random.js';
 
 const MAX = 1.7; // A figure grows to at most this scale on a wide stage.
 const PAD = 14; // The figure keeps this far from the stage's edges, in pixels.
@@ -301,7 +300,7 @@ export default function count({ host, stage, panel, T, lang, moving, motion: fx 
     const g = COUNT_GOALS[c.goal];
     goal.say(T(`goal-${c.goal}`, g.words(c, target, { int })));
     const r = g.holds({ ...cs, basket: s.lists.basket.length, beside: s.lists.beside.length, left: s.here.filter(Boolean).length }, spec, c, target);
-    const first = goal.show(r.done, r.note ? T(`note-${c.goal}-${r.note}`) : undefined);
+    const first = goal.show(r.done, r.note ? T(`note-${c.goal}-${r.note}`, g.words(c, target, { int })) : undefined);
     if (first && moving()) go.cheer([...nodes.values()].map(n => n.pop));
   }
 
@@ -312,7 +311,7 @@ export default function count({ host, stage, panel, T, lang, moving, motion: fx 
     if (c) {
       goal = goalRow({ T, motion: moving() ? fx : null, hint: on => on ? T(`hint-${c.goal}`, COUNT_GOALS[c.goal].words(c, target, { int })) : null,
         another: () => { begin(); goal.reset(); build(); if (!geo) refresh(); } });
-      ctls.push(button({ label: T('check'), act: 'check', primary: true, press: () => { if (!cs.checked) { cs.checked = true; judge(); } } }));
+      ctls.push(check({ T, press: () => { if (!cs.checked) { cs.checked = true; judge(); } } }));
     } else {
       const step = (id, key, ctl, value, set) => stepper({ id, label: T(key), min: ctl.lo, max: ctl.hi, value, write: int, change: v => { set(v); changed(); } });
       if (spec.boxCtl) ctls.push(step('box', 'ctl-box', spec.boxCtl, s.box, v => { s.box = v; }));

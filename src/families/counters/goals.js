@@ -42,7 +42,7 @@ export const GOALS = {
     looks: ['diagram'],
     problem(c) {
       if (!range(c.whole) || c.whole[0] < 2 || c.whole[1] > PILE) return `whole is ${JSON.stringify(c.whole)}, write the range of the whole as [low, high] from 2 to ${PILE}, such as [5, 20]`;
-      if (c.part !== undefined && !range(c.part)) return 'part is not a range, write the part in sight as [low, high], or leave it out for 1 to one less than the whole';
+      if (c.part !== undefined && !range(c.part)) return 'part is not a range, write the known part as [low, high], or leave it out for 1 to one less than the whole';
       return null;
     },
     draw(c, spec, dice) {
@@ -65,11 +65,3 @@ export const GOALS = {
 // The reader's state as a challenge opens: no blue counters checked, an empty tray and the cup down.
 export const challengeStart = () => ({ blue: 0, checked: false, tray: 0, lifted: false });
 
-// another draws a target that differs from the last one, so Another one always changes the figure.
-export function another(goal, c, spec, dice, last) {
-  for (let i = 0; i < 40; i++) {
-    const t = goal.draw(c, spec, dice);
-    if (!last || JSON.stringify(t) !== JSON.stringify(last)) return t;
-  }
-  return goal.draw(c, spec, dice);
-}

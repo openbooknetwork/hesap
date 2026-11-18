@@ -1,7 +1,8 @@
 // The Node half of the match scene: two rows of objects paired one to one. It checks a page's fields and says what
 // each link shows when the page opens.
 import { schema } from '@openbooknetwork/kitap';
-import { MATCH_LOOKS, ROWS, ROW_MAX, SPREAD_MAX, PLAYERS, GOALS_MAX, roomOf, opening, counts, wordsOf, tagKey, measuresOf, wordsLinked, readingOf, verdictOf } from './match-model.js';
+import { MATCH_LOOKS, ROWS, ROW_MAX, SPREAD_MAX, PLAYERS, GOALS_MAX, roomOf, opening, counts, wordsOf, tagKey, measuresOf, wordsLinked, readingOf, verdictOf, differenceOf } from './match-model.js';
+import { words, reading } from '../../kit/written.js';
 import { SIGN_FIELD } from './reading.js';
 import { MATCH_GOALS, matchStart } from './match-goals.js';
 import { numbers } from '../../kit/format.js';
@@ -26,6 +27,8 @@ const Fields = z.object({
   trail: z.boolean().default(false), // The bottom row holds the top row as it was one step ago.
   // A line of the two numbers with a sign between them: a tile that opens on this sign, or a sign that follows.
   sign: z.enum(SIGN_FIELD).optional(),
+  // The written line of the difference of the rows under them, such as 11 − 7 = 4.
+  written: z.literal('difference').optional(),
   // A challenge names a goal of match-goals.js and the ranges it draws its rows from.
   challenge: z.object({ goal: z.string(), top: Range.optional(), bottom: Range.optional(), rows: Range.optional(), apart: Range.optional() }).strict().optional(),
   readout: z.array(z.string()).default([]),
@@ -43,6 +46,7 @@ function read(fields, { at }, ctx) {
     else if (lo < 0 || hi > ROW_MAX) fail(`${name} reaches ${v.ctl ? `[${lo}, ${hi}]` : v.n}, a row holds from 0 to ${ROW_MAX} objects`);
   }
   if (pg.sign && !['rows', 'scoreboard'].includes(pg.look)) fail('sign stands between the numbers of two rows or two scores, write look: rows or look: scoreboard');
+  if (pg.written && (pg.look !== 'rows' || pg.sign || pg.trail)) fail('written writes the difference of two rows of counters, write look: rows and leave sign and trail out');
   if (pg.look === 'scoreboard') {
     for (const f of ['pair', 'word', 'tap', 'trace', 'trail', 'spread']) if (pg[f]) fail(`${f} belongs to look: rows, the buttons add the goals of the scoreboard`);
     if (top.ctl || bottom.ctl || [top.n, bottom.n].some(n => n > GOALS_MAX)) fail(`top and bottom are the scores of the home team and the away team, write each as a number from 0 to ${GOALS_MAX}`);
@@ -88,6 +92,8 @@ function start(spec, lang, id) {
   if (wordsLinked(spec).includes(id)) { const w = wordsOf(spec, s)[id.split('-')[0]]; return string(lang, `counters_${tagKey(w)}`, { n: numbers(lang).int(w.n) }); }
   if (!measuresOf(spec).includes(id)) return null;
   const int = numbers(lang).int;
+  if (id === 'written') return words(differenceOf(spec, s).line, int);
+  if (id === 'reading' && spec.written) return reading(differenceOf(spec, s).line, int, (key, vars) => string(lang, `hesap_${key}`, vars));
   if (id === 'reading') return string(lang, `counters_${readingOf(spec, s)}`, { a: int(s.top), b: int(s.bottom) });
   if (id === 'verdict') return string(lang, `counters_${verdictOf(spec, s)}`);
   return int(counts(spec, s)[id]);

@@ -2,7 +2,7 @@
 // pins in a lane or as cars in a car park. The reader drags them between parts, taps cells, sets a part or the whole,
 // swaps the parts, fills a frame and lifts a cup, and a list logs each split found.
 import { modeOf, capOf, opening, counts, lay, blueOf, contextOf, measuresOf } from './model.js';
-import { GOALS, PILE, challengeStart, another } from './goals.js';
+import { GOALS, PILE, challengeStart } from './goals.js';
 import { counter, show, put, R } from './counter.js';
 import { frames } from './frame.js';
 import { arrange } from './places.js';
@@ -10,11 +10,11 @@ import { parts, numerals, hands, splits, pins, park, trays, trayPile } from './f
 import { carry, press } from './move.js';
 import { driver } from './driver.js';
 import { svg as el, svgPoint } from '../../kit/dom.js';
-import { slider, stepper, chip, button, row } from '../../kit/panel.js';
+import { slider, stepper, chip, button, row, check } from '../../kit/panel.js';
 import { goalRow } from '../../kit/goal.js';
 import { live } from '../../kit/text.js';
 import { numbers } from '../../kit/format.js';
-import { dice, fresh } from '../../kit/random.js';
+import { dice, fresh, another } from '../../kit/random.js';
 
 const MAX = 1.7; // A figure grows to at most this scale on a wide stage.
 const PAD = 14; // The figure keeps this far from the stage's edges, in pixels.
@@ -347,7 +347,7 @@ export default function bonds({ host, stage, panel, T, lang, moving, motion: fx 
     const g = GOALS[c.goal], words = g.words(c, target, { int });
     goal.say(T(c.goal === 'make-whole' && spec.frames > 1 ? 'goal-make-whole-two' : `goal-${c.goal}`, words));
     const r = g.holds({ ...cs, blue: s.blue?.length ?? 0, tray: s.tray?.length ?? 0 }, spec, c, target);
-    const first = goal.show(r.done, r.note ? T(`note-${r.note}`) : undefined);
+    const first = goal.show(r.done, r.note ? T(`note-${r.note}`, words) : undefined);
     if (first && moving()) go.cheer([...nodes.values()].filter(n => c.goal === 'make-whole' ? !n.g.classList.contains('counters-over') : s.tray.some(id => nodes.get(id) === n)).map(n => n.pop));
   }
 
@@ -361,7 +361,7 @@ export default function bonds({ host, stage, panel, T, lang, moving, motion: fx 
       if (c.goal === 'make-whole') {
         blueCtl = slider({ id: 'blue', label: T('blue'), min: 0, max: c.whole, value: 0, write: int, input: setBlue, change: setBlue });
         blueCtl.width(2);
-        ctls.push(blueCtl, button({ label: T('check'), act: 'check', primary: true, press: () => { if (cs.checked) return; cs.checked = true; render('move'); } }));
+        ctls.push(blueCtl, check({ T, press: () => { if (cs.checked) return; cs.checked = true; render('move'); } }));
       } else ctls.push(liftBtn = button({ label: T('lift'), act: 'lift', primary: true, press: lift }));
     } else {
       if (spec.wholeCtl) ctls.push(stepper({ id: 'whole', label: T('ctl-whole'), min: spec.wholeCtl.lo, max: spec.wholeCtl.hi, value: spec.whole, write: int, change: setWhole }));

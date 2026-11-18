@@ -1,12 +1,14 @@
 // The Node half of the counters family. The bonds scene moves counters between parts and fills ten frames, the
-// count scene counts objects one by one, and the match scene pairs two rows, and the order scene compares numbers. It checks a page's fields against its
-// scene and says what each link shows when the page opens.
+// count scene counts objects one by one, the match scene pairs two rows, the order scene compares numbers, and the
+// add scene joins two groups and writes their sum. It checks a page's fields against its scene and says what each
+// link shows when the page opens.
 import { schema } from '@openbooknetwork/kitap';
 import { LOOKS, modeOf, capOf, opening, counts, measuresOf } from './model.js';
 import { GOALS, challengeStart } from './goals.js';
 import count from './count.mjs';
 import match from './match.mjs';
 import order from './order.mjs';
+import add from './add.mjs';
 import { numbers } from '../../kit/format.js';
 import { list, challenge, drawn, value } from '../../node.mjs';
 
@@ -96,7 +98,7 @@ function startBonds(spec, lang, id) {
 
 // Each scene checks its own fields, so the family's schema lets every field through to the scene.
 const Fields = z.object({}).passthrough();
-const SCENES = { bonds: { read: readBonds, start: startBonds }, count, match, order };
+const SCENES = { bonds: { read: readBonds, start: startBonds }, count, match, order, add };
 const read = ({ scene, ...fields }, info, ctx) => SCENES[scene].read(fields, info, ctx);
 const start = (spec, lang, id) => SCENES[spec.scene].start(spec, lang, id);
 

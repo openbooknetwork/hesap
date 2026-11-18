@@ -47,6 +47,8 @@ export function button({ label, act, press, primary = false, glyph = null, compa
   if (press) el.addEventListener('click', press);
   return el;
 }
+// check is the button that commits a challenge's answer. T gives the shared strings, and press runs once per press.
+export const check = ({ T, press }) => button({ label: T('check'), act: 'check', primary: true, press });
 // segment is one choice out of a few, each a button. items are [value, words] pairs.
 export function segment({ id, label, items, value, pick }) {
   const buttons = items.map(([v, words]) => h('button', { type: 'button', 'data-v': v }, words));

@@ -1,4 +1,4 @@
-hint: Move the figure and watch the numbers follow it.
+hint: "Move things on the figure and watch the numbers change."
 tab_map: Figure
 map_data: Data
 map_view: View
@@ -9,7 +9,14 @@ hesap_start: Start
 hesap_time: Time
 hesap_reset: Start again
 hesap_undo: Undo
+hesap_check: Check
 hesap_hint: Hint
 hesap_another: Another one
 hesap_solved: Solved
 hesap_not-yet: Not solved yet.
+hesap_written: Number sentence
+hesap_written-reading: In words
+hesap_written-plus: "{a} plus {b} is equal to {c}"
+hesap_written-minus: "{a} minus {b} is equal to {c}"
+hesap_written-plus-open: "{a} plus {b}"
+hesap_written-minus-open: "{a} minus {b}"

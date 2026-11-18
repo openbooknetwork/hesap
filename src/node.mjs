@@ -44,10 +44,12 @@ export function drawn(goal, c, spec, { at, ctx, starts }) {
 export function hidden(readout, hides, at, ctx) {
   for (const id of readout) if (hides.includes(id)) ctx.fail(at, `readout names "${id}", which gives the challenge's answer away, leave it out`);
 }
-// value reads a field that is a number, a slider or a stepper as its starting value and its control's range.
+// value reads a field that is a number, a slider, a stepper or a segment as its starting value and its control. A
+// segment's control holds its items, and a slider's or a stepper's its range.
 export function value(v) {
   if (v == null) return { n: null, ctl: null };
   if (typeof v === 'number') return { n: v, ctl: null };
+  if (v.segment) return { n: v.start ?? v.segment[0], ctl: { kind: 'segment', items: v.segment } };
   const kind = v.slider ? 'slider' : 'stepper', [lo, hi] = v[kind];
   return { n: v.start ?? lo, ctl: { kind, lo, hi } };
 }

@@ -9,7 +9,14 @@ hesap_start: Başlat
 hesap_time: Zaman
 hesap_reset: Baştan başla
 hesap_undo: Geri al
+hesap_check: Kontrol et
 hesap_hint: İpucu
 hesap_another: Bir tane daha
 hesap_solved: Çözüldü
 hesap_not-yet: Henüz çözülmedi.
+hesap_written: İşlem
+hesap_written-reading: Sözle
+hesap_written-plus: "{a} artı {b} eşittir {c}"
+hesap_written-minus: "{a} eksi {b} eşittir {c}"
+hesap_written-plus-open: "{a} artı {b}"
+hesap_written-minus-open: "{a} eksi {b}"

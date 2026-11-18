@@ -1,0 +1,61 @@
+line_lead: "Move the point along the line and read the number at its mark."
+line_jump-left: Jump left
+line_jump-right: Jump right
+line_point: Number at the point
+line_point-short: Point
+line_second: Number at the second point
+line_second-short: Second point
+line_jumps: Jumps
+line_step: Step
+line_from: Left end
+line_to: Right end
+line_point-name: Point
+line_second-name: Second point
+line_reading-later: "{a} is greater than {b}"
+line_reading-both: "Both points are on {a}"
+line_goal-place: "Put the point on {target}, then press Check."
+line_goal-place-done: "The point is on {target}."
+line_note-place-left: "The point is to the left of {target}. Move it to the right."
+line_note-place-right: "The point is to the right of {target}. Move it to the left."
+line_ten-before: Ten before
+line_ten-after: Ten after
+line_placed: Cards placed
+line_placed-short: Placed
+line_placed-of: "{n} of {all}"
+line_open-gap: "Gap from {a} to {b}"
+line_card: "Card {x}"
+line_find: Number to find
+line_show: Show
+line_next: Next number
+line_middle: Middle
+line_van: Van
+line_estimate: Estimate
+line_open-book: Open the book
+line_bookmark: Bookmark
+line_hint-place-unmarked: "Press Middle to mark {mid}. {target} is between {lo} and {hi}, and closer to {near}. Put the point there."
+line_goal-place-unmarked-done: "The point is close to {target}."
+line_between: "between {a} and {b}"
+line_gaps-unequal: Some gaps are longer than others.
+line_gaps-equal: "All the gaps are the same length."
+line_mark-name: "Mark {x}"
+line_mark-left: The gap on its left is longer
+line_mark-right: The gap on its right is longer
+line_mark-even: "The gaps on both sides of it are equal"
+line_start: Start
+line_goal-jump: "Jump from {start} to find {calc}, then press Check."
+line_note-jump-few: "The point has made {done} of the {n} jumps that {calc} needs. Keep jumping."
+line_note-jump-many: "The point has made {done} jumps, but {calc} needs only {n}. Jump back."
+line_new-line: New line
+line_goal-place-unmarked: "Put the point close to {target}, then press Check."
+line_find-short: Find
+line_hint-place-on: "{target} is between the long marks for {before} and {after}. Start at {before} and count on one mark at a time until you get to {target}."
+line_hint-place-back: "{target} is between the long marks for {before} and {after}. Start at {after} and count back one mark at a time until you get to {target}."
+line_hint-place-two-labels-on: "The labels {a} and {b} are on marks next to each other, so the step from one mark to the next is {b} − {a}. Count on from {b} in steps of that size until you get to {target}."
+line_hint-place-two-labels-back: "The labels {a} and {b} are on marks next to each other, so the step from one mark to the next is {b} − {a}. Count back from {a} in steps of that size until you get to {target}."
+line_hint-jump-plus: "Start at {start} and press Jump right {n} times. At each jump, say the next number. The first two are {next} and {then}."
+line_hint-jump-minus: "Start at {start} and press Jump left {n} times. At each jump, say the number before. The first two are {next} and {then}."
+line_hint-jump-plus-one: "Start at {start}. Press Jump right once and say the next number, {next}."
+line_hint-jump-minus-one: "Start at {start}. Press Jump left once and say the number before, {next}."
+line_note-jump-way-plus: "{calc} is an addition, so the jumps go to the right from {start}."
+line_note-jump-way-minus: "{calc} is a subtraction, so the jumps go to the left from {start}."
+line_note-jump-few-none: "The point is still on {start}. Make the jumps for {calc} from there."

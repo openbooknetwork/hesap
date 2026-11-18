@@ -36,6 +36,20 @@ const OBJECTS = {
 
 function glyph(kind, r) {
   if (OBJECTS[kind]) return OBJECTS[kind](r);
+  // A grown seedling with two large leaves, and a small sprout with two small ones, so the two groups of the seed
+  // tray differ by size and shape.
+  if (kind === 'seedling') return [el('path', { class: 'counters-plant-stem', d: `M 0 ${r * 0.95} L 0 ${-r * 0.35}` }),
+    el('ellipse', { class: 'counters-body', cx: -r * 0.45, cy: -r * 0.45, rx: r * 0.55, ry: r * 0.3, transform: `rotate(-30 ${-r * 0.45} ${-r * 0.45})` }),
+    el('ellipse', { class: 'counters-body', cx: r * 0.45, cy: -r * 0.6, rx: r * 0.55, ry: r * 0.3, transform: `rotate(30 ${r * 0.45} ${-r * 0.6})` })];
+  if (kind === 'sprout') return [el('path', { class: 'counters-plant-stem', d: `M 0 ${r * 0.95} L 0 ${r * 0.3}` }),
+    el('ellipse', { class: 'counters-body', cx: -r * 0.25, cy: r * 0.2, rx: r * 0.27, ry: r * 0.15, transform: `rotate(-30 ${-r * 0.25} ${r * 0.2})` }),
+    el('ellipse', { class: 'counters-body', cx: r * 0.25, cy: r * 0.12, rx: r * 0.27, ry: r * 0.15, transform: `rotate(30 ${r * 0.25} ${r * 0.12})` })];
+  // A jar of jam with its lid. The lid takes the colour of the crate the jar was sold into.
+  if (kind === 'jar') return [el('rect', { class: 'counters-jar-glass', x: -r * 0.78, y: -r * 0.72, width: r * 1.56, height: r * 1.72, rx: r * 0.32 }),
+    el('rect', { class: 'counters-jam', x: -r * 0.62, y: -r * 0.36, width: r * 1.24, height: r * 1.2, rx: r * 0.22 }),
+    el('rect', { class: 'counters-jar-lid', x: -r * 0.86, y: -r * 1.08, width: r * 1.72, height: r * 0.46, rx: r * 0.12 })];
+  // A square counter tells the second group of counters/add from the round first group by its shape.
+  if (kind === 'square') return [el('rect', { class: 'counters-body', x: -r * 0.9, y: -r * 0.9, width: r * 1.8, height: r * 1.8, rx: r * 0.22 }), el('rect', { class: 'counters-ring', x: -r * 0.52, y: -r * 0.52, width: r * 1.04, height: r * 1.04, rx: r * 0.1 })];
   if (kind === 'bead') return [el('circle', { class: 'counters-body', r }), el('circle', { class: 'counters-shine', r: r * 0.32, cx: -r * 0.35, cy: -r * 0.35 })];
   if (kind === 'car') {
     const w = r * 1.5, l = r * 2.5;

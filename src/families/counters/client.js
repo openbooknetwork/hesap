@@ -4,9 +4,10 @@ import bonds from './bonds.js';
 import count from './count.js';
 import match from './match.js';
 import order from './order.js';
+import add from './add.js';
 import { scenes } from './scenes.js';
 
-const SCENES = { bonds, count, match, order };
+const SCENES = { bonds, count, match, order, add };
 
 export default function counters(api) {
   const all = scenes(Object.fromEntries(Object.entries(SCENES).map(([name, make]) => [name, () => make(api)])), api.stage);

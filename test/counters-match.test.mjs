@@ -190,3 +190,27 @@ test('match: the scoreboard keeps the sign between two scores and rings no ball'
   fails({ pair: 'auto' }, /pair belongs to look: rows/);
   fails({ word: 'same' }, /word belongs to look: rows/);
 });
+
+test('match: written: difference writes the greater row minus the less, with its answer once a row is fully paired', async () => {
+  const { differenceOf } = await import('../src/families/counters/match-model.js');
+  const { words, reading } = await import('../src/kit/written.js');
+  const { string } = await import('../src/node.mjs');
+  const fields = { top: stepper(1, 12, 11), bottom: stepper(1, 12, 7), pair: 'auto', word: true, written: 'difference', readout: ['unpaired', 'reading'] };
+  const page = spec(fields), start = id => counters.start(page, 'en', id);
+  assert.deepEqual(['top', 'bottom', 'unpaired', 'top-word', 'bottom-word', 'written', 'reading'].map(start), ['11', '7', '4', 'more', 'fewer', '11 − 7 = 4', '11 minus 7 is equal to 4']);
+  for (const [t, b] of [[1, 1], [12, 12], [1, 12], [12, 1]]) assert.equal(counters.start(spec({ ...fields, top: stepper(1, 12, t), bottom: stepper(1, 12, b) }), 'en', 'written'), `${Math.max(t, b)} − ${Math.min(t, b)} = ${Math.abs(t - b)}`);
+  const int = String, T = (k, v) => string('en', `hesap_${k}`, v);
+  for (let t = 1; t <= 12; t++) for (let b = 1; b <= 12; b++) {
+    const s = resize(resize(opening(page), 'top', t), 'bottom', b), d = differenceOf(page, s), [hi, lo] = [Math.max(t, b), Math.min(t, b)];
+    assert.equal(words(d.line, int), `${hi} − ${lo} = ${hi - lo}`);
+    assert.equal(reading(d.line, int, T), `${hi} minus ${lo} is equal to ${hi - lo}`);
+    assert.equal(counts(page, s).unpaired, hi - lo);
+    assert.equal(d.greater, b > t ? 'bottom' : 'top');
+  }
+  const drawn = spec({ top: 11, bottom: 7, written: 'difference' }), s = opening(drawn);
+  assert.equal(words(differenceOf(drawn, s).line, int), '11 − 7');
+  assert.equal(words(differenceOf(drawn, { ...s, lines: [[0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5], [6, 6]] }).line, int), '11 − 7 = 4');
+  const fails = (more, words) => assert.match(read({ ...fields, ...more }).problems.join('\n'), words);
+  fails({ sign: '<' }, /leave sign and trail out/);
+  fails({ look: 'cups', pair: undefined, word: undefined }, /write look: rows/);
+});

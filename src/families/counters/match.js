@@ -1,18 +1,18 @@
 // The match scene: two rows of objects paired one to one. The reader draws a line between a counter of each row,
 // seats a cup on a saucer, steps a row or stops the music of a game of chairs, and the counters left without a
 // partner take a ring.
-import { ROWS, GOALS_MAX, idOf, roomOf, opening, linesOf, resize, step, lone, won, counts, same, wordsOf, tagKey, measuresOf, wordsLinked, readingOf, verdictOf } from './match-model.js';
+import { ROWS, GOALS_MAX, idOf, roomOf, opening, linesOf, resize, step, lone, won, counts, same, wordsOf, tagKey, measuresOf, wordsLinked, readingOf, verdictOf, differenceOf } from './match-model.js';
+import { writtenLine, words, reading } from '../../kit/written.js';
 import { signTile, verdictMark, isTile, nextSign, signShown, signOf } from './reading.js';
 import { counter, show, put, R, HIT } from './counter.js';
 import { rowsOf, cupsOf, scoreOf, BALL, GAP, CLOSE, WIDE } from './match-figures.js';
 import { MATCH_GOALS } from './match-goals.js';
-import { another } from './goals.js';
 import { carry, press } from './move.js';
 import { driver } from './driver.js';
 import { svg as el, svgPoint } from '../../kit/dom.js';
-import { stepper, slider, chip, button, row as line } from '../../kit/panel.js';
+import { stepper, slider, chip, button, row as line, check } from '../../kit/panel.js';
 import { goalRow } from '../../kit/goal.js';
-import { dice, fresh } from '../../kit/random.js';
+import { dice, fresh, another } from '../../kit/random.js';
 import { live } from '../../kit/text.js';
 import { numbers } from '../../kit/format.js';
 
@@ -39,7 +39,9 @@ export default function match({ host, stage, panel, T, lang, moving, motion: fx 
   const tile = signTile(), told = verdictMark(), cards = ROWS.map((r, k) => el('rect', { class: `counters-line-card counters-${k ? 'b' : 'a'}`, x: (k ? 132 : 22) - 23, y: -25, width: 46, height: 50, rx: 8, display: 'none' })), nums = Object.fromEntries(ROWS.map((r, k) => [r, el('text', { class: `counters-line-num counters-${k ? 'b' : 'a'}`, 'data-ref': r, x: k ? 132 : 22 })]));
   const signed = el('g', { display: 'none' }, [...cards, nums.top, el('g', { transform: 'translate(77 0)' }, [tile.el]), nums.bottom, el('g', { transform: 'translate(170 0)' }, [told.el])]);
   press(tile.el, () => { if (!spec || !isTile(spec)) return; s.sign = nextSign(s.sign); if (cs) cs.checked = false; changed(); });
-  const svg = el('svg', { class: 'counters-svg' }, [back, voids, wires, rings, lower, upper, tags.top.g, tags.bottom.g, rubber, word, signed]);
+  // The written line of the difference of the rows, which stands where the line of a sign page stands.
+  const written = writtenLine();
+  const svg = el('svg', { class: 'counters-svg' }, [back, voids, wires, rings, lower, upper, tags.top.g, tags.bottom.g, rubber, word, signed, written.el]);
   stage.appendChild(svg);
   // spec is the page. s holds the counters of each row, the lines the reader drew and how far the Spacing slider
   // stands, from 0 to 1. geo holds the places of the figure, nodes the drawn object of each id, pick the counter a
@@ -57,7 +59,7 @@ export default function match({ host, stage, panel, T, lang, moving, motion: fx 
 
   const partner = id => { const k = rowOf(id) === 'top' ? 0 : 1, l = linesOf(spec, s).find(l => l[k] === at(id)); return l ? idOf(ROWS[1 - k], l[1 - k]) : null; };
   const layout = () => scores() ? scoreOf(GOALS_MAX, [T('match-scoreboard-top'), T('match-scoreboard-bottom')]) : cups() ? cupsOf(roomOf(spec, 'top'), roomOf(spec, 'bottom'))
-    : rowsOf({ top: roomOf(spec, 'top'), bottom: roomOf(spec, 'bottom'), ...gaps(), tag: tagRoom(), names: spec.trail ? NAMES : 0, line: spec.sign ? SIGNED : undefined });
+    : rowsOf({ top: roomOf(spec, 'top'), bottom: roomOf(spec, 'bottom'), ...gaps(), tag: tagRoom(), names: spec.trail ? NAMES : 0, line: spec.sign || spec.written ? SIGNED : undefined });
   // The Spacing slider sets the gap of its row up to twice the gap, and a challenge draws one row wide and one close.
   function gaps() {
     if (spec.spread) return { gap: { [spec.spread]: GAP * (1 + s.spread) }, widest: { [spec.spread]: 2 * GAP } };
@@ -96,6 +98,7 @@ export default function match({ host, stage, panel, T, lang, moving, motion: fx 
     back.replaceChildren(...drawn.nodes, ...names);
     signed.setAttribute('display', geo.line && spec.sign ? 'inline' : 'none');
     if (geo.line) signed.setAttribute('transform', `translate(${geo.line.x} ${geo.line.y})`);
+    if (geo.line && spec.written) written.at(geo.w / 2, geo.line.y); else written.set(null);
     tile.open(isTile(spec), T('sign')); told.show(isTile(spec) && !cs);
     for (const card of cards) card.setAttribute('display', spec.hidden ? 'inline' : 'none');
     for (const n of nodes.values()) n.tween?.pause();
@@ -245,6 +248,7 @@ export default function match({ host, stage, panel, T, lang, moving, motion: fx 
       const p = to.get(idOf('top', t)), q = to.get(idOf('bottom', b));
       return el('line', { class: 'counters-wire', 'data-ref': 'pairs', x1: p.x, y1: p.y, x2: q.x, y2: q.y });
     })));
+    lightPairs();
     const l = lone(spec, s), ids = l.ringed ? ROWS.flatMap(r => l[r].map(i => idOf(r, i))) : [];
     rings.replaceChildren(...ids.map(id => {
       const p = to.get(id), r = cups() ? (rowOf(id) === 'top' ? R + 9 : 1.5 * SAUCER + 6) : chairs() ? R + 8 : R + 3.5;
@@ -284,6 +288,11 @@ export default function match({ host, stage, panel, T, lang, moving, motion: fx 
       }
       for (const [k, b] of goals.entries()) b.disabled = s[ROWS[k]] >= GOALS_MAX;
     }
+    if (spec.written) {
+      // The greater row's number comes first, in its row's colour, and the counters left over are the answer.
+      const d = differenceOf(spec, s), cls = r => `counters-${r === 'top' ? 'a' : 'b'}`;
+      if (written.set({ ...d.line, refs: { a: d.greater, b: d.less, c: 'unpaired' }, cls: { a: cls(d.greater), b: cls(d.less) } }, int) && anim) go.flash(written.el);
+    }
     // A challenge that writes the numbers of its rows once it is reached uses the tags for them.
     const ws = ends() ? Object.fromEntries(ROWS.map(r => [r, null])) : spec.word === true ? wordsOf(spec, s) : null;
     for (const r of ROWS) {
@@ -312,7 +321,8 @@ export default function match({ host, stage, panel, T, lang, moving, motion: fx 
   // tags.
   function refresh() {
     const st = counts(spec, s), ids = measuresOf(spec), ws = wordsLinked(spec).length ? wordsOf(spec, s) : null;
-    const said = { reading: () => T(readingOf(spec, s), { a: int(s.top), b: int(s.bottom) }), verdict: () => T(verdictOf(spec, s)) }, value = id => said[id]?.() ?? int(st[id]);
+    const said = { reading: () => spec.written ? reading(differenceOf(spec, s).line, int, T) : T(readingOf(spec, s), { a: int(s.top), b: int(s.bottom) }),
+      written: () => words(differenceOf(spec, s).line, int), verdict: () => T(verdictOf(spec, s)) }, value = id => said[id]?.() ?? int(st[id]);
     for (const k of chips) if (k.set(value(k.id)) && moving()) go.flash(k.el);
     judge();
     live(host, { value: id => ids.includes(id) ? value(id) : wordsLinked(spec).includes(id) ? T(tagKey(ws[id.split('-')[0]]), { n: int(ws[id.split('-')[0]].n ?? 0) }) : null });
@@ -342,20 +352,29 @@ export default function match({ host, stage, panel, T, lang, moving, motion: fx 
     goals = scores() ? ROWS.map(r => button({ label: T(`score-${r}`), act: `score-${r}`, press: () => { if (s[r] < GOALS_MAX) { s = resize(s, r, s[r] + 1); changed(); } } })) : [];
     if (scores()) ctls.push(...goals, button({ label: T('new-match'), act: 'new-match', press: () => { s = { ...opening(spec), spread: 0 }; changed(); } }));
     // The line of words takes a line of the panel to itself, so the panel keeps its height as the words change.
-    chips = spec.readout.map(id => chip({ id, label: T(`match-${spec.trail ? 'trail' : spec.look}-${id}`) ?? T(`match-${id}`), cls: id === 'reading' ? 'counters-chip-wide' : '' }));
-    for (const k of chips) if (k.id !== 'reading') k.width(k.id === 'verdict' ? 5 : 2);
+    chips = spec.readout.map(id => chip({ id, label: T(`match-${spec.trail ? 'trail' : spec.look}-${id}`) ?? T(`match-${id}`) ?? T(id), cls: ['reading', 'written'].includes(id) ? 'counters-chip-wide' : '' }));
+    for (const k of chips) if (!['reading', 'written'].includes(k.id)) k.width(k.id === 'verdict' ? 5 : 2);
     // A challenge has its line with Another one and a hint, and a Check button beside its controls.
     goal = null;
     if (cs) {
       const name = base.challenge.goal;
       goal = goalRow({ T, motion: moving() ? fx : null, hint: on => on ? T(`hint-${name}`) : null, another: () => { deal(); drawPanel(); build(); if (!geo) refresh(); } });
-      ctls.push(button({ label: T('check'), act: 'check', primary: true, press: () => { if (!cs.checked) { cs.checked = true; render('move'); if (!geo) refresh(); } } }));
+      ctls.push(check({ T, press: () => { if (!cs.checked) { cs.checked = true; render('move'); if (!geo) refresh(); } } }));
     }
     panel.replaceChildren(...[goal?.el, ctls.length ? line('ctls', ctls) : null, chips.length ? line('out', chips) : null].filter(Boolean));
   }
 
+  // pairsLit says the reader points at the link pairs, which lights each pair line and the counters at its ends.
+  let pairsLit = false;
+  function lightPairs() {
+    const paired = new Set(linesOf(spec, s).flatMap(([t, b]) => [idOf('top', t), idOf('bottom', b)]));
+    for (const [id, n] of nodes) n.g.classList.toggle('counters-paired-lit', pairsLit && paired.has(id));
+    for (const w of wires.children) w.classList.toggle('counters-hot', pairsLit);
+  }
   function point(id, on) {
     if (!spec) return;
+    written.light(id, on, ['written', 'reading']);
+    if (id === 'pairs') { pairsLit = on; lightPairs(); }
     for (const part of svg.querySelectorAll(`[data-ref="${id}"]`)) part.classList.toggle('counters-hot', on);
     for (const part of panel.querySelectorAll('[data-ref]')) part.classList.toggle('hot', on && part.dataset.ref === id);
   }
@@ -363,7 +382,7 @@ export default function match({ host, stage, panel, T, lang, moving, motion: fx 
 
   return {
     show(page) {
-      stop(); base = page; target = null; deal();
+      stop(); pairsLit = false; base = page; target = null; deal();
       drawPanel(); build();
       if (!geo) refresh();
     },
@@ -372,6 +391,7 @@ export default function match({ host, stage, panel, T, lang, moving, motion: fx 
       for (const g of [back, voids, wires, rings, lower, upper]) g.replaceChildren();
       for (const g of [word, tags.top.g, tags.bottom.g, signed]) g.setAttribute('display', 'none');
       for (const r of ROWS) nums[r].textContent = '';
+      written.set(null);
     },
     point,
     lang() { if (!spec) return; const was = goal; drawPanel(); goal?.keep(was); build(); if (!geo) refresh(); },

@@ -1,0 +1,61 @@
+line_lead: "Noktayı doğru boyunca hareket ettirin ve çizgisindeki sayıyı okuyun."
+line_jump-left: Sola zıpla
+line_jump-right: Sağa zıpla
+line_point: Noktadaki sayı
+line_point-short: Nokta
+line_second: İkinci noktadaki sayı
+line_second-short: İkinci nokta
+line_jumps: Zıplamalar
+line_step: Adım
+line_from: Sol uç
+line_to: Sağ uç
+line_point-name: Nokta
+line_second-name: İkinci nokta
+line_reading-later: "{a}, {b} sayısından büyüktür"
+line_reading-both: "İki nokta da {a} üzerinde"
+line_goal-place: "Noktayı {target} üzerine koyun, sonra Kontrol et düğmesine basın."
+line_goal-place-done: "Nokta {target} üzerinde."
+line_note-place-left: Nokta sayının solunda.
+line_note-place-right: Nokta sayının sağında.
+line_ten-before: Önceki onluk
+line_ten-after: Sonraki onluk
+line_placed: Yerleşen kartlar
+line_placed-short: Yerleşen
+line_placed-of: "{n} / {all}"
+line_open-gap: "{a} ile {b} arasındaki aralık"
+line_card: "Kart {x}"
+line_find: Bul
+line_show: Göster
+line_next: Sonraki
+line_middle: Orta
+line_van: Kamyonet
+line_estimate: Tahmin
+line_open-book: Kitabı aç
+line_bookmark: Ayraç
+line_hint-place-unmarked: "Orta düğmesine basın. Sayı ortadan önce mi sonra mı? Sonra ortaya ve yakın uca ne kadar uzak olduğunu kestirin."
+line_goal-place-unmarked-done: "Nokta {target} sayısına yakın."
+line_between: "{a} ile {b} arasında"
+line_gaps-unequal: Bazı aralıklar ötekilerden uzun.
+line_gaps-equal: Bütün aralıklar eşit.
+line_mark-name: "Çizgi {x}"
+line_mark-left: Solundaki aralık daha uzun
+line_mark-right: Sağındaki aralık daha uzun
+line_mark-even: İki aralığı eşit
+line_start: Başlangıç
+line_goal-jump: "{start} sayısından zıplayarak {calc} işlemini bulun, sonra Kontrol et düğmesine basın."
+line_note-jump-few: Zıplamalar az.
+line_note-jump-many: Zıplamalar çok.
+line_new-line: Yeni doğru
+line_goal-place-unmarked: "Noktayı {target} sayısına yakın koyun, sonra Kontrol et düğmesine basın."
+line_find-short: Bul
+line_hint-place-on: "Sayının arasında durduğu iki uzun çizgiyi bulun. Soldakinden ileri ya da sağdakinden geri zıplayarak sayın."
+line_hint-place-back: "Sayının arasında durduğu iki uzun çizgiyi bulun. Soldakinden ileri ya da sağdakinden geri zıplayarak sayın."
+line_hint-place-two-labels-on: "Yan yana iki etiket adımı verir. Bir etiketten sayıya kadar zıplamaları sayın."
+line_hint-place-two-labels-back: "Yan yana iki etiket adımı verir. Bir etiketten sayıya kadar zıplamaları sayın."
+line_hint-jump-plus: "Başlangıçtaki sayıyı söyleyin, sonra her zıplamada bir sayı sayın. + için sağa, − için sola zıplayın."
+line_hint-jump-minus: "Başlangıçtaki sayıyı söyleyin, sonra her zıplamada bir sayı sayın. + için sağa, − için sola zıplayın."
+line_hint-jump-plus-one: "Başlangıçtaki sayıyı söyleyin, sonra her zıplamada bir sayı sayın. + için sağa, − için sola zıplayın."
+line_hint-jump-minus-one: "Başlangıçtaki sayıyı söyleyin, sonra her zıplamada bir sayı sayın. + için sağa, − için sola zıplayın."
+line_note-jump-way-plus: Nokta yanlış yöne zıpladı.
+line_note-jump-way-minus: Nokta yanlış yöne zıpladı.
+line_note-jump-few-none: Zıplamalar az.

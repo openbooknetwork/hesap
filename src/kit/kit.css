@@ -87,3 +87,12 @@ aside.story .place[data-formula] .katex-display>.katex{text-align:start}
   /* The peek card sits above the panel. A figure stays clear of the card by leaving --hesap-peek free at its foot. */
   .peek{bottom:calc(var(--hesap-panel,0px) + .571rem)}
 }
+
+/* The written line of a calculation under a figure, such as 5 + 3 = 8. A number takes its group's colour through
+   the family's class, and the signs and the answer are ink. A link underlines the numbers it points to, and a link
+   to the whole line underlines the line. */
+.hesap .hesap-written{font-size:34px;font-weight:700;white-space:pre;fill:var(--ink);stroke:none;text-anchor:middle;dominant-baseline:central;font-variant-numeric:tabular-nums;pointer-events:none}
+.hesap .hesap-written.hesap-written-step{font-size:26px}
+.hesap .hesap-written [data-ref]{stroke:none}
+.hesap .hesap-written .hesap-written-num{fill:var(--c,var(--ink))}
+.hesap .hesap-written .hesap-written-hot,.hesap .hesap-written.hesap-written-hot{text-decoration:underline}

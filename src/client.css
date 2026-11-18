@@ -88,6 +88,15 @@ aside.story .place[data-formula] .katex-display>.katex{text-align:start}
   .peek{bottom:calc(var(--hesap-panel,0px) + .571rem)}
 }
 
+/* The written line of a calculation under a figure, such as 5 + 3 = 8. A number takes its group's colour through
+   the family's class, and the signs and the answer are ink. A link underlines the numbers it points to, and a link
+   to the whole line underlines the line. */
+.hesap .hesap-written{font-size:34px;font-weight:700;white-space:pre;fill:var(--ink);stroke:none;text-anchor:middle;dominant-baseline:central;font-variant-numeric:tabular-nums;pointer-events:none}
+.hesap .hesap-written.hesap-written-step{font-size:26px}
+.hesap .hesap-written [data-ref]{stroke:none}
+.hesap .hesap-written .hesap-written-num{fill:var(--c,var(--ink))}
+.hesap .hesap-written .hesap-written-hot,.hesap .hesap-written.hesap-written-hot{text-decoration:underline}
+
 /* counters: the colours are theme tokens and the two counter colours of the family, so a theme switch needs no
    redraw. */
 .hesap-counters .counters-svg{position:absolute;left:0;top:0;width:100%;height:100%;touch-action:none;font-family:var(--body);overflow:visible}
@@ -326,3 +335,159 @@ aside.story .place[data-formula] .katex-display>.katex{text-align:start}
 .hesap-counters .counters-line-card{fill:var(--panel);stroke:var(--c);stroke-width:2}
 .hesap-counters .counters-added .counters-ring{display:none}
 .hesap-counters .counters-plus{fill:none;stroke:var(--paper);stroke-width:4;stroke-linecap:round;pointer-events:none}
+
+/* The add scene: the dice over the frames and the tray, and the counters a link lights. */
+.hesap-counters .counters-die-box{fill:var(--paper);stroke:var(--ink);stroke-width:2.5}
+.hesap-counters .counters-pip{fill:var(--ink);stroke:none}
+.hesap-counters .counters-die.counters-hot{stroke:none}
+.hesap-counters .counters-die.counters-hot .counters-die-box{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-lit .counters-body{stroke:var(--accent);stroke-width:4}
+/* A counter taken away leaves a dashed ring in its cell. */
+.hesap-counters .counters-gone{display:none}
+.hesap-counters .counters-taken .counters-gone{display:inline}
+.hesap-counters .counters-taken .counters-body,.hesap-counters .counters-taken .counters-ring{display:none}
+.hesap-counters .counters-lit .counters-gone{stroke:var(--accent);stroke-width:3.5}
+/* The jam shelf: jars on wooden boards, and two crates for the jars sold. A sold jar's lid takes its crate's colour. */
+.hesap-counters .counters-jar-glass{fill:var(--paper);fill-opacity:.4;stroke:var(--ink-2);stroke-width:2}
+.hesap-counters .counters-jam{fill:#e08a1e}
+.hesap-counters .counters-jar-lid{fill:var(--c,var(--ink-2));stroke:var(--paper);stroke-width:1}
+.hesap-counters .counters-lit .counters-jar-glass{stroke:var(--accent);stroke-width:3.5}
+.hesap-counters .counters-shelf-board{fill:#b98a5a;stroke:#8a6238;stroke-width:2}
+.hesap-counters rect.counters-crate.counters-press{fill:var(--panel);stroke:#8a6238;stroke-width:3}
+.hesap-counters .counters-crate-name{font-size:16px;font-weight:700;fill:var(--ink-2)}
+.hesap-counters .counters-crate-name.counters-hot{stroke:none;fill:var(--accent)}
+/* The seed tray: cells of bare soil, grown seedlings and small sprouts. */
+.hesap-counters .counters-seedtray{fill:#8a6238;stroke:#5c3f22;stroke-width:2.5}
+.hesap-counters .counters-soil{fill:#6b4a2b;stroke:#5c3f22;stroke-width:1}
+.hesap-counters .counters-plant-stem{fill:none;stroke:#3f9a4a;stroke-width:3;stroke-linecap:round}
+/* The seed packet of the seed tray: a paper packet with a folded top, whose seeds turn into sprouts when sown. */
+.hesap-counters .counters-packet-paper{fill:#efe2c4;stroke:#a88a55;stroke-width:2}
+.hesap-counters .counters-packet-fold{stroke:#a88a55;stroke-width:2;stroke-dasharray:5 4}
+.hesap-counters .counters-packet.counters-hot .counters-packet-paper{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-seed{display:none}
+.hesap-counters .counters-in-packet .counters-seed{display:inline}
+.hesap-counters .counters-in-packet .counters-body:not(.counters-seed),.hesap-counters .counters-in-packet .counters-plant-stem{display:none}
+/* The link pairs lights each paired counter with a filled halo of the accent, which stays plain on a small phone
+   figure and differs from the ink ring of a counter without a partner. */
+.hesap-counters .counters-paired-lit .counters-hit{fill:var(--accent);fill-opacity:.6;stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-paired-lit .counters-body{stroke:var(--paper);stroke-width:2.5}
+.hesap-counters .counters-wire.counters-hot{stroke:var(--accent);stroke-width:5}
+
+/* line: the colours are theme tokens and the two point colours of the family, so a theme switch needs no redraw. */
+.hesap-line .line-svg{position:absolute;left:0;top:0;width:100%;height:100%;touch-action:none;font-family:var(--body);overflow:hidden}
+.hesap-line text{fill:var(--ink);text-anchor:middle;dominant-baseline:central;pointer-events:none;font-variant-numeric:tabular-nums}
+.hesap-line .line-c-point{--c:var(--z-line-point,#d1453b)}
+.hesap-line .line-c-second{--c:var(--z-line-second,#2a6bd1)}
+/* The flag of the number to find is ink, apart from both points' colours. */
+.hesap-line .line-c-find{--c:var(--ink)}
+.hesap-line .line-c-find .line-flag-text{fill:var(--paper)}
+
+/* The line, its marks and their labels. */
+.hesap-line .line-axis{stroke:var(--ink);stroke-width:2.5;stroke-linecap:round}
+.hesap-line .line-mark{stroke:var(--ink);stroke-width:2;stroke-linecap:round}
+.hesap-line .line-short{stroke:var(--ink-2);stroke-width:1.5}
+.hesap-line .line-label{font-weight:400;font-variant-numeric:proportional-nums}
+.hesap-line .line-label.line-lit{font-weight:700;fill:var(--accent)}
+.hesap-line .line-guide{stroke:var(--ink-2);stroke-width:1;stroke-dasharray:2 4;opacity:.6}
+
+/* A point is a disc or a square with a touch target round it, and its flag carries its number. */
+.hesap-line .line-hit{fill:transparent}
+.hesap-line .line-point{cursor:grab;outline:none}
+.hesap-line .line-point.drag{cursor:grabbing}
+.hesap-line .line-dot{fill:var(--c);stroke:var(--paper);stroke-width:2}
+.hesap-line .line-point:focus-visible .line-hit{stroke:var(--accent);stroke-width:2.5}
+.hesap-line .line-pole{stroke:var(--c);stroke-width:2}
+.hesap-line .line-flag-box{fill:var(--c);stroke:var(--paper);stroke-width:1.5}
+.hesap-line .line-flag-text{font-size:14px;font-weight:700;fill:#fff}
+
+/* The jumps are arcs over the gaps they cross, with a head that shows their way. */
+.hesap-line .line-arc{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linecap:round}
+.hesap-line .line-arc-head{fill:var(--accent)}
+
+/* The lens shows the marks around the point at full size, above a line whose gaps are too narrow to read. */
+.hesap-line .line-lens{pointer-events:none}
+.hesap-line .line-lens-box{fill:var(--panel);stroke:var(--ink-2);stroke-width:1.5}
+.hesap-line .line-lens-tip{fill:var(--ink-2)}
+
+/* The bracket over the tens round the point. */
+.hesap-line .line-bracket{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+
+/* A gap opens under the line as a line of its own. */
+.hesap-line .line-gap{fill:transparent;cursor:pointer;outline:none}
+.hesap-line .line-gap:hover,.hesap-line .line-gap[aria-pressed="true"]{fill:var(--accent);fill-opacity:.08}
+.hesap-line .line-gap:focus-visible{stroke:var(--accent);stroke-width:2}
+.hesap-line .line-open-gap{stroke:var(--accent);stroke-width:5;stroke-linecap:round}
+.hesap-line .line-funnel{stroke:var(--ink-2);stroke-width:1;stroke-dasharray:3 3}
+
+/* Blank label boxes and the label cards that fill them. */
+.hesap-line .line-blank{fill:var(--paper);stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:4 3}
+.hesap-line .line-card{cursor:grab;outline:none}
+.hesap-line .line-card.drag{cursor:grabbing}
+.hesap-line .line-card-box{fill:var(--panel);stroke:var(--ink);stroke-width:1.5}
+.hesap-line .line-card-num{font-size:16px;font-weight:700}
+
+/* The middle's long mark. */
+.hesap-line .line-middle{stroke:var(--accent);stroke-width:2.5}
+
+/* The street: a road, a house at each mark, door numbers on plaques, and the van as the point. */
+.hesap-line .line-road{fill:color-mix(in srgb,var(--ink) 22%,var(--paper))}
+.hesap-line .line-house-body{fill:color-mix(in srgb,#d99a1f 30%,var(--paper));stroke:var(--ink-2);stroke-width:1}
+.hesap-line .line-door{fill:var(--ink-2)}
+.hesap-line .line-plaque rect{fill:var(--paper);stroke:var(--ink);stroke-width:1.2}
+.hesap-line .line-plaque text{font-weight:700}
+.hesap-line .line-wheel{fill:var(--ink)}
+.hesap-line .line-van-tip{fill:var(--c)}
+.hesap-line .line-van-num{font-size:10px;font-weight:700;fill:#fff}
+.hesap-line .line-card:focus-visible .line-card-box{stroke:var(--accent);stroke-width:3}
+
+/* The estimate mark is pale, apart from the point and the marks. */
+.hesap-line .line-estimate line{stroke:var(--accent);stroke-width:3;stroke-linecap:round;opacity:.55;stroke-dasharray:4 3}
+.hesap-line .line-estimate path{fill:var(--accent);opacity:.55}
+.hesap-line .line-fixed .line-dot{fill:var(--c);stroke:var(--paper);stroke-width:2}
+
+/* The book: the edge of its pages between its covers, and the bookmark. */
+.hesap-line .line-book-pages{fill:color-mix(in srgb,#f3e6c4 80%,var(--paper));stroke:var(--ink-2);stroke-width:1}
+.hesap-line .line-book-leaf{stroke:var(--ink-2);stroke-width:.6;opacity:.5}
+.hesap-line .line-book-cover{fill:color-mix(in srgb,#2a6bd1 60%,var(--ink))}
+
+/* The touch band of a mark that the reader drags into place. */
+.hesap-line .line-band{fill:transparent}
+.hesap-line .line-handle{cursor:ew-resize;outline:none}
+.hesap-line .line-mark-key{outline:none}
+.hesap-line .line-handle.line-focus .line-band{stroke:var(--accent);stroke-width:2;fill:var(--accent);fill-opacity:.06}
+
+/* The start of the jumps: a ring round its mark, and the point that moves by the buttons alone inside it. */
+.hesap-line .line-ring{fill:none;stroke:var(--c);stroke-width:3}
+.hesap-line .line-start.line-moves{cursor:grab;outline:none}
+.hesap-line .line-start:focus-visible .line-hit{stroke:var(--accent);stroke-width:2.5}
+.hesap-line .line-start.line-hot .line-ring{stroke-width:5}
+.hesap-line .line-fixed{pointer-events:none}
+.hesap-line .line-chip-wide{flex-basis:100%}
+
+/* The words under the line. */
+.hesap-line .line-reading{font-size:20px;font-weight:700}
+
+/* The pond of the opening pages: the water, the bank, the stones and the frog. */
+.hesap-line .line-water{fill:color-mix(in srgb,#2a8bd1 20%,var(--paper));stroke:none}
+.hesap-line .line-bank{fill:color-mix(in srgb,#4a9d4f 40%,var(--paper));stroke:color-mix(in srgb,#4a9d4f 70%,var(--paper));stroke-width:2}
+.hesap-line .line-stone-body{fill:color-mix(in srgb,var(--ink) 16%,var(--paper));stroke:var(--ink-2);stroke-width:1.5}
+.hesap-line .line-stone-num{font-weight:700}
+.hesap-line .line-frog-body,.hesap-line .line-frog-leg{fill:#3f9a46;stroke:#24622a;stroke-width:1.5}
+.hesap-line .line-frog-eye{fill:#fff;stroke:#24622a;stroke-width:1.5}
+.hesap-line .line-frog-pupil{fill:#1d1d1d}
+.hesap-line .line-frog-mouth{fill:none;stroke:#24622a;stroke-width:1.5;stroke-linecap:round}
+
+/* A part the text points at stands out. */
+.hesap-line .line-hot .line-dot,.hesap-line .line-hot .line-flag-box{stroke:var(--accent);stroke-width:3}
+.hesap-line .line-arcs.line-hot .line-arc{stroke-width:4}
+.hesap-line .line-reading.line-hot{fill:var(--accent)}
+.hesap-line .line-hot .line-frog-body{stroke:var(--accent);stroke-width:3}
+
+/* The jump buttons keep to one row and show their sign large beside their name. */
+.hesap-line .line-jumps{display:inline-flex;flex-wrap:nowrap;gap:.429rem}
+.hesap-line .line-jump b{font-size:1.286rem;line-height:1}
+
+@media (max-width:900px){
+  /* The figure ends above the peek card, which covers the foot of the stage until the reader closes it. */
+  .hesap-line .line-svg{height:calc(100% - var(--hesap-peek,0px))}
+}

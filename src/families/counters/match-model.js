@@ -1,6 +1,7 @@
 // What a match page holds and what it counts: two rows of objects and the pairs between them. The build and the
 // browser both use this file, so a page's text and its live values agree.
 import { isTile, signShown, readingKey, verdictKey } from './reading.js';
+import { MINUS } from '../../kit/written.js';
 
 // A page draws its rows as counters, as cups on a tray above saucers on a table, as the players and the chairs of
 // a game of musical chairs, or as the two scores of a scoreboard with a ball for each goal.
@@ -74,7 +75,7 @@ export const tagKey = w => w.n == null ? `tag-${w.word}` : `tag-${w.word}-n`;
 // The measures a page can read out and link in its text. The words of the tags are linked and take no readout.
 export function measuresOf(spec) {
   if (spec.challenge) return [];
-  const signed = [...(spec.sign ? ['reading'] : []), ...(isTile(spec) ? ['verdict'] : [])];
+  const signed = [...(spec.sign ? ['reading'] : []), ...(isTile(spec) ? ['verdict'] : []), ...(spec.written ? ['written', 'reading'] : [])];
   if (spec.look === 'chairs' || spec.look === 'scoreboard') return ['top', 'bottom', ...signed];
   return ['unpaired', 'pairs', 'top', 'bottom', ...signed, ...(spec.tap ? ['counted'] : []), ...(spec.trace ? ['added', 'taken'] : [])];
 }
@@ -82,3 +83,11 @@ export const wordsLinked = spec => spec.word === true ? ['top-word', 'bottom-wor
 // The strings of the line of words and of the mark of a page with a sign, as the page stands.
 export const readingOf = (spec, s) => readingKey(s.top, s.bottom, signShown(spec, s));
 export const verdictOf = (spec, s) => verdictKey(s.top, s.bottom, signShown(spec, s));
+
+// differenceOf gives the written line of the difference of the rows: the greater row's number minus the less row's,
+// with its answer once one row has every counter paired, when the counters left over take their rings. greater
+// names the row whose number comes first, the top row when the rows are equal.
+export function differenceOf(spec, s) {
+  const greater = s.bottom > s.top ? 'bottom' : 'top', less = greater === 'top' ? 'bottom' : 'top';
+  return { line: { a: s[greater], sign: MINUS, b: s[less], open: !lone(spec, s).ringed }, greater, less };
+}

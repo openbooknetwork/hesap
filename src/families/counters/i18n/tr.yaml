@@ -14,8 +14,8 @@ counters_one-found: Bulunan ikililer
 counters_one-ways: Tüm ikililer
 counters_two-first: Kırmızı
 counters_two-second: Mavi
-counters_cup-first: Görünen parça
-counters_cup-second: Gizli parça
+counters_cup-first: Bilinen parça
+counters_cup-second: Bilinmeyen parça
 counters_cup-added: Eklenen mavi
 counters_pins-first: Ayakta
 counters_pins-empty: Devrilen
@@ -27,7 +27,6 @@ counters_fill: İkinci çerçeveyi doldur
 counters_unfill: İkinci çerçeveyi boşalt
 counters_lift: Bardağı kaldır
 counters_lower: Bardağı geri koy
-counters_check: Kontrol et
 counters_blue: Mavi sayaçlar
 counters_tray: Tepsi
 counters_pile: Yığın
@@ -43,7 +42,7 @@ counters_list-splits: "{x} sayısının ayrımları"
 counters_list-pairs: "{x} yapan ikililer"
 counters_goal-make-whole: "Kırmızı tepside {part} sayaç var. Çerçeve {whole} sayaç tutacak biçimde mavi sayaçları ayarlayın, sonra Kontrol et düğmesine basın."
 counters_goal-make-whole-two: "Kırmızı tepside {part} sayaç var. İki çerçeve {whole} sayaç tutacak biçimde mavi sayaçları ayarlayın, sonra Kontrol et düğmesine basın."
-counters_goal-hidden-part: "Bütün {whole}, görünen parça {part}. Bardağın altındaki parçayı tepside kurun, sonra bardağı kaldırın."
+counters_goal-hidden-part: "Bütün {whole}, bilinen parça {part}. Bardağın altındaki parçayı tepside kurun, sonra bardağı kaldırın."
 counters_note-short: Bazı hücreler hâlâ boş.
 counters_note-over: Bazı sayaçlara hücre kalmadı.
 counters_note-more: Tepside bardaktakinden çok sayaç var.
@@ -87,8 +86,8 @@ counters_set-up: Lobutları diz
 counters_ctl-top: Üst sıra
 counters_ctl-bottom: Alt sıra
 counters_ctl-spread: Aralık
-counters_match-unpaired: Eşi olmayan
-counters_match-pairs: Çiftler
+counters_match-unpaired: Eşleşmeyen
+counters_match-pairs: Eşleşenler
 counters_word-same: Aynı
 counters_tag-more: daha çok
 counters_tag-fewer: daha az
@@ -133,22 +132,67 @@ counters_verdict-true: "doğru"
 counters_verdict-false: "yanlış"
 counters_sign: İşaret
 counters_match-reading: Sözle
-counters_match-verdict: Satır
+counters_match-verdict: İfade
 counters_match-scoreboard-top: Ev sahibi
 counters_match-scoreboard-bottom: Deplasman
 counters_score-top: Ev sahibi golü
 counters_score-bottom: Deplasman golü
 counters_new-match: Yeni maç
 counters_goal-same-rows: "Üst sırayı alt sırayla aynı yapın, sonra Kontrol et düğmesine basın."
-counters_note-same-rows-top: Üst sıradaki bazı sayaçların eşi yok.
-counters_note-same-rows-bottom: Alt sıradaki bazı sayaçların eşi yok.
+counters_note-same-rows-top: Üst sıradaki bazı sayaçlar eşleşmedi.
+counters_note-same-rows-bottom: Alt sıradaki bazı sayaçlar eşleşmedi.
 counters_hint-same-rows: "Her üst sayaçtan bir alt sayaca çizgi çizin. Çizgisiz kalan sayaçlar neyi değiştireceğinizi gösterir."
 counters_goal-one-less: "Üst sıraya alt sıradan bir sayaç az verin, sonra Kontrol et düğmesine basın."
 counters_note-one-less-over: Üst sırada fazla sayaç var.
 counters_note-one-less-short: Üst sırada eksik sayaç var.
-counters_hint-one-less: "Sıraları eşleştirin. Bir sayaç az olunca alt sıranın bir sayacı eşsiz kalır."
-counters_goal-right-sign: "İki sıranın arasına satırı doğru yapan işareti koyun, sonra Kontrol et düğmesine basın."
+counters_hint-one-less: "Sıraları eşleştirin. Bir sayaç az olunca alt sıranın bir sayacı eşleşmeden kalır."
+counters_goal-right-sign: "İki sıranın arasına ifadeyi doğru yapan işareti koyun, sonra Kontrol et düğmesine basın."
 counters_note-right-sign-more: Üst sırada bu işaretin söylediğinden çok sayaç var.
 counters_note-right-sign-fewer: Üst sırada bu işaretin söylediğinden az sayaç var.
-counters_hint-right-sign: "Her üst sayaçtan bir alt sayaca çizgi çizin. Eşsiz sayacı kalan sırada daha çok sayaç vardır ve işaretin açık yanı ona bakar. Hiç sayaç kalmazsa işaret = olur."
+counters_hint-right-sign: "Her üst sayaçtan bir alt sayaca çizgi çizin. Eşleşmeyen sayacı kalan sırada daha çok sayaç vardır ve işaretin açık yanı ona bakar. Hiç sayaç kalmazsa işaret = olur."
 counters_new-numbers: Yeni sayılar
+counters_add-first: Birinci sayı
+counters_add-second: İkinci sayı
+counters_add-waiting: Bekleyen
+counters_add-sum: Toplam
+counters_add-dice-sum: Çerçevelerdeki sayaçlar
+counters_add-roll: Zar at
+counters_add-die: "{x} gösteren zar"
+counters_add-counter-waiting: Bekleyen sayaç
+counters_add-counter-joined: Bir araya getirilen sayaç
+counters_add-take-second: Çıkan
+counters_add-left: Fark
+counters_add-take-counter: Sayaç
+counters_add-take-ring: Çıkan sayacın halkası
+counters_add-shelf-first: Sabah
+counters_add-shelf-second: Öğleden sonra
+counters_add-shelf-sum: Satılan
+counters_add-shelf-written: Satılan kavanozlar
+counters_add-shelf-written-left: Kalan kavanozlar
+counters_add-shelf-reading: Satılan kavanozlar sözle
+counters_add-shelf-reading-left: Kalan kavanozlar sözle
+counters_add-shelf-crate: Satış kasası
+counters_add-shelf-jar: Raftaki kavanoz
+counters_add-sold-jar: "Kasadaki kavanoz, {x}"
+counters_add-to-ten: 10'a tamamlayan
+counters_add-rest: Diğer parça
+counters_add-seedling: Fide
+counters_add-sprout: Filiz
+counters_add-seed-waiting: Paketteki tohum
+counters_add-seed-joined: Viyoldeki filiz
+counters_goal-find-sum: "{a} ile {b} sayısının toplamını Toplam düğmeleriyle ayarlayın, sonra Kontrol et düğmesine basın."
+counters_goal-find-sum-done: "{a} sayaçlık bir grup ile {b} sayaçlık bir grup bir araya gelince {sum} eder."
+counters_note-find-sum-less: "Toplam {n} sayısından küçük."
+counters_note-find-sum-greater: "Toplam {n} sayısından büyük."
+counters_hint-find-sum: "Çerçevelerde {a} kırmızı sayaç ve onlarla bir araya gelen {b} mavi sayaç düşünün. {a} sayısından başlayıp her mavi sayaç için bir sayı ileri sayın."
+counters_goal-steps-to-ten: "{calc} için 10'a tamamlayan ve Diğer parça düğmelerini ayarlayın, sonra Kontrol et düğmesine basın."
+counters_goal-steps-to-ten-done: "{line}; {toTen} ve {rest}."
+counters_note-steps-to-ten-past: "{step}, 10'u geçiyor."
+counters_note-steps-to-ten-short: "{step}, 10'a varmıyor."
+counters_note-steps-to-ten-more: "10'a tamamlayan ve Diğer parça, {second} sayısından çok ediyor."
+counters_note-steps-to-ten-less: "10'a tamamlayan ve Diğer parça, {second} sayısından az ediyor."
+counters_hint-steps-to-ten-plus: "10'a tamamlayan, {first} ile 10 eden sayıdır. Diğer parça, {second} sayısından geriye kalandır."
+counters_hint-steps-to-ten-minus: "Ona kadar, {first} sayısının dolu onluğundan sonraki sayaçların sayısıdır. Diğer parça, {second} sayısından geriye kalandır."
+counters_add-take-to-ten: Ona kadar
+counters_goal-steps-to-ten-minus: "{calc} için Ona kadar ve Diğer parça düğmelerini ayarlayın, sonra Kontrol et düğmesine basın."
+counters_add-shelf-left: Kalan

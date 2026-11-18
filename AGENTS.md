@@ -55,6 +55,26 @@ before a commit. The book's `agents/story.md` says how a story is checked.
 - Colours are the theme's CSS tokens (`--paper`, `--panel`, `--ink`, `--ink-2`, `--rule`, `--accent`), so a theme
   switch needs no redraw.
 
+## The words on a figure
+
+A goal line, a note after Check, a hint and the name of a readout or a control are read by the reader of the
+page's text, so they are written by the same rules: plain words, the terms of the book's glossary, full sentences.
+These rules are added.
+
+- A hint says what to do next. It gives the steps in the order the reader takes them, with the numbers of the case
+  on the figure: "First take away what brings 13 down to 10. Then take away the rest of the 5."
+- A hint leaves the names of the controls out of its reasoning. "Down to ten is the number of counters after the
+  full ten of 13" explains a button's name, where the reader wants to know what to take away and why.
+- A note after a wrong Check says what is off and which way to go, in the reader's own numbers, and keeps the
+  answer back: "13 − 4 goes past 10."
+- A goal line states the task in one plain sentence. It names a control only to point at it.
+- A name on the figure is a word the reader knows: a school term from the glossary, or a plain word for a part of
+  the figure. It is short enough to stand in a sentence.
+- A string is read aloud with real numbers in its gaps before it is kept. A string that reads badly with 13 and 5
+  put in is written again.
+- A string in another language takes each school term from the book's `i18n/terms/<lang>.yaml`. Where that file
+  has no word for a term, the string waits and the term is reported, as the book's `agents/translating.md` says.
+
 ## Kitap facts a family author needs
 
 - Browser modules end in `.js`. The dev server serves `.mjs` with a type that browsers refuse to run.

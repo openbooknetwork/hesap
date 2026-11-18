@@ -33,3 +33,12 @@ export function dice(seed) {
   const shuffle = items => { const a = [...items]; for (let i = a.length - 1; i > 0; i--) { const j = int(0, i); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   return { next, int, pick: items => items[int(0, items.length - 1)], shuffle, some: (items, n) => shuffle(items).slice(0, n) };
 }
+
+// another draws a goal's target that differs from the last one, so Another one always changes the figure.
+export function another(goal, c, spec, dice, last) {
+  for (let i = 0; i < 40; i++) {
+    const t = goal.draw(c, spec, dice);
+    if (!last || JSON.stringify(t) !== JSON.stringify(last)) return t;
+  }
+  return goal.draw(c, spec, dice);
+}

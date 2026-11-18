@@ -1,4 +1,4 @@
-hint: Move the figure and watch the numbers follow it.
+hint: "Move things on the figure and watch the numbers change."
 tab_map: Figure
 map_data: Data
 map_view: View
@@ -9,16 +9,23 @@ hesap_start: Start
 hesap_time: Time
 hesap_reset: Start again
 hesap_undo: Undo
+hesap_check: Check
 hesap_hint: Hint
 hesap_another: Another one
 hesap_solved: Solved
 hesap_not-yet: Not solved yet.
-counters_lead: "Tap and drag the counters, and watch the numbers follow them."
+hesap_written: Number sentence
+hesap_written-reading: In words
+hesap_written-plus: "{a} plus {b} is equal to {c}"
+hesap_written-minus: "{a} minus {b} is equal to {c}"
+hesap_written-plus-open: "{a} plus {b}"
+hesap_written-minus-open: "{a} minus {b}"
+counters_lead: "Tap or drag the counters and watch the numbers change."
 counters_whole: Whole
 counters_first: First part
 counters_second: Second part
 counters_empty: Empty cells
-counters_added: Blue added
+counters_added: Added
 counters_found: Splits found
 counters_ways: Splits in all
 counters_hands-first: Left hand
@@ -27,11 +34,11 @@ counters_hands-whole: Beads
 counters_one-first: Counters
 counters_one-found: Pairs found
 counters_one-ways: Pairs in all
-counters_two-first: Red
-counters_two-second: Blue
-counters_cup-first: Part in sight
-counters_cup-second: Hidden part
-counters_cup-added: Blue added
+counters_two-first: First part
+counters_two-second: Second part
+counters_cup-first: Known part
+counters_cup-second: Missing part
+counters_cup-added: Added
 counters_pins-first: Standing
 counters_pins-empty: Knocked down
 counters_cars-first: Parked
@@ -42,8 +49,7 @@ counters_fill: Fill the second frame
 counters_unfill: Empty the second frame
 counters_lift: Lift the cup
 counters_lower: Put the cup back
-counters_check: Check
-counters_blue: Blue counters
+counters_blue: Second part
 counters_tray: Tray
 counters_pile: Pile
 counters_cup: Cup
@@ -56,15 +62,15 @@ counters_free: Free
 counters_pair: "{a} and {b}"
 counters_list-splits: "Splits of {x}"
 counters_list-pairs: "Pairs that make {x}"
-counters_goal-make-whole: "The red tray holds {part}. Set the blue counters so that the frame holds {whole}, then press Check."
-counters_goal-make-whole-two: "The red tray holds {part}. Set the blue counters so that the two frames hold {whole}, then press Check."
-counters_goal-hidden-part: "The whole is {whole}, and the part in sight is {part}. Build the part under the cup in the tray, then lift the cup."
-counters_note-short: Some cells are still empty.
-counters_note-over: Some counters found no cell.
-counters_note-more: The tray holds more counters than the cup.
-counters_note-fewer: The tray holds fewer counters than the cup.
-counters_hint-make-whole: "Count on from {part} to {whole}. Each number you say after {part} is one blue counter."
-counters_hint-hidden-part: "Count on from {part} to {whole}. Each number you say after {part} is one counter under the cup."
+counters_goal-make-whole: "Set the second part so that it makes {whole} with the first part, {part}, then press Check."
+counters_goal-make-whole-two: "Set the second part so that it makes {whole} with the first part, {part}, then press Check."
+counters_goal-hidden-part: "The whole is {whole} and the known part is {part}. Put the missing part in the tray, then lift the cup."
+counters_note-short: "There are still empty cells, so add more counters to the second part."
+counters_note-over: "There are more counters than cells, so take some counters out of the second part."
+counters_note-more: "There are more counters in the tray than under the cup, so put some back on the pile."
+counters_note-fewer: "There are fewer counters in the tray than under the cup, so put more in the tray."
+counters_hint-make-whole: "Count on from {part} to {whole} and keep track of how many numbers you say. That is how many counters the second part needs."
+counters_hint-hidden-part: "Count on from {part} to {whole} and keep track of how many numbers you say. That is how many counters are under the cup, so put that many in the tray."
 counters_total: How many
 counters_tag-count: Last number said
 counters_take-count: Left
@@ -85,18 +91,18 @@ counters_kind-person: Person
 counters_gap: Empty place
 counters_basket: Basket
 counters_stop-sign: Bus
-counters_goal-fill-basket: "Put {target} apples in the basket, then press Check."
-counters_goal-count-on: "The box holds {box}. Put counters beside it until there are {target} in all, then press Check."
-counters_goal-count-back: "Take counters away until {target} are left, then press Check."
-counters_note-fill-basket-more: The basket holds more apples than that.
-counters_note-fill-basket-fewer: The basket holds fewer apples than that.
-counters_note-count-on-more: The box and the counters make more than that.
-counters_note-count-on-fewer: The box and the counters make fewer than that.
-counters_note-count-back-more: More counters are left than that.
-counters_note-count-back-fewer: Fewer counters are left than that.
-counters_hint-fill-basket: "Say one number for each apple you put in, and stop at {target}."
-counters_hint-count-on: "Start from {box} and say the next number for each counter you put beside the box. Stop at {target}."
-counters_hint-count-back: "Start from {start} and say the number before for each counter you take away. Stop at {target}."
+counters_goal-fill-basket: "Put apples in the basket until it holds {target}, then press Check."
+counters_goal-count-on: "The box holds {box}. Put counters in the dashed space until there are {target} altogether, then press Check."
+counters_goal-count-back: "Take counters away until the number left is {target}, then press Check."
+counters_note-fill-basket-more: "There are more than {target} apples in the basket, so take some out."
+counters_note-fill-basket-fewer: "There are fewer than {target} apples in the basket, so put more in."
+counters_note-count-on-more: "The box and the counters you put out come to more than {target}, so take some counters away."
+counters_note-count-on-fewer: "The box and the counters you put out come to fewer than {target}, so put out more counters."
+counters_note-count-back-more: "The number left is greater than {target}, so take more counters away."
+counters_note-count-back-fewer: "The number left is less than {target}, so put some counters back."
+counters_hint-fill-basket: "Count each apple as you put it in, and stop when you get to {target}."
+counters_hint-count-on: "Start at {box}. Say the next number each time you put out a counter, and stop when you get to {target}."
+counters_hint-count-back: "Start at {start}. Count back one number each time you take a counter away, and stop when you get to {target}."
 counters_roll: Roll the ball
 counters_set-up: Set up the pins
 counters_ctl-top: Top row
@@ -139,31 +145,137 @@ counters_greatest: greatest
 counters_show-rows: Show the rows
 counters_order-top: First number
 counters_order-bottom: Second number
-counters_order-top-rows: "First, full rows"
-counters_order-top-last: "First, last row"
-counters_order-bottom-rows: "Second, full rows"
-counters_order-bottom-last: "Second, last row"
+counters_order-top-rows: "Full rows of the first"
+counters_order-top-last: "Last row of the first"
+counters_order-bottom-rows: "Full rows of the second"
+counters_order-bottom-last: "Last row of the second"
 counters_reading-equal: "{a} is equal to {b}"
 counters_verdict-true: "true"
 counters_verdict-false: "false"
 counters_sign: Sign
 counters_match-reading: In words
-counters_match-verdict: The line is
+counters_match-verdict: True or false
 counters_match-scoreboard-top: Home
 counters_match-scoreboard-bottom: Away
 counters_score-top: Home goal
 counters_score-bottom: Away goal
 counters_new-match: New match
-counters_goal-same-rows: "Make the top row the same as the bottom row, then press Check."
-counters_note-same-rows-top: Some counters of the top row have no partner.
-counters_note-same-rows-bottom: Some counters of the bottom row have no partner.
-counters_hint-same-rows: "Draw a line from each top counter to a bottom counter. The counters left without a line show what to change."
-counters_goal-one-less: "Give the top row one counter fewer than the bottom row, then press Check."
-counters_note-one-less-over: The top row has too many counters.
-counters_note-one-less-short: The top row has too few counters.
-counters_hint-one-less: "Pair the rows. One counter fewer leaves one counter of the bottom row without a partner."
-counters_goal-right-sign: "Put the sign between the two rows that makes the line true, then press Check."
+counters_goal-same-rows: "Give the top row as many counters as the bottom row, then press Check."
+counters_note-same-rows-top: "Some counters in the top row have no partner, so take some away from the top row."
+counters_note-same-rows-bottom: "Some counters in the bottom row have no partner, so add counters to the top row."
+counters_hint-same-rows: "Pair up the counters in the two rows. Then add counters to the top row or take some away until every counter has a partner."
+counters_goal-one-less: "Give the top row one fewer counter than the bottom row, then press Check."
+counters_note-one-less-over: "The top row has too many counters, so take some away."
+counters_note-one-less-short: "The top row has too few counters, so add some."
+counters_hint-one-less: "Pair up the counters in the two rows. Then change the top row until just one counter in the bottom row has no partner."
+counters_goal-right-sign: "Put the sign that makes the number sentence true between the two rows, then press Check."
 counters_note-right-sign-more: The top row has more counters than this sign says.
 counters_note-right-sign-fewer: The top row has fewer counters than this sign says.
-counters_hint-right-sign: "Draw a line from each top counter to a bottom counter. The row with counters left without a partner has more, and the open side of the sign faces it. With no counter left, the sign is =."
+counters_hint-right-sign: "Pair up the counters in the two rows. The row with counters left over has more, and the open side of the sign faces that row. If no counters are left over, the sign is =."
 counters_new-numbers: New numbers
+counters_add-first: First number
+counters_add-second: Second number
+counters_add-waiting: Still to join
+counters_add-sum: Sum
+counters_add-dice-sum: Counters in the frames
+counters_add-roll: Roll
+counters_add-die: "Die showing {x}"
+counters_add-counter-waiting: "Counter waiting to join"
+counters_add-counter-joined: "Counter that has joined"
+counters_add-take-second: Taken away
+counters_add-left: Left
+counters_add-take-counter: Counter
+counters_add-take-ring: "Empty ring where a counter was taken away"
+counters_add-shelf-first: Morning
+counters_add-shelf-second: Afternoon
+counters_add-shelf-sum: Sold
+counters_add-shelf-written: Jars sold
+counters_add-shelf-written-left: Jars left
+counters_add-shelf-reading: Jars sold in words
+counters_add-shelf-reading-left: Jars left in words
+counters_add-shelf-crate: Sold in the
+counters_add-shelf-jar: Jar on the shelf
+counters_add-sold-jar: "Jar {x} in the crate"
+counters_add-to-ten: Makes ten
+counters_add-rest: The rest
+counters_add-seedling: Seedling
+counters_add-sprout: Sprout
+counters_add-seed-waiting: Seed in the packet
+counters_add-seed-joined: Sprout in the tray
+counters_goal-find-sum: "Set the sum of {a} and {b} on the Sum stepper, then press Check."
+counters_goal-find-sum-done: "A group of {a} and a group of {b} make {sum} altogether."
+counters_note-find-sum-less: "The sum is less than {n}."
+counters_note-find-sum-greater: "The sum is greater than {n}."
+counters_hint-find-sum: "Picture {a} counters in the frames and {b} more counters joining them. Start at {a} and count on one number for each counter that joins."
+counters_goal-steps-to-ten: "Split the {second} in {calc} into the part that makes ten with {first} and the rest, then press Check."
+counters_goal-steps-to-ten-done: "{line}. The two steps are {toTen} and {rest}."
+counters_note-steps-to-ten-past: "{step} goes past 10."
+counters_note-steps-to-ten-short: "{step} does not reach 10."
+counters_note-steps-to-ten-more: "{x} and {y} make more than {second}, so make the rest smaller."
+counters_note-steps-to-ten-less: "{x} and {y} make less than {second}, so make the rest greater."
+counters_hint-steps-to-ten-plus: "First work out how many {first} needs to make 10, and set that. Then set what is left of the {second}."
+counters_hint-steps-to-ten-minus: "First work out how many to take away to bring {first} down to 10, and set that. Then set what is left of the {second}."
+counters_add-take-to-ten: Down to ten
+counters_goal-steps-to-ten-minus: "Split the {second} in {calc} into the part that takes {first} down to ten and the rest, then press Check."
+counters_add-shelf-left: Left
+line_lead: "Move the point along the line and read the number at its mark."
+line_jump-left: Jump left
+line_jump-right: Jump right
+line_point: Number at the point
+line_point-short: Point
+line_second: Number at the second point
+line_second-short: Second point
+line_jumps: Jumps
+line_step: Step
+line_from: Left end
+line_to: Right end
+line_point-name: Point
+line_second-name: Second point
+line_reading-later: "{a} is greater than {b}"
+line_reading-both: "Both points are on {a}"
+line_goal-place: "Put the point on {target}, then press Check."
+line_goal-place-done: "The point is on {target}."
+line_note-place-left: "The point is to the left of {target}. Move it to the right."
+line_note-place-right: "The point is to the right of {target}. Move it to the left."
+line_ten-before: Ten before
+line_ten-after: Ten after
+line_placed: Cards placed
+line_placed-short: Placed
+line_placed-of: "{n} of {all}"
+line_open-gap: "Gap from {a} to {b}"
+line_card: "Card {x}"
+line_find: Number to find
+line_show: Show
+line_next: Next number
+line_middle: Middle
+line_van: Van
+line_estimate: Estimate
+line_open-book: Open the book
+line_bookmark: Bookmark
+line_hint-place-unmarked: "Press Middle to mark {mid}. {target} is between {lo} and {hi}, and closer to {near}. Put the point there."
+line_goal-place-unmarked-done: "The point is close to {target}."
+line_between: "between {a} and {b}"
+line_gaps-unequal: Some gaps are longer than others.
+line_gaps-equal: "All the gaps are the same length."
+line_mark-name: "Mark {x}"
+line_mark-left: The gap on its left is longer
+line_mark-right: The gap on its right is longer
+line_mark-even: "The gaps on both sides of it are equal"
+line_start: Start
+line_goal-jump: "Jump from {start} to find {calc}, then press Check."
+line_note-jump-few: "The point has made {done} of the {n} jumps that {calc} needs. Keep jumping."
+line_note-jump-many: "The point has made {done} jumps, but {calc} needs only {n}. Jump back."
+line_new-line: New line
+line_goal-place-unmarked: "Put the point close to {target}, then press Check."
+line_find-short: Find
+line_hint-place-on: "{target} is between the long marks for {before} and {after}. Start at {before} and count on one mark at a time until you get to {target}."
+line_hint-place-back: "{target} is between the long marks for {before} and {after}. Start at {after} and count back one mark at a time until you get to {target}."
+line_hint-place-two-labels-on: "The labels {a} and {b} are on marks next to each other, so the step from one mark to the next is {b} − {a}. Count on from {b} in steps of that size until you get to {target}."
+line_hint-place-two-labels-back: "The labels {a} and {b} are on marks next to each other, so the step from one mark to the next is {b} − {a}. Count back from {a} in steps of that size until you get to {target}."
+line_hint-jump-plus: "Start at {start} and press Jump right {n} times. At each jump, say the next number. The first two are {next} and {then}."
+line_hint-jump-minus: "Start at {start} and press Jump left {n} times. At each jump, say the number before. The first two are {next} and {then}."
+line_hint-jump-plus-one: "Start at {start}. Press Jump right once and say the next number, {next}."
+line_hint-jump-minus-one: "Start at {start}. Press Jump left once and say the number before, {next}."
+line_note-jump-way-plus: "{calc} is an addition, so the jumps go to the right from {start}."
+line_note-jump-way-minus: "{calc} is a subtraction, so the jumps go to the left from {start}."
+line_note-jump-few-none: "The point is still on {start}. Make the jumps for {calc} from there."

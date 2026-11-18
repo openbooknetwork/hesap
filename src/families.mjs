@@ -1,5 +1,6 @@
 // Every family of scenes hesap ships. A family's Node half exports its id, the scenes it owns, the schema of their
 // fields, read and start.
 import counters from './families/counters/index.mjs';
+import line from './families/line/index.mjs';
 
-export default [counters];
+export default [counters, line];
