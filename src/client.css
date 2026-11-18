@@ -167,6 +167,9 @@ aside.story .place[data-formula] .katex-display>.katex{text-align:start}
 .hesap-counters .counters-pin-stripe{fill:var(--z-counters-red,#d1453b)}
 .hesap-counters .counters-spot{fill:var(--rule)}
 .hesap-counters .counters-down .counters-pin-body{opacity:.45}
+.hesap-counters .counters-ball{pointer-events:none}
+.hesap-counters .counters-ball-shape{fill:var(--z-counters-blue,#2a6bd1);stroke:var(--ink);stroke-width:2}
+.hesap-counters .counters-ball-hole{fill:var(--ink)}
 .hesap-counters .counters-pin:focus-visible .counters-hit{stroke:var(--accent);stroke-width:2.5}
 
 /* The car park: two rows of spaces, an aisle, and a sign that shows the free spaces. */

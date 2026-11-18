@@ -99,9 +99,11 @@ export function splits(ways) {
 
 // A bowling pin's outline, standing on 0, 0.
 const PIN = 'M -7 0 C -13 -12 -12 -26 -6 -36 C -4 -40 -5 -44 -5 -48 C -6 -56 -3 -62 0 -62 C 3 -62 6 -56 5 -48 C 5 -44 4 -40 6 -36 C 12 -26 13 -12 7 0 Z';
-// pins stand at the end of a lane in rows of 4, 3, 2 and 1. Cell 0 is the head pin at the front.
+const RUN = 84; // The length of lane in front of the head pin that the ball rolls along.
+// pins stand at the end of a lane in rows of 4, 3, 2 and 1, and the ball rests at the near end. Cell 0 is the head pin
+// at the front.
 export function pins() {
-  const dx = 58, dy = 46, w = 4 * dx + 56, h = 70 + 3 * dy + 40;
+  const dx = 58, dy = 46, w = 4 * dx + 56, h = 70 + 3 * dy + 40 + RUN;
   return [{ w, h, draw(x, y) {
     const spots = [], order = [[3, 1], [2, 2], [1, 3], [0, 4]];
     for (const [row, n] of order) for (let k = 0; k < n; k++) spots.push({ x: x + w / 2 + (k - (n - 1) / 2) * dx, y: y + 70 + row * dy });
@@ -109,10 +111,16 @@ export function pins() {
     const pinsOf = spots.map((p, i) => {
       const body = el('g', { class: 'counters-pin-body' }, [el('path', { class: 'counters-pin-shape', d: PIN }), el('rect', { class: 'counters-pin-stripe', x: -5, y: -44, width: 10, height: 3 }), el('rect', { class: 'counters-pin-stripe', x: -5, y: -39, width: 10, height: 3 })]);
       const g = el('g', { class: 'counters-pin', transform: `translate(${p.x} ${p.y})`, tabindex: 0, role: 'button', 'data-cell': i }, [el('rect', { class: 'counters-hit', x: -27, y: -48, width: 54, height: 54 }), el('ellipse', { class: 'counters-spot', rx: 10, ry: 4 }), body]);
-      return { g, body, tilt: { a: 0 } };
+      return { g, body, tilt: { a: 0 }, x: p.x, y: p.y };
     });
+    // The ball goes behind the pins, so a pin it reaches covers it. It rolls from rest to past the back row.
+    // The outer group takes the ball's place, and the inner one takes the pop, whose CSS transform would replace it.
+    const look = el('g', {}, [el('circle', { class: 'counters-ball-shape', r: 15 }),
+      ...[[-4, -6], [3, -7], [-1, 0]].map(([cx, cy]) => el('circle', { class: 'counters-ball-hole', cx, cy, r: 2.4 }))]);
+    const ball = el('g', { class: 'counters-ball' }, [look]);
+    const rest = { x: x + w / 2, y: y + h - 26 }, end = { y: y + 30 };
     // The pins at the back are drawn first, so the front pins stand before them.
-    return { nodes: [lane, ...[...pinsOf].reverse().map(p => p.g)], places: {}, refs: { pins: pinsOf, lane } };
+    return { nodes: [lane, ball, ...[...pinsOf].reverse().map(p => p.g)], places: {}, refs: { pins: pinsOf, lane, ball: { g: ball, look, rest, end } } };
   } }];
 }
 

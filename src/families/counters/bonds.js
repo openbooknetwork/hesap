@@ -29,7 +29,7 @@ export default function bonds({ host, stage, panel, T, lang, moving, motion: fx 
   // geo the places and parts of the figure as drawn, and nodes the drawn counter of each id. target is the
   // challenge's draw, and cs the reader's answer to it.
   let spec = null, s = null, st = null, geo = null, area = { w: 0, h: 0 }, nodes = new Map(), seq = 0, hold = null;
-  let goal = null, chips = [], target = null, cs = null, blueCtl = null, liftBtn = null, fillBtn = null, cupAt = null, pinned = [];
+  let goal = null, chips = [], target = null, cs = null, blueCtl = null, liftBtn = null, fillBtn = null, cupAt = null, pinned = [], rolling = false;
 
   const int = n => numbers(lang()).int(n);
   const label = id => T(`${contextOf(spec)}-${id}`) ?? T(id);
@@ -116,6 +116,8 @@ export default function bonds({ host, stage, panel, T, lang, moving, motion: fx 
     layer.replaceChildren(); nodes = new Map();
     svg.classList.toggle('counters-tapping', !!spec.tap);
     cupAt = null; pinned = [];
+    const ball = geo.refs.pins?.ball;
+    if (ball) place(ball, ball.rest, 0);
     wire(); render('jump');
   }
 
@@ -245,15 +247,52 @@ export default function bonds({ host, stage, panel, T, lang, moving, motion: fx 
   function lower() { if (spec.challenge?.goal === 'hidden-part' && cs.lifted) { cs.lifted = false; liftWords(); } }
 
   // A tap on a cell adds a counter of the page's part or takes it away. A tap on a pin knocks it down or stands it up.
-  // roll knocks down a random number of the pins still standing, at least one, and setUp stands every pin again.
+  // roll knocks down some of the pins still standing, at least one, and setUp stands every pin again. Both wait while
+  // the ball is rolling.
   function roll() {
     const up = s.cells.flatMap((id, i) => id ? [i] : []);
-    if (!up.length) return;
-    const d = dice(fresh());
-    for (const i of d.some(up, d.int(1, up.length))) s.cells[i] = null;
+    if (rolling || !up.length) return;
+    const d = dice(fresh()), ball = geo?.refs.pins?.ball;
+    if (!ball) { for (const i of d.some(up, d.int(1, up.length))) s.cells[i] = null; return changed(); }
+    const { hit, aim } = strike(d, up, ball);
+    if (moving()) return bowl(ball, hit, aim);
+    for (const i of hit) s.cells[i] = null;
     changed();
   }
-  function setUp() { s.cells = s.cells.map(id => id ?? newId('a')); changed(); }
+  // strike picks the pins a roll knocks down. The ball runs from rest through a standing pin, and knocks down every
+  // standing pin on its way. A pin that falls knocks each standing pin just behind it down half the time.
+  function strike(d, up, ball) {
+    const all = geo.refs.pins.pins, at = all[d.pick(up)], off = d.int(-8, 8), r = ball.rest;
+    const x = y => r.x + (at.x + off - r.x) * (r.y - y) / (r.y - at.y);
+    const hit = new Set(up.filter(i => Math.abs(all[i].x - x(all[i].y)) < 28));
+    const behind = (i, j) => all[j].y > all[i].y && all[j].y - all[i].y < 60 && Math.abs(all[j].x - all[i].x) < 40;
+    for (const i of [...up].sort((a, b) => all[b].y - all[a].y)) if (!hit.has(i) && [...hit].some(j => behind(i, j)) && d.int(0, 1)) hit.add(i);
+    // A pin falls away from the ball's path.
+    for (const i of hit) all[i].side = all[i].x < x(all[i].y) ? -1 : 1;
+    return { hit: [...hit], aim: x(ball.end.y) };
+  }
+  function setUp() { if (rolling) return; s.cells = s.cells.map(id => id ?? newId('a')); changed(); }
+  // bowl rolls the ball up the lane towards the pins it knocks down, and each pin falls as the ball reaches its row.
+  // The ball then goes on past the back row, and comes back to rest at the near end.
+  function bowl(ball, hit, aim) {
+    const all = geo.refs.pins.pins, left = new Set(hit);
+    const p = { x: ball.rest.x, y: ball.rest.y, t: 0 };
+    const knock = y => {
+      const fall = [...left].filter(i => all[i].y >= y - 4);
+      if (!fall.length) return;
+      for (const i of fall) { s.cells[i] = null; left.delete(i); }
+      changed();
+    };
+    const end = () => { rolling = false; place(ball, ball.rest, 0); };
+    rolling = true;
+    fx.run(p, { x: aim, y: ball.end.y, t: 1, duration: 900, ease: 'linear', onUpdate: () => { place(ball, p, p.t); knock(p.y); } },
+      () => { knock(-Infinity); end(); go.pop(ball.look); }, end);
+  }
+  // place puts the ball at p, a little smaller and fading out as it goes further down the lane, t from 0 to 1.
+  function place(ball, p, t) {
+    ball.g.setAttribute('transform', `translate(${p.x} ${p.y}) scale(${1 - 0.3 * t})`);
+    ball.g.style.opacity = t > 0.8 ? (1 - t) / 0.2 : 1;
+  }
   function tapCell(i) {
     if (spec.look === 'pins') { s.cells[i] = s.cells[i] ? null : newId('a'); return changed(); }
     const colour = spec.tap === 'second' ? 'b' : 'a', id = s.cells[i];
@@ -302,7 +341,7 @@ export default function bonds({ host, stage, panel, T, lang, moving, motion: fx 
     for (const [i, p] of (geo.refs.pins?.pins ?? []).entries()) {
       const up = !!s.cells[i], was = pinned[i];
       p.g.classList.toggle('counters-down', !up); p.g.setAttribute('aria-label', T(up ? 'pin-up' : 'pin-down', int(i + 1)));
-      const a = up ? 0 : 80, draw = () => p.body.setAttribute('transform', `rotate(${p.tilt.a}) scale(${1 - p.tilt.a / 400})`);
+      const a = up ? 0 : 80 * (p.side ?? 1), draw = () => p.body.setAttribute('transform', `rotate(${p.tilt.a}) scale(${1 - Math.abs(p.tilt.a) / 400})`);
       if (was !== undefined && was !== up && anim) { p.tween?.pause(); p.tween = go.tween(p.tilt, { a }, draw, 420, up ? 'outBack' : 'outBounce'); }
       else { p.tilt.a = a; draw(); }
       pinned[i] = up;
