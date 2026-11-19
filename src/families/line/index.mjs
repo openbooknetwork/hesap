@@ -1,7 +1,7 @@
 // The Node half of the line family. Its one scene draws a number line with marks at equal gaps and a point the
 // reader drags or jumps. It checks a page's fields and says what each link shows when the page opens.
 import { schema } from '@openbooknetwork/kitap';
-import { LOOKS, isFree, gapsKey, writtenOf, labelKeep, posOf, gapOn, LABELS_APART, PHONE, STONES_TO, GAPS, isStones, isMark, gapsOf, labelled, cardsOf, middleOf, findsOf, opening, counts, measuresOf, readoutsOf, readingOf } from './model.js';
+import { LOOKS, isFree, gapsKey, writtenOf, backOf, labelKeep, posOf, gapOn, LABELS_APART, PHONE, STONES_TO, GAPS, isStones, isMark, gapsOf, labelled, cardsOf, middleOf, findsOf, opening, counts, measuresOf, readoutsOf, readingOf } from './model.js';
 import { GOALS, challengeStart } from './goals.js';
 import { numbers } from '../../kit/format.js';
 import { words, reading, DASH } from '../../kit/written.js';
@@ -30,7 +30,10 @@ const Fields = z.object({
   second: Int.optional(), // A second point, of another shape and colour.
   flag: z.boolean().default(false), // Each point carries its number in a flag above it.
   reading: z.boolean().default(false), // A line of words says which point's number comes later in the count.
-  jump: z.boolean().default(false), // Jump left and Jump right move the point one gap and draw an arc over it.
+  // Jump left and Jump right move the point one jump and draw an arc over it: one gap with true, or a size of a jump
+  // in gaps, fixed or on a stepper.
+  jump: z.union([z.boolean(), Int.min(1), z.object({ stepper: z.tuple([Int, Int]), start: Int.optional() }).strict()]).default(false),
+  undo: z.boolean().default(false), // A jump and the same jump back, with the line of each.
   bracket: z.literal(10).optional(), // A bracket from the ten before the point to the ten after it.
   open: z.boolean().default(false), // A tap on a gap opens it under the line, with a mark for every number in it.
   middle: z.union([z.boolean(), z.literal('button')]).default(false), // The middle's long mark, or a button that draws it.
@@ -50,11 +53,13 @@ function read({ scene, ...fields }, { at }, ctx) {
   const pg = check(Fields, fields, at), fail = words => ctx.fail(at, words), step = value(pg.step), est = value(pg.estimate);
   // The book is an unmarked line. An unmarked line labels its ends unless the page says otherwise.
   const marks = pg.look === 'book' ? 'ends' : pg.marks;
-  const spec = { ...pg, scene, marks, labels: pg.labels ?? (marks === 'ends' ? 'ends' : 'all'), step: step.n, stepCtl: step.ctl, estimate: est.n, estimateCtl: est.ctl };
+  // A jump of true is one gap, and a number or a stepper gives the size of a jump, which the page then links as size.
+  const sized = typeof pg.jump === 'number' || typeof pg.jump === 'object', size = sized ? value(pg.jump) : { n: pg.jump ? 1 : null, ctl: null };
+  const spec = { ...pg, scene, marks, labels: pg.labels ?? (marks === 'ends' ? 'ends' : 'all'), step: step.n, stepCtl: step.ctl, estimate: est.n, estimateCtl: est.ctl, sized, size: size.n, sizeCtl: size.ctl };
   const done = () => { const ids = measuresOf(spec); return { data: spec, has: id => ids.includes(id), offers: ids.length ? `one of ${list(ids)}` : 'nothing, a challenge page draws its numbers as it opens' }; };
   // A page that draws its line of cards takes no field of the line, and the browser draws it as the page opens.
   if (pg.draw) {
-    for (const f of ['from', 'to', 'step', 'labels', 'blank', 'cards', 'point', 'marks', 'second', 'flag', 'reading', 'jump', 'bracket', 'open', 'middle', 'find', 'estimate', 'challenge', 'start', 'written', 'moved']) if (fields[f] !== undefined) fail(`${f} is drawn with the line on a page with draw, leave it out`);
+    for (const f of ['from', 'to', 'step', 'labels', 'blank', 'cards', 'point', 'marks', 'second', 'flag', 'reading', 'jump', 'undo', 'bracket', 'open', 'middle', 'find', 'estimate', 'challenge', 'start', 'written', 'moved']) if (fields[f] !== undefined) fail(`${f} is drawn with the line on a page with draw, leave it out`);
     if (pg.look !== 'line') fail(`look is ${pg.look}, a page with draw shows the line look, leave look out`);
     const outs = readoutsOf(spec);
     for (const id of pg.readout) if (!outs.includes(id)) fail(`readout names "${id}", this page reads out ${list(outs)}`);
@@ -167,11 +172,33 @@ function read({ scene, ...fields }, { at }, ctx) {
       }
     }
   }
+  if (sized) readSize(pg, spec, fail);
+  if (pg.undo && !sized) fail(`undo jumps a size and back, write jump as a size, such as jump: 5`);
   if (pg.open && spec.step === 1) fail('open shows the numbers inside a gap, and a line in ones has none, write a step above 1');
   if (pg.challenge) readChallenge(pg, spec, at, ctx);
   const outs = readoutsOf(spec);
   for (const id of pg.readout) if (!outs.includes(id)) fail(`readout names "${id}", this page reads out ${list(outs) || 'nothing'}`);
   return done();
+}
+
+// A jump of a size takes a marked line in the line look, and fits it. An undo page jumps from its start and back,
+// writing both lines, so it takes start, a size and written: true, and none of the fields that move or read the point
+// another way.
+function readSize(pg, spec, fail) {
+  const n = gapsOf(spec), { size, sizeCtl: c } = spec;
+  if (spec.look !== 'line' || isFree(spec)) fail(`jump has a size, which takes a marked line in the line look, write jump: true`);
+  if (pg.challenge) fail('jump has a size, and a challenge jumps one gap at a time, write jump: true');
+  if (c && (c.lo < 1 || c.lo >= c.hi || size < c.lo || size > c.hi)) fail(`jump.stepper is [${c.lo}, ${c.hi}] with start ${size}, write [low, high] from 1 with low under high and a start between them`);
+  else if ((c?.hi ?? size) > n) fail(`jump reaches a size of ${c?.hi ?? size}, and the line has ${n} gaps, write a size of ${n} at most`);
+  else if (pg.start !== undefined && isMark(spec, pg.start) && (pg.start - spec.from) / spec.step - size < 0 && (pg.start - spec.from) / spec.step + size > n) fail(`jump is ${size}, and a jump of ${size} either way from the start ${pg.start} leaves the line, write a smaller size or another start`);
+  if (!pg.undo) return;
+  // The start of an undo page moves, and from the middle of the line a size over half its gaps rests both buttons.
+  if ((c?.hi ?? size) > n / 2) fail(`jump reaches a size of ${c?.hi ?? size}, and from the middle of the line of ${n} gaps a jump over ${n / 2} leaves it either way, write a size of ${Math.floor(n / 2)} at most`);
+  if (pg.start === undefined) fail('undo jumps from the start and back to it, write start');
+  if (pg.written !== true) fail('undo writes the line of each jump, write written: true');
+  for (const f of ['point', 'second', 'bracket', 'find', 'estimate', 'moved']) if (pg[f] !== undefined) fail(`${f} belongs to pages without undo, an undo page takes start, jump, written and readout`);
+  for (const f of ['flag', 'open', 'reading']) if (pg[f]) fail(`${f} belongs to pages without undo, an undo page takes start, jump, written and readout`);
+  if (spec.stepCtl) fail('undo takes a line of one step, write step as a number');
 }
 
 // A challenge page names its goal and the range it draws from. The reader finds the target with the drag and the
@@ -215,7 +242,9 @@ function start(spec, lang, id) {
   if (!measuresOf(spec).includes(id)) return null;
   const s = opening(spec), int = numbers(lang).int;
   if (id === 'gaps') return string(lang, `line_${gapsKey(s)}`);
-  if (id === 'written' || id === 'reading' && spec.written) { const w = writtenOf(spec, s); return id === 'written' ? words(w, int) : reading(w, int, (key, vars) => string(lang, `hesap_${key}`, vars)); }
+  const say = (w, wording) => !w ? DASH : wording ? reading(w, int, (key, vars) => string(lang, `hesap_${key}`, vars)) : words(w, int);
+  if (id === 'written' || id === 'reading' && spec.written) return say(writtenOf(spec, s), id === 'reading');
+  if (id === 'written-back' || id === 'reading-back') return say(backOf(spec, s), id === 'reading-back');
   if (id === 'reading') { const r = readingOf(spec, s); return string(lang, `line_${r.key}`, { a: int(r.a), b: int(r.b) }); }
   const v = counts(spec, s)[id];
   return v === null ? DASH : int(v);

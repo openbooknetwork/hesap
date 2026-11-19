@@ -59,3 +59,5 @@ line_hint-jump-minus-one: "Start at {start}. Press Jump left once and say the nu
 line_note-jump-way-plus: "{calc} is an addition, so the jumps go to the right from {start}."
 line_note-jump-way-minus: "{calc} is a subtraction, so the jumps go to the left from {start}."
 line_note-jump-few-none: "The point is still on {start}. Make the jumps for {calc} from there."
+line_size: Size of a jump
+line_size-short: Size

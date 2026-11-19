@@ -5,8 +5,8 @@ import { svg as el } from './dom.js';
 
 export const PLUS = '+', MINUS = '−';
 // A line is { a, sign, b }, the number before the sign, the sign and the number after it. A line with open: true
-// leaves out its answer.
-export const answerOf = line => line.sign === PLUS ? line.a + line.b : line.a - line.b;
+// leaves out its answer, and a line with c writes c as its answer, such as a sum a reader claims.
+export const answerOf = line => line.c ?? (line.sign === PLUS ? line.a + line.b : line.a - line.b);
 
 // parts gives the pieces of a line in order. A number carries its role: a and b for the numbers either side of the
 // sign, and c for the answer.
@@ -22,6 +22,39 @@ export const readingKey = line => `written-${line.sign === PLUS ? 'plus' : 'minu
 // reading says a line in words, such as "5 plus 3 is equal to 8". T reads the kit's strings without their prefix
 // hesap_, as a family's T does in the browser.
 export const reading = (line, int, T) => T(readingKey(line), { a: int(line.a), b: int(line.b), c: int(answerOf(line)) });
+
+// The facts of a family: a whole and its two parts give the two parts added in either order and either part
+// subtracted from the whole. FACTS are their link ids in the order a figure writes them, the additions first.
+export const FACTS = ['written', 'written-swap', 'written-minus-second', 'written-minus-first'];
+// The reading of a fact takes the id of the fact with reading for written, such as reading-swap.
+export const readingOf = id => id.replace(/^written/, 'reading');
+export const writtenOf = id => id.replace(/^reading/, 'written');
+// FACT_IDS are the eight links a page that writes the facts offers.
+export const FACT_IDS = [...FACTS, ...FACTS.map(readingOf)];
+// The link id of each number of a fact, by its role in the line.
+const REFS = { written: { a: 'first', b: 'second', c: 'whole' }, 'written-swap': { a: 'second', b: 'first', c: 'whole' },
+  'written-minus-second': { a: 'whole', b: 'second', c: 'first' }, 'written-minus-first': { a: 'whole', b: 'first', c: 'second' } };
+// factsOf gives the four facts of a first part and a second part as lines, each carrying the link ids of its numbers.
+export function factsOf(first, second) {
+  const whole = first + second;
+  return { written: { a: first, sign: PLUS, b: second, refs: REFS.written }, 'written-swap': { a: second, sign: PLUS, b: first, refs: REFS['written-swap'] },
+    'written-minus-second': { a: whole, sign: MINUS, b: second, refs: REFS['written-minus-second'] }, 'written-minus-first': { a: whole, sign: MINUS, b: first, refs: REFS['written-minus-first'] } };
+}
+// factLine gives the line of a fact id or of its reading.
+export const factLine = (id, first, second) => factsOf(first, second)[writtenOf(id)];
+// sameFact gives the fact that shows for an id. Two equal parts give two facts, so the swap is the first addition and
+// the whole minus the first part is the whole minus the second.
+export const sameFact = (id, first, second) => first !== second ? writtenOf(id) : writtenOf(id) === 'written-swap' ? 'written' : writtenOf(id) === 'written-minus-first' ? 'written-minus-second' : writtenOf(id);
+// shownFacts gives the facts a figure writes out of the ones a page lists, each once.
+export const shownFacts = (first, second, listed = FACTS) => FACTS.filter(id => listed.includes(id) && sameFact(id, first, second) === id);
+// takenBy gives the part a subtraction takes away from the whole, and null for an addition.
+export const takenBy = id => ({ 'written-minus-second': 'second', 'written-minus-first': 'first' })[writtenOf(id)] ?? null;
+// finding gives the calculation that finds a covered number: the first part plus the second part for the whole, and
+// the whole minus the other part for a part. open leaves out its answer while the number is covered.
+export function finding(first, second, covered, open) {
+  const id = covered === 'whole' ? 'written' : covered === 'first' ? 'written-minus-second' : 'written-minus-first';
+  return { ...factsOf(first, second)[id], open };
+}
 
 // The size of a written line in a figure's units, the size of the numbers of the line of two numbers in counters/match.
 export const SIZE = 34;

@@ -20,3 +20,4 @@ hesap_written-plus: "{a} plus {b} is equal to {c}"
 hesap_written-minus: "{a} minus {b} is equal to {c}"
 hesap_written-plus-open: "{a} plus {b}"
 hesap_written-minus-open: "{a} minus {b}"
+hesap_facts: Facts of the family

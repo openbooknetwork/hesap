@@ -1,7 +1,7 @@
 // The Node half of the counters family. The bonds scene moves counters between parts and fills ten frames, the
-// count scene counts objects one by one, the match scene pairs two rows, the order scene compares numbers, and the
-// add scene joins two groups and writes their sum. It checks a page's fields against its scene and says what each
-// link shows when the page opens.
+// count scene counts objects one by one, the match scene pairs two rows, the order scene compares numbers, the add
+// scene joins two groups and writes their sum, and the bar scene draws a whole and its parts as a bar model. It
+// checks a page's fields against its scene and says what each link shows when the page opens.
 import { schema } from '@openbooknetwork/kitap';
 import { LOOKS, modeOf, capOf, opening, counts, measuresOf } from './model.js';
 import { GOALS, challengeStart } from './goals.js';
@@ -9,6 +9,7 @@ import count from './count.mjs';
 import match from './match.mjs';
 import order from './order.mjs';
 import add from './add.mjs';
+import bar from './bar.mjs';
 import { numbers } from '../../kit/format.js';
 import { list, challenge, drawn, value } from '../../node.mjs';
 
@@ -98,12 +99,13 @@ function startBonds(spec, lang, id) {
 
 // Each scene checks its own fields, so the family's schema lets every field through to the scene.
 const Fields = z.object({}).passthrough();
-const SCENES = { bonds: { read: readBonds, start: startBonds }, count, match, order, add };
+const SCENES = { bonds: { read: readBonds, start: startBonds }, count, match, order, add, bar };
 const read = ({ scene, ...fields }, info, ctx) => SCENES[scene].read(fields, info, ctx);
 const start = (spec, lang, id) => SCENES[spec.scene].start(spec, lang, id);
 
-// The two colours of the counters, a red and a blue that readers with any colour vision tell apart, each with a step
-// for the dark themes.
-const bundle = () => ({ families: { 'counters-red': { color: '#d1453b', color_dark: '#f0776d' }, 'counters-blue': { color: '#2a6bd1', color_dark: '#6fa4f5' } } });
+// The two colours of the counters, a red and a blue that readers with any colour vision tell apart, and the brown and
+// the shell of the egg box, each with a step for the dark themes.
+const bundle = () => ({ families: { 'counters-red': { color: '#d1453b', color_dark: '#f0776d' }, 'counters-blue': { color: '#2a6bd1', color_dark: '#6fa4f5' },
+  'counters-brown': { color: '#a0602c', color_dark: '#d9a273' }, 'counters-shell': { color: '#7f7462', color_dark: '#cdc3b2' } } });
 
 export default { id: 'counters', scenes: Object.keys(SCENES), schema: Fields, read, start, bundle };

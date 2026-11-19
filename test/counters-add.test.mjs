@@ -81,7 +81,7 @@ test('add: the links follow every counter joined and sent back, and every throw 
     const s = { first: a, second: joined, waiting: b - joined };
     assert.deepEqual(['first', 'waiting', 'sum'].map(id => value(dicePage, s, id)), [String(a), String(b - joined), String(a + joined)]);
   }
-  assert.deepEqual(opening(dicePage), { first: 5, second: 0, waiting: 3, ten: true });
+  assert.deepEqual(opening(dicePage), { first: 5, second: 0, waiting: 3, ten: true, cover: null, found: null, whole: null, done: false, claim: null });
 });
 
 test('add: a page with a field out of place is told what to write', () => {

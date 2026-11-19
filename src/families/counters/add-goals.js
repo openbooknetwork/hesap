@@ -7,6 +7,8 @@ export const PART_STEP = [0, 9]; // The steppers Makes ten and The rest of a ste
 // The widest ranges a page may draw from. A first number reaches past the first ten, and the second joins after it
 // within the two frames.
 const FIRSTS = [1, 19], PARTS = [1, 10], SUMS = [1, 20], SECONDS = [2, 9];
+// A missing-part page draws a whole the two frames hold and a known part below it.
+const WHOLES = [2, 20], KNOWN = [1, 19];
 const span = (lo, hi) => Array.from({ length: Math.max(0, hi - lo + 1) }, (_, i) => lo + i);
 const range = (r, [lo, hi]) => Array.isArray(r) && r.length === 2 && r.every(Number.isInteger) && r[0] <= r[1] && r[0] >= lo && r[1] <= hi;
 const extra = (c, names) => { const f = Object.keys(c).find(k => k !== 'goal' && !names.includes(k)); return f ? `${f} belongs to another goal, this one draws from ${names.join(' and ')}` : null; };
@@ -20,6 +22,9 @@ const sums = c => span(...c.first).flatMap(a => span(...c.second).map(b => ({ a,
 const crossing = (c, sign) => sign === PLUS
   ? span(1, 9).flatMap(a => span(...c.second).map(b => ({ a, sign, b }))).filter(t => t.a + t.b >= 11 && t.a + t.b <= 18)
   : span(11, 18).flatMap(a => span(...c.second).map(b => ({ a, sign, b }))).filter(t => t.a - t.b >= 1 && t.a - t.b <= 9);
+// The subtractions a missing-part page can draw: every whole and known part of their ranges with the part below the
+// whole.
+const asks = c => span(...c.whole).flatMap(whole => span(...c.part).filter(part => part < whole).map(part => ({ whole, part })));
 // toTenOf gives the part of the second number that takes the first number to 10.
 export const toTenOf = t => t.sign === PLUS ? 10 - t.a : t.a - 10;
 
@@ -76,7 +81,30 @@ export const ADD_GOALS = {
     steps: t => [{ a: t.a, sign: t.sign, b: toTenOf(t) }, { a: 10, sign: t.sign, b: t.b - toTenOf(t) }],
     words: (c, t, f) => ({ first: f.int(t.a), second: f.int(t.b), sum: f.int(answerOf(t)) }),
   },
+  // The page writes a drawn subtraction open, such as 13 − 8, over its known part as red counters. The reader taps blue
+  // counters in or out and presses Check, which holds once the blue counters are the missing part.
+  'missing-part': {
+    scenes: ['add'],
+    problem(c) {
+      const stop = extra(c, ['whole', 'part']);
+      if (stop) return stop;
+      if (!range(c.whole, WHOLES)) return `whole is ${words(c.whole)}, write the range of the whole as [low, high] from ${WHOLES[0]} to ${WHOLES[1]}, such as [11, 18]`;
+      if (!range(c.part, KNOWN)) return `part is ${words(c.part)}, write the range of the known part as [low, high] from ${KNOWN[0]} to ${KNOWN[1]}, such as [3, 9]`;
+      return asks(c).length ? null : 'whole and part leave no subtraction to draw, give part numbers below the whole';
+    },
+    draw: (c, spec, dice) => { const all = asks(c); return all.length ? dice.pick(all) : null; },
+    // put says that a tap on the frames puts a blue counter in the next cell.
+    page: t => ({ first: t.part, second: 0, put: true }),
+    holds(state, spec, c, t) {
+      if (!state.checked) return { done: false };
+      const missing = t.whole - t.part;
+      return state.put === missing ? { done: true } : { done: false, note: state.put > missing ? 'more' : 'less' };
+    },
+    reach: (spec, c, t) => t.whole > WHOLES[1] ? `the two frames hold ${WHOLES[1]}, fewer than ${t.whole}` : null,
+    line: (t, done) => ({ a: t.whole, sign: MINUS, b: t.part, open: !done }),
+    words: (c, t, f) => ({ whole: f.int(t.whole), part: f.int(t.part), missing: f.int(t.whole - t.part) }),
+  },
 };
 
-// The reader's state as a challenge opens: every stepper at 0 and nothing checked.
-export const addStart = () => ({ sum: 0, toTen: 0, rest: 0, checked: false });
+// The reader's state as a challenge opens: every stepper at 0, no counter put in and nothing checked.
+export const addStart = () => ({ sum: 0, toTen: 0, rest: 0, put: 0, checked: false });

@@ -29,6 +29,8 @@ const OBJECTS = {
   chair: r => [el('path', { class: 'counters-legs', d: `M ${-r * 0.55} ${r * 0.15} L ${-r * 0.55} ${r} M ${r * 0.6} ${r * 0.15} L ${r * 0.6} ${r}` }),
     el('rect', { class: 'counters-body', x: -r * 0.75, y: -r, width: r * 0.4, height: r * 1.3, rx: r * 0.15 }),
     el('rect', { class: 'counters-body', x: -r * 0.75, y: -r * 0.05, width: r * 1.55, height: r * 0.4, rx: r * 0.15 })],
+  // A football shirt seen from the front, with room for its number.
+  shirt: r => [el('path', { class: 'counters-body', d: `M ${-r * 0.42} ${-r * 0.95} L ${-r * 1.05} ${-r * 0.62} L ${-r * 1.15} ${-r * 0.05} L ${-r * 0.72} ${r * 0.02} L ${-r * 0.72} ${r * 0.98} L ${r * 0.72} ${r * 0.98} L ${r * 0.72} ${r * 0.02} L ${r * 1.15} ${-r * 0.05} L ${r * 1.05} ${-r * 0.62} L ${r * 0.42} ${-r * 0.95} Q 0 ${-r * 0.55} ${-r * 0.42} ${-r * 0.95} Z` })],
   // A football: a ball in its team's colour with a patch.
   ball: r => [el('circle', { class: 'counters-body', r }), el('path', { class: 'counters-patch', d: `M 0 ${-r * 0.5} L ${r * 0.48} ${-r * 0.15} L ${r * 0.3} ${r * 0.42} L ${-r * 0.3} ${r * 0.42} L ${-r * 0.48} ${-r * 0.15} Z` })],
   saucer: r => [el('ellipse', { class: 'counters-body', rx: r * 1.5, ry: r * 0.5 }), el('ellipse', { class: 'counters-well', rx: r * 0.8, ry: r * 0.24 })],
@@ -50,6 +52,10 @@ function glyph(kind, r) {
     el('rect', { class: 'counters-jar-lid', x: -r * 0.86, y: -r * 1.08, width: r * 1.72, height: r * 0.46, rx: r * 0.12 })];
   // A square counter tells the second group of counters/add from the round first group by its shape.
   if (kind === 'square') return [el('rect', { class: 'counters-body', x: -r * 0.9, y: -r * 0.9, width: r * 1.8, height: r * 1.8, rx: r * 0.22 }), el('rect', { class: 'counters-ring', x: -r * 0.52, y: -r * 0.52, width: r * 1.04, height: r * 1.04, rx: r * 0.1 })];
+  // An egg stands upright in its cup. A brown egg has speckles, so the two sorts of the egg box differ by more than
+  // their colour.
+  if (kind === 'egg-brown' || kind === 'egg-white') return [el('ellipse', { class: 'counters-body', rx: r * 0.8, ry: r * 1.02 }),
+    ...(kind === 'egg-brown' ? [[-0.35, -0.45], [0.3, -0.2], [-0.15, 0.25], [0.35, 0.5], [-0.42, 0.62], [0.05, -0.75]].map(([cx, cy]) => el('circle', { class: 'counters-speck', cx: cx * r, cy: cy * r, r: r * 0.09 })) : [])];
   if (kind === 'bead') return [el('circle', { class: 'counters-body', r }), el('circle', { class: 'counters-shine', r: r * 0.32, cx: -r * 0.35, cy: -r * 0.35 })];
   if (kind === 'car') {
     const w = r * 1.5, l = r * 2.5;
@@ -70,6 +76,13 @@ export function counter(kind, colour, r = R, n = 0) {
   const paint = kind === 'car' || kind === 'person' ? ` counters-paint-${n % PAINTS}` : '';
   const g = el('g', { class: `counters-counter counters-${colour} counters-${kind}${paint}` }, [pop]);
   return { g, pop, at: { x: 0, y: 0 }, colour };
+}
+
+// gone draws the dashed outline a counter of this kind leaves when it is taken away.
+export function gone(kind, r = R) {
+  if (kind === 'square') return el('rect', { class: 'counters-void counters-gone', x: -r * 0.86, y: -r * 0.86, width: r * 1.72, height: r * 1.72, rx: r * 0.22 });
+  if (kind.startsWith('egg')) return el('ellipse', { class: 'counters-void counters-gone', rx: r * 0.76, ry: r * 0.98 });
+  return el('circle', { class: 'counters-void counters-gone', r: r - 2 });
 }
 
 // show draws a counter where its at says, and put moves it there.

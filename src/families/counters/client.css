@@ -276,3 +276,102 @@
 .hesap-counters .counters-paired-lit .counters-hit{fill:var(--accent);fill-opacity:.6;stroke:var(--accent);stroke-width:4}
 .hesap-counters .counters-paired-lit .counters-body{stroke:var(--paper);stroke-width:2.5}
 .hesap-counters .counters-wire.counters-hot{stroke:var(--accent);stroke-width:5}
+
+/* The egg box: a carton of ten cups, brown eggs with speckles and white eggs with a shell outline. The numbers of the
+   facts take the brown and the shell as the colours of the two parts. */
+.hesap-counters .counters-egg-a{--c:var(--z-counters-brown,#a0602c)}
+.hesap-counters .counters-egg-b{--c:var(--z-counters-shell,#7f7462)}
+.hesap-counters .counters-carton{fill:#dcc9a4;stroke:#a88a55;stroke-width:2.5}
+.hesap-counters .counters-egg-cup{fill:#c8b088;stroke:#a88a55;stroke-width:1}
+.hesap-counters .counters-egg-brown .counters-body{fill:var(--z-counters-brown,#a0602c);stroke:#6b3d1c;stroke-width:1.5}
+.hesap-counters .counters-egg-white .counters-body{fill:#fbf8f1;stroke:var(--z-counters-shell,#7f7462);stroke-width:2}
+.hesap-counters .counters-speck{fill:#5a3215;stroke:none}
+.hesap-counters .counters-lit:is(.counters-egg-brown,.counters-egg-white) .counters-body{stroke:var(--accent);stroke-width:4}
+/* A lit counter of the frames and the egg box also takes a ring in ink round it, so it shows where the accent is
+   close to the counter's own colour. */
+.hesap-counters .counters-layer .counters-lit .counters-hit{stroke:var(--ink);stroke-width:2.5}
+
+/* The facts of a family: each fact is a button in a box, and the picked fact is outlined in the accent. */
+.hesap-counters .counters-fact{cursor:pointer;outline:none}
+.hesap-counters .counters-fact-box{fill:transparent;stroke:var(--rule);stroke-width:1.5}
+.hesap-counters .counters-fact:hover .counters-fact-box{fill:var(--accent);fill-opacity:.08}
+.hesap-counters .counters-fact:focus-visible .counters-fact-box{stroke:var(--accent);stroke-width:3}
+.hesap-counters .counters-fact-on .counters-fact-box{fill:var(--accent);fill-opacity:.12;stroke:var(--accent);stroke-width:3}
+
+/* The domino: two halves of pips, the whole above it, and the card that covers a half. */
+.hesap-counters .counters-domino{fill:var(--paper);stroke:var(--ink);stroke-width:3}
+.hesap-counters .counters-domino-bar{stroke:var(--ink);stroke-width:2.5}
+.hesap-counters .counters-domino-pip{fill:var(--c)}
+.hesap-counters .counters-half{cursor:pointer;outline:none}
+.hesap-counters .counters-half-box{fill:transparent;stroke:none}
+.hesap-counters .counters-half:hover .counters-half-box{fill:var(--accent);fill-opacity:.08}
+.hesap-counters .counters-half:focus-visible .counters-half-box{stroke:var(--accent);stroke-width:3}
+.hesap-counters .counters-half.counters-hot{stroke:none}
+.hesap-counters .counters-half.counters-hot .counters-half-box{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-domino-whole{font-size:40px;font-weight:700}
+.hesap-counters .counters-domino-whole.counters-hot{stroke:none;fill:var(--accent)}
+.hesap-counters .counters-domino-card{cursor:pointer;outline:none}
+.hesap-counters .counters-domino-card-box{fill:var(--panel);stroke:var(--ink);stroke-width:2.5}
+.hesap-counters .counters-domino-card:focus-visible .counters-domino-card-box{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-cover-q{font-size:60px;font-weight:700;fill:var(--ink-2)}
+
+/* The places of a missing part are outlined squares that the counters put in cover. A counter put in carries the number
+   the count reaches, and the red counters let a tap through to the frames. */
+.hesap-counters .counters-gap-place{fill:none;stroke:var(--ink-2);stroke-width:2;stroke-dasharray:5 4;pointer-events:none}
+.hesap-counters .counters-gap-place.counters-hot{stroke:var(--accent);stroke-width:3.5}
+.hesap-counters .counters-still{pointer-events:none}
+.hesap-counters .counters-numbered .counters-ring{display:none}
+.hesap-counters text.counters-num{fill:#fff;font-size:15px;font-weight:700}
+.hesap-counters .counters-taken text.counters-num{display:none}
+/* The squad: a pitch of grass with white lines, and a bench beside it. */
+.hesap-counters .counters-pitch{fill:#4f8f45;stroke:var(--ink-2);stroke-width:2}
+.hesap-counters .counters-pitch.counters-hot{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-pitch-line{fill:none;stroke:#fff;stroke-width:2;stroke-opacity:.85;pointer-events:none}
+.hesap-counters .counters-bench{fill:var(--panel);stroke:var(--ink-2);stroke-width:2}
+.hesap-counters .counters-bench.counters-hot{stroke:var(--accent);stroke-width:4}
+/* The line under a claim's check says whether the sum is right, in ink when it is and in the accent when it is not. */
+.hesap-counters text.counters-verdict{font-size:17px;font-weight:600;fill:var(--accent)}
+.hesap-counters text.counters-verdict.counters-verdict-right{fill:var(--ink)}
+.hesap-counters .counters-shirt .counters-body{stroke:var(--ink);stroke-width:1.5;stroke-linejoin:round}
+
+/* The bar model: two parts drawn to scale with the whole above them over a bracket, the handles of the split and the
+   end, and the card that covers a number. A subtraction draws the part it takes away pale with a dashed outline. */
+.hesap-counters .counters-bar-row{pointer-events:none}
+.hesap-counters .counters-bar-part{fill:var(--c);fill-opacity:.2;stroke:var(--c);stroke-width:2.5}
+.hesap-counters .counters-bar-num{font-size:24px;font-weight:700;fill:var(--c)}
+.hesap-counters .counters-bar-lead{stroke:var(--c);stroke-width:1.5}
+.hesap-counters .counters-bar-whole{font-size:30px;font-weight:700}
+.hesap-counters .counters-bracket{fill:none;stroke:var(--ink-2);stroke-width:2.5;stroke-linejoin:round}
+.hesap-counters .counters-bar-outline{fill:none;stroke:var(--ink);stroke-width:2.5}
+.hesap-counters .counters-bar-split{stroke:var(--ink);stroke-width:3}
+.hesap-counters .counters-bar-part.counters-hot,.hesap-counters .counters-bar-outline.counters-hot,.hesap-counters .counters-bracket.counters-hot{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-bar-num.counters-hot,.hesap-counters .counters-bar-whole.counters-hot{stroke:none;fill:var(--accent)}
+.hesap-counters .counters-bar-gone .counters-bar-part{fill-opacity:.04;stroke-dasharray:7 5;stroke-width:2.5}
+.hesap-counters .counters-bar-gone .counters-bar-num,.hesap-counters .counters-bar-gone .counters-choc-grooves{opacity:.4}
+.hesap-counters .counters-handle{cursor:ew-resize;outline:none}
+.hesap-counters .counters-handle-hit{fill:transparent}
+.hesap-counters .counters-knob{fill:var(--paper);stroke:var(--ink);stroke-width:2.5;stroke-linejoin:round}
+.hesap-counters .counters-grip{fill:none;stroke:var(--ink-2);stroke-width:2;stroke-linecap:round}
+.hesap-counters .counters-handle.drag .counters-knob,.hesap-counters .counters-handle.counters-hot .counters-knob{fill:var(--accent);stroke:var(--accent)}
+.hesap-counters .counters-handle:focus-visible .counters-knob{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-bar-tap{fill:transparent;cursor:pointer;outline:none}
+.hesap-counters .counters-bar-tap:hover{fill:var(--accent);fill-opacity:.08}
+.hesap-counters .counters-bar-tap:focus-visible{stroke:var(--accent);stroke-width:3}
+.hesap-counters .counters-bar-card{cursor:pointer;outline:none}
+.hesap-counters .counters-bar-card-box{fill:var(--panel);stroke:var(--ink);stroke-width:2.5}
+.hesap-counters .counters-bar-card:focus-visible .counters-bar-card-box{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-bar-card-q{font-size:28px;font-weight:700;fill:var(--ink-2)}
+/* A bar of chocolate: each piece has a square for each 1, its edge in its part's colour, and its number on a badge. */
+.hesap-counters .counters-bar-part.counters-choc{fill:#6b3f23;fill-opacity:1;stroke:var(--c);stroke-width:3}
+.hesap-counters .counters-bar-part.counters-choc.counters-hot{stroke:var(--accent);stroke-width:4}
+.hesap-counters .counters-choc-grooves line{stroke:#4a2a15;stroke-width:2}
+.hesap-counters .counters-choc-badge{fill:var(--paper);stroke:var(--c);stroke-width:2.5}
+.hesap-counters .counters-choc~.counters-bar-num{font-size:18px}
+.hesap-counters .counters-bar-gone .counters-bar-part.counters-choc{fill-opacity:.3}
+/* The number of a bar-for-two bar that the reader finds: its part or its bracket is dashed and its number is a
+   question mark. */
+.hesap-counters .counters-bar-unknown .counters-bar-part{fill:none;stroke-dasharray:7 5}
+.hesap-counters .counters-bracket-unknown{stroke-dasharray:6 5}
+/* A fact's place the page leaves empty is a dashed box with nothing in it. */
+.hesap-counters .counters-fact-empty{cursor:default}
+.hesap-counters .counters-fact-empty .counters-fact-box,.hesap-counters .counters-fact-empty:hover .counters-fact-box{fill:none;stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:6 5}

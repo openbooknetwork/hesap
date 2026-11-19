@@ -59,7 +59,7 @@ button.hesap-chip{cursor:pointer;min-height:36px;align-items:center}
 /* A challenge's line holds the goal, whether it is reached, another target and a hint. The goal takes a line of its
    own, so a longer status keeps the panel's height. */
 .hesap-goal{display:flex;flex-wrap:wrap;align-items:center;gap:.286rem .571rem}
-.hesap-goal-text{margin:0;flex-basis:100%;font-weight:600}
+.hesap-goal-text{margin:0;flex-basis:100%;font-weight:600;line-height:1.4}
 .hesap-goal-state{display:inline-flex;align-items:center;gap:.286rem;color:var(--ink-2);flex:1;min-width:0}
 .hesap-goal.solved .hesap-goal-state{color:var(--accent)}
 .hesap-goal-state svg{width:20px;height:20px}
@@ -79,6 +79,10 @@ aside.story .place[data-formula] .katex-display>.katex{text-align:start}
   .hesap-btn,.hesap-seg button,.hesap-step button{min-height:42px}
   .hesap-chip{padding:.214rem .643rem}
   .hesap-chip small{font-size:.786rem}
+  /* On a phone the goal line and the status keep room for two lines each, and the status takes a line of its own,
+     so a note or the done line leaves the panel's height as it was. */
+  .hesap-goal-text{min-height:2.8em}
+  .hesap-goal-state{flex-basis:100%;min-height:2.8em;line-height:1.4}
   .hesap-long{display:none}
   .hesap-short{display:inline}
   /* A compact button shows its glyph alone. */
@@ -96,3 +100,7 @@ aside.story .place[data-formula] .katex-display>.katex{text-align:start}
 .hesap .hesap-written [data-ref]{stroke:none}
 .hesap .hesap-written .hesap-written-num{fill:var(--c,var(--ink))}
 .hesap .hesap-written .hesap-written-hot,.hesap .hesap-written.hesap-written-hot{text-decoration:underline}
+
+/* A number sentence or a calculation written in the text, marked up as code: it stays on one line and stands out from
+   the words around it, in the text's own font, in the text and on the folded card. */
+:is(aside.story,.peek) code{font:inherit;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;padding:.071rem .357rem;border-radius:4px;background:color-mix(in srgb,var(--accent) 14%,transparent)}

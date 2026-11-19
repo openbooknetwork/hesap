@@ -196,3 +196,67 @@ counters_hint-steps-to-ten-minus: "Ona kadar, {first} sayısının dolu onluğun
 counters_add-take-to-ten: Ona kadar
 counters_goal-steps-to-ten-minus: "{calc} için Ona kadar ve Diğer parça düğmelerini ayarlayın, sonra Kontrol et düğmesine basın."
 counters_add-shelf-left: Kalan
+counters_add-family-first: Birinci parça
+counters_add-family-second: İkinci parça
+counters_add-family-whole: Bütün
+counters_add-domino-first: Birinci yarı
+counters_add-domino-second: İkinci yarı
+counters_add-domino-whole: Bütün
+counters_add-domino-cover: "{x} gösteren yarıyı kapat"
+counters_add-domino-lift: Kartı kaldır
+counters_add-whole-whole: Bütün
+counters_add-whole-first: Bilinen parça
+counters_add-whole-missing: Bilinmeyen parça
+counters_add-whole-second: Konan sayaçlar
+counters_add-claim: Toplam
+counters_add-claim-right: "Çıkarma işlemi {first} sayısını geri veriyor, yani toplam doğru."
+counters_add-claim-wrong: "{back}, {first} sayısına eşit değil, yani toplam yanlış."
+counters_add-squad-whole: Kadro
+counters_add-squad-first: Sahada
+counters_add-squad-missing: Kulübedeki yerler
+counters_add-squad-second: Kulübede
+counters_add-undo-back: Geri alınan
+counters_add-undo-left: Kalan
+counters_add-whole-put: Sonraki yere bir sayaç koy
+counters_add-put: Bir sayaç koy
+counters_add-squad-put: Sıradaki oyuncuyu kulübeye oturt
+counters_add-squad-player: "Sahadaki {x} numaralı oyuncu"
+counters_add-squad-bench: "Kulübedeki {x} numaralı oyuncu"
+counters_add-whole-out: "{x} numaralı sayaç. Son sayacı geri al."
+counters_add-out: Son sayacı geri al
+counters_goal-missing-part: "{calc} işleminin sorduğu parçayı koyun, sonra Kontrol et düğmesine basın."
+counters_goal-missing-part-done: "{line}, çünkü {part} ile {missing}, {whole} eder."
+counters_note-missing-part-more: "{part} ile {put}, {made} eder. Bu, {whole} sayısından büyük."
+counters_note-missing-part-less: "{part} ile {put}, {made} eder. Bu, {whole} sayısından küçük."
+counters_hint-missing-part: "{calc} şunu sorar: {part} ile kaç, {whole} eder? {part} sayısından {whole} sayısına kadar ileri sayın ve söylediğiniz her sayı için bir sayaç koyun."
+counters_bar-first: Birinci parça
+counters_bar-second: İkinci parça
+counters_bar-whole: Bütün
+counters_bar-chocolate-first: Birinci parça
+counters_bar-chocolate-second: İkinci parça
+counters_bar-chocolate-whole: Kareler
+counters_bar-cover-whole: Bütünü kapat
+counters_bar-cover-first: Birinci parçayı kapat
+counters_bar-cover-second: İkinci parçayı kapat
+counters_bar-lift: Kartı kaldır
+counters_goal-bar-for-fact-done: "Bütün {whole}, parçaları {first} ve {second}."
+# waits: counters_bar-split, for "split (bar model)" in the book's i18n/terms/tr.yaml
+# waits: counters_bar-end, for "end (bar model)"
+# waits: counters_goal-bar-for-fact, for "bar model (figure)" and "fact family (calculations)"
+# waits: counters_note-bar-for-fact-longer, for "bar model (figure)"
+# waits: counters_note-bar-for-fact-shorter, for "bar model (figure)"
+counters_bar-use: Sayılar
+counters_bar-use-parts: iki parça
+counters_bar-use-whole: bütün ve bir parça
+counters_bar-third: Üçüncü sayı
+# waits: counters_note-bar-for-fact-right, for "split (bar model)"
+# waits: counters_note-bar-for-fact-left, for "split (bar model)"
+# waits: counters_hint-bar-for-fact-plus, for "end (bar model)" and "split (bar model)"
+# waits: counters_hint-bar-for-fact-minus, for "end (bar model)" and "split (bar model)"
+counters_note-bar-for-two-parts-over: "{greater} ile {less}, {n} sayısından küçük bir sayı eder."
+counters_note-bar-for-two-parts-under: "{greater} ile {less}, {n} sayısından büyük bir sayı eder."
+counters_note-bar-for-two-whole-over: "{less} ile {n}, {greater} sayısından büyük bir sayı eder."
+counters_note-bar-for-two-whole-under: "{less} ile {n}, {greater} sayısından küçük bir sayı eder."
+# waits: counters_goal-bar-for-two, for "fact family (calculations)"
+# waits: counters_goal-bar-for-two-done, for "fact family (calculations)"
+# waits: counters_hint-bar-for-two, for "fact family (calculations)"

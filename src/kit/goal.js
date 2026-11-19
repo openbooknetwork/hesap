@@ -10,6 +10,10 @@ export function goalRow({ T, hint, another, motion, actions = [], quiet = false 
   const text = h('p', { class: 'hesap-goal-text' }), state = h('span', { class: 'hesap-goal-state', role: 'status' });
   const hintText = h('p', { class: 'hesap-hint', hidden: true });
   let done = false, hinted = false;
+  // hold keeps the goal line and the status at the tallest they have been on this page, so the panel keeps its
+  // height as the goal line, a note and the done line take turns, and the figure above does not rebuild.
+  const tallest = new Map();
+  const hold = node => { node.style.minHeight = ''; const h = Math.max(node.offsetHeight, tallest.get(node) ?? 0); tallest.set(node, h); if (h) node.style.minHeight = `${h}px`; };
   // A hint is words, or an element the family built, such as a formula. kept says the hint opens again after a
   // change of language, so the family shows it without marking it as new.
   const toggle = kept => {
@@ -23,13 +27,14 @@ export function goalRow({ T, hint, another, motion, actions = [], quiet = false 
   return {
     el, text, hintText,
     // say writes the goal. A family that sets formulas in the goal writes into text itself.
-    say(words) { if (words instanceof Node) text.replaceChildren(words); else if (text.textContent !== (words ?? '')) text.textContent = words ?? ''; },
+    say(words) { if (words instanceof Node) text.replaceChildren(words); else if (text.textContent !== (words ?? '')) text.textContent = words ?? ''; hold(text); },
     // show says whether the goal is reached. note is a line of progress for a goal not reached yet. It returns true
     // the first time the goal is reached, when the family cheers.
     show(reached, note) {
       const words = reached ? T('solved') : note ?? (quiet ? '' : T('not-yet'));
       if (state.dataset.words !== words) { state.dataset.words = words; state.replaceChildren(...(reached ? [icon('tick'), h('b', {}, words)] : [words])); }
       el.classList.toggle('solved', reached);
+      hold(state);
       const first = reached && !done; done = reached;
       if (first) motion?.pop(state);
       return first;
@@ -43,6 +48,8 @@ export function goalRow({ T, hint, another, motion, actions = [], quiet = false 
       done = old.reached();
       if (old.hinted() && hintBtn && !hinted) toggle(true);
     },
+    // closeHint closes an open hint, for a family whose figure needs the room once the goal is reached.
+    closeHint() { if (hinted) toggle(false); },
     // reset closes the hint and forgets the last result, for another target.
     reset() { done = false; hinted = false; hintBtn?.setAttribute('aria-expanded', 'false'); hintText.hidden = true; },
   };

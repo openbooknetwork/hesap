@@ -35,7 +35,11 @@ for (const f of FAMILIES) {
   test(`${f.id}: the strings have the family's prefix and exist in English and Turkish`, () => {
     const en = strings(f, 'en'), tr = strings(f, 'tr');
     for (const key of Object.keys(en)) assert.ok(key.startsWith(`${f.id}_`), `${key} starts with ${f.id}_`);
-    assert.deepEqual(Object.keys(tr).sort(), Object.keys(en).sort(), 'tr.yaml and en.yaml hold the same keys');
+    // A Turkish string that names a school term without a word in the book's i18n/terms/tr.yaml waits, listed in a
+    // comment "# waits: <key>, for <term>", and the page reads the English string until then.
+    const waits = [...fs.readFileSync(path.join(dir(f), 'i18n', 'tr.yaml'), 'utf8').matchAll(/^# waits: ([\w.-]+)/gm)].map(m => m[1]);
+    for (const key of waits) assert.ok(en[key] && !tr[key], `${key} waits in tr.yaml, so en.yaml has it and tr.yaml does not`);
+    assert.deepEqual([...Object.keys(tr), ...waits].sort(), Object.keys(en).sort(), 'tr.yaml and en.yaml hold the same keys');
     assert.ok(en[`${f.id}_lead`], `${f.id}_lead says how the family's figures are moved`);
   });
 

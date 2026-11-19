@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import line from '../src/families/line/index.mjs';
-import { opening, jump, place, pick, open, lay, show, next, toggleMiddle, estimate, numbered, standing, moveStart, writtenOf, secondTo, drawLine, isMark, posOf, slide, labelKeep, LABELS_APART, PHONE, DIGIT, settle, even, gapsKey, sides, offsetsOf, markOf, shuffled, findsOf, middleOf, readoutsOf, arcsOf, jumpsOf, counts, readingOf, gapsOf, labelled, numberAt, tensOf, cardsOf, gapOn, labelRows } from '../src/families/line/model.js';
+import { opening, jump, place, pick, open, lay, show, next, toggleMiddle, estimate, numbered, standing, moveStart, resize, writtenOf, backOf, secondTo, drawLine, isMark, posOf, slide, labelKeep, LABELS_APART, PHONE, DIGIT, settle, even, gapsKey, sides, offsetsOf, markOf, shuffled, findsOf, middleOf, readoutsOf, arcsOf, jumpsOf, counts, readingOf, gapsOf, labelled, numberAt, tensOf, cardsOf, gapOn, labelRows } from '../src/families/line/model.js';
 import { GOALS, challengeStart, TWO_GAPS, UNMARKED_APART } from '../src/families/line/goals.js';
 import { dice } from '../src/kit/random.js';
 import { string } from '../src/node.mjs';
@@ -816,4 +816,113 @@ test('line: each hint and note reads with the numbers of its case', () => {
   assert.equal(say(j.note(plus, 'few', { point: 9 }), '7 + 4'), 'The point has made 2 of the 4 jumps that 7 + 4 needs. Keep jumping.');
   assert.equal(say(j.note(plus, 'many', { point: 13 }), '7 + 4'), 'The point has made 6 jumps, but 7 + 4 needs only 4. Jump back.');
   assert.deepEqual(['next', 'find', 'find-short'].map(k => string('en', `line_${k}`)), ['Next number', 'Number to find', 'Find']);
+});
+
+// The pages of the section undoing of fact-families: a jump of a size and the same jump back.
+const UNDO = {
+  320: { to: 20, start: 9, jump: 8, undo: true, written: true },
+  330: { to: 20, start: 19, jump: { stepper: [1, 10], start: 8 }, undo: true, written: true, readout: ['start'] },
+};
+const IDS = ['start', 'point', 'size', 'written', 'reading', 'written-back', 'reading-back'];
+const linkOf = (page, s, id, lang = 'en') => {
+  const T = (key, vars) => string(lang, `hesap_${key}`, vars), say = (w, wording) => !w ? '–' : wording ? kitReading(w, String, T) : kitWords(w, String);
+  if (id === 'written' || id === 'reading') return say(writtenOf(page, s), id === 'reading');
+  if (id === 'written-back' || id === 'reading-back') return say(backOf(page, s), id === 'reading-back');
+  return String(counts(page, s)[id]);
+};
+
+test('line: pages 320 and 330 of undoing link what they show as they open', () => {
+  assert.deepEqual(start(UNDO[320], IDS), ['9', '9', '8', '–', '–', '–', '–']);
+  assert.deepEqual(start(UNDO[330], IDS), ['19', '19', '8', '–', '–', '–', '–']);
+  assert.deepEqual(start(UNDO[330], ['jumps']), [null], 'an undo page offers no count of jumps');
+  assert.deepEqual(readoutsOf(spec(UNDO[330])), ['point', 'start', 'size', 'written', 'reading', 'step', 'from', 'to']);
+  const { has } = read(UNDO[320]);
+  assert.deepEqual(['size', 'written-back', 'reading-back', 'jumps'].map(has), [true, true, true, false]);
+});
+
+test('line: on 320 a jump of 8 and the jump back loop to 9 either way, and a press after the loop starts again', () => {
+  const page = spec(UNDO[320]), s0 = opening(page);
+  assert.ok(jump(page, s0, 1) && jump(page, s0, -1), 'from 9 both jumps of 8 fit');
+  const right = jump(page, s0, 1), loop = jump(page, right, -1);
+  assert.deepEqual(IDS.map(id => linkOf(page, right, id)), ['9', '17', '8', '9 + 8 = 17', '9 plus 8 is equal to 17', '–', '–']);
+  assert.equal(jump(page, right, 1), null, 'the button of the first jump rests');
+  assert.deepEqual(IDS.map(id => linkOf(page, loop, id)), ['9', '9', '8', '9 + 8 = 17', '9 plus 8 is equal to 17', '17 − 8 = 9', '17 minus 8 is equal to 9']);
+  assert.deepEqual(arcsOf(loop), [{ from: 9, to: 17, dir: 1 }, { from: 17, to: 9, dir: -1 }]);
+  assert.equal(linkOf(page, loop, 'reading-back', 'tr'), '17 eksi 8 eşittir 9');
+  const left = jump(page, s0, -1), back = jump(page, left, 1);
+  assert.deepEqual(['written', 'written-back', 'point'].map(id => linkOf(page, back, id)), ['9 − 8 = 1', '1 + 8 = 9', '9']);
+  assert.equal(jump(page, left, -1), null);
+  // A press after the jump back clears both and makes a new first jump in the direction pressed.
+  const again = jump(page, loop, -1);
+  assert.deepEqual([linkOf(page, again, 'written'), linkOf(page, again, 'written-back'), arcsOf(again).length], ['9 − 8 = 1', '–', 1]);
+  assert.deepEqual(writtenOf(page, right).ids, { a: 'start', b: 'size' });
+  assert.deepEqual(backOf(page, loop).ids, { b: 'size', c: 'start' });
+});
+
+test('line: on 330 every size from 1 to 10 from every start loops back, and a button rests where its jump leaves the line', () => {
+  const page = spec(UNDO[330]), s0 = opening(page);
+  assert.deepEqual([jump(page, s0, 1), jump(page, s0, -1)?.at], [null, 11], 'Jump right rests as the page opens');
+  const first = jump(page, s0, -1), loop = jump(page, first, 1);
+  assert.deepEqual(['written', 'written-back'].map(id => linkOf(page, loop, id)), ['19 − 8 = 11', '11 + 8 = 19']);
+  for (let size = 1; size <= 10; size++) {
+    for (let k = 0; k <= 20; k++) {
+      const s = resize(moveStart(page, s0, k), size);
+      assert.deepEqual([counts(page, s).start, counts(page, s).point, counts(page, s).size, linkOf(page, s, 'written')], [k, k, size, '–']);
+      for (const dir of [1, -1]) {
+        const one = jump(page, s, dir), end = k + dir * size;
+        if (end < 0 || end > 20) { assert.equal(one, null, `a jump of ${size} from ${k} to ${end} rests`); continue; }
+        const two = jump(page, one, -dir), sign = dir > 0 ? '+' : '−', other = dir > 0 ? '−' : '+';
+        assert.deepEqual(IDS.map(id => linkOf(page, two, id)), [`${k}`, `${k}`, `${size}`, `${k} ${sign} ${size} = ${end}`, `${k} ${dir > 0 ? 'plus' : 'minus'} ${size} is equal to ${end}`, `${end} ${other} ${size} = ${k}`, `${end} ${dir > 0 ? 'minus' : 'plus'} ${size} is equal to ${k}`]);
+        assert.equal(counts(page, one).point, end);
+      }
+    }
+  }
+});
+
+test('line: on 330 a change of the size or a drag of the start clears both jumps and puts the point on the start', () => {
+  const page = spec(UNDO[330]), loop = jump(page, jump(page, opening(page), -1), 1);
+  for (const s of [resize(loop, 1), resize(loop, 10), moveStart(page, loop, 4), moveStart(page, loop, 20)]) {
+    assert.deepEqual([arcsOf(s).length, s.at, s.base, linkOf(page, s, 'written'), linkOf(page, s, 'written-back')], [0, s.base, s.base, '–', '–']);
+  }
+  const half = jump(page, opening(page), -1), moved = moveStart(page, half, 4);
+  assert.deepEqual([counts(page, moved).start, counts(page, moved).point, arcsOf(moved).length], [4, 4, 0]);
+  assert.equal(counts(page, moveStart(page, half, 30)).start, 20);
+});
+
+test('line: jumps of a size without undo count the jumps, and a press against them takes the last back', () => {
+  const page = spec({ to: 20, point: 0, jump: 4, readout: ['jumps', 'size'] });
+  let s = presses(page, opening(page), 1, 5);
+  assert.deepEqual([counts(page, s).point, counts(page, s).jumps, arcsOf(s).length, arcsOf(s)[4]], [20, 5, 5, { from: 16, to: 20, dir: 1 }]);
+  assert.equal(jump(page, s, 1), null);
+  s = jump(page, s, -1);
+  assert.deepEqual([counts(page, s).point, counts(page, s).jumps], [16, 4]);
+  const w = spec({ to: 20, start: 2, jump: 3, written: true });
+  const t = presses(w, opening(w), 1, 2);
+  assert.deepEqual([kitWords(writtenOf(w, t), String), writtenOf(w, t).ids], ['2 + 6 = 8', { a: 'start', b: null, c: 'point' }]);
+  assert.deepEqual(start({ to: 20, point: 0, jump: true, readout: ['jumps'] }, ['size']), [null], 'jump: true links no size');
+});
+
+test('line: fields of a size and of undo out of place are told what to write', () => {
+  const fails = (fields, words) => assert.match(read(fields).problems.join('\n'), words);
+  fails({ ...UNDO[320], jump: true }, /undo jumps a size and back, write jump as a size/);
+  fails({ ...UNDO[320], start: undefined }, /undo jumps from the start and back to it, write start/);
+  fails({ ...UNDO[320], written: undefined }, /undo writes the line of each jump, write written: true/);
+  fails({ ...UNDO[320], point: 9 }, /point belongs to pages without undo/);
+  fails({ ...UNDO[320], flag: true }, /flag belongs to pages without undo/);
+  fails({ ...UNDO[320], readout: ['jumps'] }, /readout names "jumps"/);
+  fails({ ...UNDO[320], readout: ['written-back'] }, /readout names "written-back"/);
+  fails({ ...UNDO[320], jump: 21 }, /a size of 21, and the line has 20 gaps/);
+  fails({ ...UNDO[320], to: 10, start: 5, jump: 6 }, /either way from the start 5 leaves the line/);
+  fails({ ...UNDO[330], jump: { stepper: [0, 10], start: 7 } }, /jump.stepper is \[0, 10\]/);
+  fails({ ...UNDO[330], jump: { stepper: [1, 10], start: 12 } }, /a start between them/);
+  fails({ look: 'stones', to: 10, point: 0, jump: 2 }, /takes a marked line in the line look/);
+  fails({ to: 100, labels: 10, jump: 3, challenge: { goal: 'place', target: [11, 99] } }, /a challenge jumps one gap at a time/);
+  fails({ draw: true, undo: true }, /undo is drawn with the line/);
+  assert.deepEqual(read(UNDO[330]).problems, []);
+});
+
+test('line: an undo page refuses a size over half the gaps, which a moved start could make rest both ways', () => {
+  assert.match(read({ ...UNDO[330], jump: { stepper: [1, 11], start: 8 } }).problems.join('\n'), /write a size of 10 at most/);
+  assert.match(read({ ...UNDO[320], jump: 11, start: 0 }).problems.join('\n'), /write a size of 10 at most/);
+  assert.deepEqual(read({ to: 20, start: 0, jump: 11 }).problems, [], 'a page without undo keeps its size');
 });

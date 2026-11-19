@@ -46,7 +46,8 @@ export function opening(spec) {
   // A page with start counts its jumps from the start, and its point takes the start when the page leaves it out.
   const at = spec.point === false ? null : markOf(spec, spec.point ?? spec.start ?? spec.from);
   return { at, base: spec.start != null ? markOf(spec, spec.start) : at, second: spec.second == null ? null : markOf(spec, spec.second), step: spec.step, checked: false, open: null,
-    cards: cardsOf(spec), placed: [], middle: spec.middle === true, find: 0, shown: false, estimate: spec.estimate ?? null, offs: offsetsOf(spec) };
+    cards: cardsOf(spec), placed: [], middle: spec.middle === true, find: 0, shown: false, estimate: spec.estimate ?? null, offs: offsetsOf(spec),
+    size: spec.size ?? 1, undo: !!spec.undo, first: 0, back: false };
 }
 
 // A page with moved opens with some marks off their places. offs holds each such mark's offset, in gaps, and a mark
@@ -86,18 +87,37 @@ export function sides(s, k) {
   return Math.abs(left - right) <= 2 * SETTLE + 1e-9 ? 'mark-even' : left > right ? 'mark-left' : 'mark-right';
 }
 
-// The jumps run from base to the point, one arc over each gap, all in one direction: a press against the last jump
-// takes it back.
-export const jumpsOf = s => s.at === null ? 0 : Math.abs(s.at - s.base);
-export const arcsOf = s => Array.from({ length: jumpsOf(s) }, (_, i) => {
-  const dir = Math.sign(s.at - s.base), from = s.base + i * dir;
-  return { from, to: from + dir, dir };
-});
-// jump moves the point one gap, dir 1 to the right and -1 to the left, and gives null at an end of the line.
-export function jump(spec, s, dir) {
-  const at = s.at + dir;
-  return at < 0 || at > gapsOf(spec) ? null : { ...s, at, checked: false, shown: false };
+// The jumps run from base to the point, each one arc over size gaps, all in one direction: a press against the last
+// jump takes it back. On an undo page first is the direction of the first jump, or 0 before it, and back says the
+// jump back is made: two arcs at most, the second from the end of the first back to base.
+export const jumpsOf = s => s.undo ? arcsOf(s).length : s.at === null ? 0 : Math.abs(s.at - s.base) / (s.size ?? 1);
+export function arcsOf(s) {
+  const size = s.size ?? 1;
+  if (s.undo) {
+    if (!s.first) return [];
+    const turn = s.base + s.first * size, out = [{ from: s.base, to: turn, dir: s.first }];
+    return s.back ? [...out, { from: turn, to: s.base, dir: -s.first }] : out;
+  }
+  return Array.from({ length: jumpsOf(s) }, (_, i) => {
+    const dir = Math.sign(s.at - s.base), from = s.base + i * dir * size;
+    return { from, to: from + dir * size, dir };
+  });
 }
+// jump moves the point one jump, dir 1 to the right and -1 to the left, and gives null where the jump would leave the
+// line. On an undo page the button of the first jump's direction rests until the jump back is made, and a press after
+// the jump back makes a new first jump from base.
+export function jump(spec, s, dir) {
+  const size = s.size ?? 1, fits = k => k >= 0 && k <= gapsOf(spec), moved = { checked: false, shown: false };
+  if (s.undo) {
+    if (s.first && !s.back) return dir === s.first ? null : { ...s, ...moved, at: s.base, back: true };
+    const at = s.base + dir * size;
+    return fits(at) ? { ...s, ...moved, at, first: dir, back: false } : null;
+  }
+  const at = s.at + dir * size;
+  return fits(at) ? { ...s, ...moved, at } : null;
+}
+// resize sets the size of a jump, which clears the jumps and puts the point on base.
+export const resize = (s, size) => ({ ...s, size, at: s.base, first: 0, back: false, checked: false });
 // place puts a point on mark k after a drag. A drag of the point starts the jumps again from its new mark.
 export const place = (s, who, k) => who === 'second' ? { ...s, second: k } : { ...s, at: k, base: k, checked: false, shown: false };
 // show reveals where the number to find is, and next moves to the next number of the list, back to the first after
@@ -120,7 +140,9 @@ export const estimate = (s, n) => ({ ...s, estimate: n, shown: false });
 // moveStart moves the start to mark k and carries the point and its arcs along, so the jumps keep their number and
 // their direction. The start stops where the point would leave the line.
 // On a page that counts on to the second point, the start also stops one mark left of the second point.
+// On an undo page the start clears both jumps and takes the point along.
 export function moveStart(spec, s, k) {
+  if (s.undo) { const base = Math.max(0, Math.min(gapsOf(spec), k)); return { ...s, base, at: base, first: 0, back: false, checked: false }; }
   const n = gapsOf(spec), d = s.at - s.base, lo = Math.max(0, -d), hi = Math.min(n, n - d, keepsRight(spec) ? s.second - 1 : n), base = Math.max(lo, Math.min(hi, k));
   return { ...s, base, at: base + d, checked: false };
 }
@@ -141,7 +163,16 @@ export function writtenOf(spec, s) {
     // The second point stands right of the start, so the line reads the second point minus the start.
     return { a: numberAt(spec, s.second, s.step), sign: MINUS, b: start, open: s.at !== s.second, ids: { a: 'second', b: 'start', c: 'jumps' } };
   }
-  return { a: start, sign: at >= start ? PLUS : MINUS, b: Math.abs(at - start), ids: { a: 'start', b: 'jumps', c: 'point' } };
+  // An undo page writes its first jump once it is made, and the number between the signs is the size of a jump.
+  if (spec.undo) return s.first ? { a: start, sign: s.first > 0 ? PLUS : MINUS, b: s.size, ids: { a: 'start', b: 'size' } } : null;
+  // Jumps of a size write the gaps they cover, which no link reads.
+  return { a: start, sign: at >= start ? PLUS : MINUS, b: Math.abs(at - start), ids: { a: 'start', b: s.size > 1 ? null : 'jumps', c: 'point' } };
+}
+// backOf gives the line of the jump back on an undo page once it is made, from the end of the first jump back to the
+// start, or null.
+export function backOf(spec, s) {
+  if (!spec.undo || !s.back) return null;
+  return { a: numberAt(spec, s.base + s.first * s.size, s.step), sign: s.first > 0 ? MINUS : PLUS, b: s.size, ids: { b: 'size', c: 'start' } };
 }
 // pick changes the step. Every label changes, and the point and its jumps keep their marks.
 export const pick = (s, step) => ({ ...s, step });
@@ -171,18 +202,21 @@ export function measuresOf(spec) {
   // A page that asks the reader to place a number reads out no number at the point.
   // An unmarked line, and an estimate page, read out no number at the point either.
   const has = spec.point !== false && spec.find == null && !isFree(spec) && spec.estimate == null;
-  return [...(has ? ['point'] : []), ...(spec.start != null ? ['start'] : []), ...(spec.written ? ['written', 'reading'] : []), ...(spec.moved ? ['gaps'] : []), ...(spec.find != null ? ['find'] : []), ...(spec.estimate != null ? ['estimate'] : []), ...(spec.middle ? ['middle'] : []), ...(spec.second != null ? ['second'] : []), ...(spec.reading ? ['reading'] : []), ...(spec.jump ? ['jumps'] : []),
+  // An undo page offers the lines of both jumps and no count of jumps, since the loop ends where it began.
+  return [...(has ? ['point'] : []), ...(spec.start != null ? ['start'] : []), ...(spec.sized ? ['size'] : []), ...(spec.written ? ['written', 'reading'] : []), ...(spec.undo ? BACK : []), ...(spec.moved ? ['gaps'] : []), ...(spec.find != null ? ['find'] : []), ...(spec.estimate != null ? ['estimate'] : []), ...(spec.middle ? ['middle'] : []), ...(spec.second != null ? ['second'] : []), ...(spec.reading ? ['reading'] : []), ...(spec.jump && !spec.undo ? ['jumps'] : []),
     ...(spec.bracket ? ['ten-before', 'ten-after'] : []), ...(spec.cards ? ['placed'] : []), 'step', 'from', 'to'];
 }
-// The written line and its words take a readout, and the words of two points and of the gaps take none.
-export const readoutsOf = spec => measuresOf(spec).filter(id => (id !== 'reading' || spec.written) && id !== 'gaps');
+export const BACK = ['written-back', 'reading-back'];
+// The written line and its words take a readout. The words of two points and of the gaps take none, nor the line of
+// the jump back, which the figure writes under the first.
+export const readoutsOf = spec => measuresOf(spec).filter(id => (id !== 'reading' || spec.written) && id !== 'gaps' && !BACK.includes(id));
 
 // counts gives every value a page can read out, as the page stands. The right end follows the step, and the ten
 // before and the ten after read null while the point is on a ten.
 export function counts(spec, s) {
   const at = s.at === null ? null : numberAt(spec, s.at, s.step), tens = spec.bracket && at !== null ? tensOf(spec, s) : null;
   return { point: at, second: s.second == null ? null : numberAt(spec, s.second, s.step), jumps: jumpsOf(s), step: s.step, from: spec.from, to: numberAt(spec, gapsOf(spec), s.step),
-    'ten-before': tens?.before ?? null, 'ten-after': tens?.after ?? null, placed: s.placed.length,
+    'ten-before': tens?.before ?? null, 'ten-after': tens?.after ?? null, placed: s.placed.length, size: s.size,
     start: s.base === null ? null : numberAt(spec, s.base, s.step), find: findsOf(spec)[s.find] ?? null, estimate: s.estimate, middle: spec.middle ? middleOf(spec, s.step) : null };
 }
 

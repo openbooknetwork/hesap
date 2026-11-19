@@ -196,3 +196,67 @@ counters_hint-steps-to-ten-minus: "First work out how many to take away to bring
 counters_add-take-to-ten: Down to ten
 counters_goal-steps-to-ten-minus: "Split the {second} in {calc} into the part that takes {first} down to ten and the rest, then press Check."
 counters_add-shelf-left: Left
+counters_add-family-first: First part
+counters_add-family-second: Second part
+counters_add-family-whole: Whole
+counters_add-domino-first: First half
+counters_add-domino-second: Second half
+counters_add-domino-whole: Whole
+counters_add-domino-cover: "Cover the half that shows {x}"
+counters_add-domino-lift: Lift the card
+counters_add-whole-whole: Whole
+counters_add-whole-first: Known part
+counters_add-whole-missing: Missing part
+counters_add-whole-second: Counters put in
+counters_add-claim: Sum
+counters_add-claim-right: "The check gives back {first}, so the sum is right."
+counters_add-claim-wrong: "{back} is not {first}, so the sum is wrong."
+counters_add-squad-whole: Squad
+counters_add-squad-first: On the pitch
+counters_add-squad-missing: Bench seats
+counters_add-squad-second: On the bench
+counters_add-undo-back: Taken back
+counters_add-undo-left: Left
+counters_add-whole-put: Put a counter in the next place
+counters_add-put: Put in a counter
+counters_add-squad-put: Seat the next player on the bench
+counters_add-squad-player: "Player {x} on the pitch"
+counters_add-squad-bench: "Player {x} on the bench"
+counters_add-whole-out: "Counter {x}. Take out the last counter."
+counters_add-out: Take out the last counter
+counters_goal-missing-part: "Put in the part that {calc} asks for, then press Check."
+counters_goal-missing-part-done: "{line}, since {part} and {missing} make {whole}."
+counters_note-missing-part-more: "{part} and {put} make {made}, more than {whole}."
+counters_note-missing-part-less: "{part} and {put} make {made}, less than {whole}."
+counters_hint-missing-part: "{calc} asks: {part} and what make {whole}? Count on from {part} to {whole} and put in a counter for each number you say."
+counters_bar-first: First part
+counters_bar-second: Second part
+counters_bar-whole: Whole
+counters_bar-chocolate-first: First piece
+counters_bar-chocolate-second: Second piece
+counters_bar-chocolate-whole: Squares
+counters_bar-split: Split
+counters_bar-end: End
+counters_bar-cover-whole: Cover the whole
+counters_bar-cover-first: Cover the first part
+counters_bar-cover-second: Cover the second part
+counters_bar-lift: Lift the card
+counters_goal-bar-for-fact: "Set the bar model of the family of {fact}, then press Check."
+counters_goal-bar-for-fact-done: "{whole} is the whole, and {first} and {second} are its parts."
+counters_note-bar-for-fact-longer: "The bar is longer than the whole of {fact}."
+counters_note-bar-for-fact-shorter: "The bar is shorter than the whole of {fact}."
+counters_bar-use: Use them as
+counters_bar-use-parts: the two parts
+counters_bar-use-whole: the whole and a part
+counters_bar-third: Third number
+counters_note-bar-for-fact-right: "The whole is right, and the split is too far to the left for the parts of {fact}. Drag it to the right."
+counters_note-bar-for-fact-left: "The whole is right, and the split is too far to the right for the parts of {fact}. Drag it to the left."
+counters_hint-bar-for-fact-plus: "In {fact}, the whole comes after the = sign. Drag the end to the whole, then split it into the two parts."
+counters_hint-bar-for-fact-minus: "In {fact}, the whole comes first. Drag the end to the whole, then split it into the other two numbers."
+counters_goal-bar-for-two: "Find a third number that makes a family with {greater} and {less}, then press Check."
+counters_goal-bar-for-two-done: "The family of {greater}, {less} and {mine} holds both numbers. So does the family of {greater}, {less} and {other}."
+counters_note-bar-for-two-parts-over: "{greater} and {less} make less than {n}."
+counters_note-bar-for-two-parts-under: "{greater} and {less} make more than {n}."
+counters_note-bar-for-two-whole-over: "{less} and {n} make more than {greater}."
+counters_note-bar-for-two-whole-under: "{less} and {n} make less than {greater}."
+counters_hint-bar-for-two: "A family holds a whole and two parts. Use {greater} and {less} as the two parts and add them, or use {greater} as the whole and {less} as a part and find the missing part."

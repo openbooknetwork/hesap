@@ -59,3 +59,6 @@ line_hint-jump-minus-one: "Başlangıçtaki sayıyı söyleyin, sonra her zıpla
 line_note-jump-way-plus: Nokta yanlış yöne zıpladı.
 line_note-jump-way-minus: Nokta yanlış yöne zıpladı.
 line_note-jump-few-none: Zıplamalar az.
+# The Turkish words wait for the term "jump (number line)", which the book's i18n/terms/tr.yaml has not sourced yet.
+line_size: Size of a jump
+line_size-short: Size

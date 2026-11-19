@@ -3,7 +3,7 @@
 // round the point, gaps that open into lines of their own, and label cards for blank marks. The looks stones and
 // stones-on-line draw the frog's stepping stones of the opening pages. A challenge page asks the reader to put the
 // point on a number.
-import { opening, jump, place, pick, open, lay, show as reveal, next, toggleMiddle, estimate as setEstimate, moveStart, writtenOf, isFree, numbered, standing, posOf, slide, labelKeep, settle as settleMarks, gapsKey, sides, SETTLE, arcsOf, jumpsOf, counts, readoutsOf, measuresOf, readingOf, tensOf, gapsOf, numberAt, markOf, labelled, findsOf, shuffled, isStones, gapOn, labelRows, secondTo, drawLine } from './model.js';
+import { opening, jump, place, pick, open, lay, show as reveal, next, toggleMiddle, estimate as setEstimate, moveStart, resize, writtenOf, backOf, isFree, numbered, standing, posOf, slide, labelKeep, settle as settleMarks, gapsKey, sides, SETTLE, arcsOf, jumpsOf, counts, readoutsOf, measuresOf, readingOf, tensOf, gapsOf, numberAt, markOf, labelled, findsOf, shuffled, isStones, gapOn, labelRows, secondTo, drawLine } from './model.js';
 import { GOALS } from './goals.js';
 import { pointShape, flag, arc, frog, stone, pond, bracket as makeBracket, blankBox, card, house, plaque, van, book, bookmark, BOX, CARD } from './figures.js';
 import { lens as makeLens, LENS_H } from './lens.js';
@@ -25,6 +25,7 @@ const STILL = 4; // A press that moves less than this many pixels leaves the poi
 const POLE = 16, FLAG = 24, STACK = 30; // A flag's pole, its box, and how far a second flag over the same place rises.
 const LONG = 11, SHORT = 6; // Half the height of a long mark and of a short mark.
 const BOOK_TOP = 34; // The bookmark stands this far above the edge of the book.
+const ARC_Y = -6; // The arcs over the line start this far above it.
 const WHO = ['point', 'second'];
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
@@ -65,8 +66,10 @@ export default function line({ host, stage, panel, T, lang, moving, motion }) {
     // A blank box at an end of the line keeps its whole width on the stage.
     const gap = gapOn(W - (spec.blank.length ? BOX.w : 0) - (street() ? 8 : 0), n, stones), x0 = (W - n * gap) / 2;
     const big = gap >= 34, r = big ? 11 : 9, arcH = clamp(gap * 0.42, Math.min(10, gap * 1.5), 26);
+    // A jump over several gaps rises higher than a jump over one, so its arc does not lie flat along the line.
+    const rise = len => len <= 1 ? arcH : Math.min(arcH * (1 + 0.35 * (len - 1)), arcH * 2.5, 48);
     const sw = Math.min(gap * 0.86, 58), fs = Math.min(Math.max(gap * 0.9, 26), 46);
-    let top, bottom, g = { gap, x0, r, arcH, sw, fs, n, x: k => x0 + k * gap, narrow: gap < (spec.look === 'street' ? NARROW_STREET : NARROW) && onLine && !isFree(spec), font: big ? 16 : 14, rows: 1 };
+    let top, bottom, g = { gap, x0, r, arcH, rise, sw, fs, n, x: k => x0 + k * gap, narrow: gap < (spec.look === 'street' ? NARROW_STREET : NARROW) && onLine && !isFree(spec), font: big ? 16 : 14, rows: 1 };
     // A house of the street is about as wide as its gap, and a flag stands over its door number.
     g.houseH = clamp(gap * 1.1, 12, 36); g.flagFrom = street() ? -(g.houseH + 30) : spec.look === 'book' ? -BOOK_TOP : -r;
     if (!onLine) {
@@ -79,12 +82,18 @@ export default function line({ host, stage, panel, T, lang, moving, motion }) {
       const spacing = gap * Math.min(n, ...ks.slice(1).map((k, i) => k - ks[i]));
       Object.assign(g, labelRows(wide(ks.map(k => int(num(k)))), spacing, { base: g.font, least: FONT, apart: APART }));
       g.row = new Map(ks.map((k, i) => [k, g.rows === 2 ? i % 2 : 0]));
-      g.labelY = 26 + g.font / 2; g.arcY = -6;
+      g.labelY = 26 + g.font / 2;
+      // Every jump of an undo page starts or ends at the start, so its arcs over the line stand on the top of the
+      // start's ring, which reaches r + 7 above the line, where a short arc would hide inside the ring.
+      g.arcY = spec.undo ? -(r + 7 + 2) : ARC_Y;
       if (street()) g.labelY = -(g.houseH + 16);
       let y = street() ? 34 : Math.max(g.labelY + g.font / 2 + (g.rows === 2 ? g.font + 3 : 0), spec.blank.length ? g.labelY + BOX.h / 2 : 0) + 6;
-      if (spec.jump) { g.downY = y + 6; y = g.downY + g.arcH + 6; }
+      const most = rise(spec.sizeCtl?.hi ?? spec.size ?? 1);
+      if (spec.jump) { g.downY = y + 6; y = g.downY + most + 6; }
       if (spec.reading || spec.moved) { g.readingY = y + 22; y += 46; }
       if (spec.written) { g.writtenY = y + 32; y += 64; }
+      // The line of the jump back stands under the line of the first jump.
+      if (spec.undo) { g.backY = y + 12; y += 44; }
       if (spec.open) { g.openTop = y; g.openY = y + 56; y = g.openY + 40; }
       if (spec.cards) {
         const per = Math.max(1, Math.floor((W - 20) / (CARD.w + 8))), all = s.cards.length, row0 = y + 30 + CARD.h / 2;
@@ -96,7 +105,7 @@ export default function line({ host, stage, panel, T, lang, moving, motion }) {
       // the flag of the number to find over it.
       const flags = spec.flag || spec.challenge || spec.find != null || spec.estimate != null ? -g.flagFrom + POLE + FLAG + (spec.second != null || spec.find != null || spec.challenge ? STACK : 0) : r;
       g.lensY = street() ? g.labelY - 14 : -r - 6;
-      top = -Math.max(flags, spec.jump ? 6 + arcH + 4 : 0, g.narrow ? -g.lensY + LENS_H : 0, spec.bracket ? 30 : 0) - 8;
+      top = -Math.max(flags, spec.jump ? -(g.arcY ?? ARC_Y) + most + 4 : 0, g.narrow ? -g.lensY + LENS_H : 0, spec.bracket ? 30 : 0) - 8;
       if (stones) {
         // The stones stand over the line, each over the mark of its number, with the frog on the stone over the point.
         g.water = [0, -(spec.jump ? arcH + 18 : 20)];
@@ -179,7 +188,11 @@ export default function line({ host, stage, panel, T, lang, moving, motion }) {
     nodes.push(...['find', 'second', 'point'].filter(w => parts.flags[w]).map(w => parts.flags[w].el));
     if (spec.start != null) nodes.push(ring());
     nodes.push(layer);
-    if (spec.written) { parts.written = null; parts.writtenAt = el('g', { class: 'line-written' }); nodes.push(parts.writtenAt); }
+    if (spec.written) { parts.written = null; parts.writtenOrder = null; parts.writtenAt = el('g', { class: 'line-written' }); nodes.push(parts.writtenAt); }
+    if (spec.undo) {
+      parts.back = writtenLine({ refs: { b: 'size', c: 'start' }, cls: { c: 'line-c-point' } });
+      parts.back.at(area.w / 2, y0 + g.backY); nodes.push(parts.back.el);
+    } else parts.back = null;
     if (parts.keys) nodes.push(...parts.keys);
     if (spec.cards) nodes.push(cards());
     if (g.narrow) { parts.lens = makeLens(); nodes.push(parts.lens.el); }
@@ -400,7 +413,8 @@ export default function line({ host, stage, panel, T, lang, moving, motion }) {
     settle();
     const next = jump(spec, s, dir);
     if (!next) return;
-    const from = geo ? xm(s.at) : null, adds = jumpsOf(next) > jumpsOf(s);
+    // Each press of an undo page draws a new arc, the jump back or a new first jump.
+    const from = geo ? xm(s.at) : null, adds = spec.undo || jumpsOf(next) > jumpsOf(s);
     s = next; look(false);
     if (geo) go({ who: 'point', from, to: xm(s.at), hop: isStones(spec), adds }, 320);
     else refresh();
@@ -435,7 +449,7 @@ export default function line({ host, stage, panel, T, lang, moving, motion }) {
     const g = geo, y0 = g.y0, st = now();
     // The arcs run over the gaps the point has jumped. The newest one draws itself while the point is on its way.
     const arcs = arcsOf(st).flatMap((a, i, all) => {
-      const down = a.dir < 0, y = y0 + (down ? g.downY : g.arcY), part = arc(xm(a.from, st), xm(a.to, st), y, g.arcH, down);
+      const down = a.dir < 0, y = y0 + (down ? g.downY : g.arcY), part = arc(xm(a.from, st), xm(a.to, st), y, g.rise(Math.abs(a.to - a.from)), down);
       if (glide?.adds && i === all.length - 1) { part.path.setAttribute('stroke-dasharray', '1 1'); part.path.setAttribute('stroke-dashoffset', 1 - glide.o.t); part.head.setAttribute('opacity', glide.o.t > 0.9 ? 1 : 0); }
       return g.narrow ? [part.path] : [part.path, part.head];
     });
@@ -496,14 +510,16 @@ export default function line({ host, stage, panel, T, lang, moving, motion }) {
     // its goal holds. Its numbers take the colour of the point or the second point they write.
     if (parts.ring) { parts.ring.setAttribute('transform', `translate(${xm(st.base, st)} ${y0})`); parts.ring.setAttribute('aria-valuenow', num(st.base, st)); }
     if (parts.writtenAt) {
-      const w = writtenOf(spec, st), order = `${w.ids.a}|${w.ids.b}`;
+      // An undo page has no line before its first jump, and its line keeps the ids of its first jump.
+      const w = writtenOf(spec, st), ids = w?.ids ?? { a: 'start', b: 'size' }, order = `${ids.a}|${ids.b}`;
       if (parts.writtenOrder !== order) {
-        const cls = Object.fromEntries(Object.entries(w.ids).filter(([, id]) => id === 'start' || id === 'second').map(([role, id]) => [role, id === 'start' ? 'line-c-point' : 'line-c-second']));
-        parts.written = writtenLine({ refs: w.ids, cls }); parts.writtenOrder = order;
+        const cls = Object.fromEntries(Object.entries(ids).filter(([, id]) => id === 'start' || id === 'second').map(([role, id]) => [role, id === 'start' ? 'line-c-point' : 'line-c-second']));
+        parts.written = writtenLine({ refs: ids, cls }); parts.writtenOrder = order;
         parts.writtenAt.replaceChildren(parts.written.el); parts.written.at(area.w / 2, y0 + g.writtenY);
       }
       parts.written.set(spec.challenge && !solved ? null : w, int);
     }
+    parts.back?.set(backOf(spec, st), int);
     if (parts.reading) fit(parts.reading, spec.moved ? T(gapsKey(st)) : words(st), area.w - 24);
     // The marks, their labels and their touch bands stand where the marks stand.
     if (spec.moved) {
@@ -538,7 +554,10 @@ export default function line({ host, stage, panel, T, lang, moving, motion }) {
   // refresh writes every value that follows the figure, in the readouts, the challenge's line and the text. Every
   // goal speaks with the line and the notes of place.
   function refresh() {
-    const st = now(), c = counts(spec, st), ids = measuresOf(spec), w = writtenOf(spec, st), value = id => id === 'gaps' ? T(gapsKey(st)) : id === 'written' ? writeWords(w, int) : id === 'reading' ? (w ? writeReading(w, int, T) : words(st)) : c[id] === null ? DASH : int(c[id]);
+    const st = now(), c = counts(spec, st), ids = measuresOf(spec), w = writtenOf(spec, st), back = backOf(spec, st);
+    // A line not yet made, such as the first jump of an undo page before a press, reads a dash.
+    const line = (l, wording) => !l ? DASH : wording ? writeReading(l, int, T) : writeWords(l, int);
+    const value = id => id === 'gaps' ? T(gapsKey(st)) : id === 'written' ? line(w) : id === 'reading' ? (spec.written ? line(w, true) : words(st)) : id === 'written-back' ? line(back) : id === 'reading-back' ? line(back, true) : c[id] === null ? DASH : int(c[id]);
     const shows = id => id === 'placed' ? T('placed-of', { n: int(c.placed), all: int(spec.blank.length) }) : value(id);
     for (const k of chips) if (k.set(shows(k.id)) && moving() && !held) motion.flash(k.el);
     if (goal) {
@@ -565,6 +584,8 @@ export default function line({ host, stage, panel, T, lang, moving, motion }) {
     const ctls = [];
     // A pick of the step keeps the gaps, the point's mark and its jumps, and writes every label again.
     if (spec.stepCtl) ctls.push(segment({ id: 'step', label: T('step'), items: spec.stepCtl.items.map(v => [v, int(v)]), value: s.step, pick: v => { s = pick(s, Number(v)); build(); } }));
+    // The size of a jump steps, which clears the jumps and puts the point on the start.
+    if (spec.sizeCtl) ctls.push(stepper({ id: 'size', label: T('size'), min: spec.sizeCtl.lo, max: spec.sizeCtl.hi, value: s.size, write: int, change: v => { settle(); s = resize(s, v); paint(); } }));
     if (jumps) ctls.push(h('div', { class: 'line-jumps' }, [jumps.left, jumps.right]));
     // Middle draws the middle's mark and takes it away. Show reveals where the number to find is, and Next asks for
     // the next number of the list once the reader has seen this one.
@@ -612,6 +633,7 @@ export default function line({ host, stage, panel, T, lang, moving, motion }) {
     if (!spec) return;
     for (const part of svg.querySelectorAll(`[data-ref="${id}"]`)) part.classList.toggle('line-hot', on);
     parts?.written?.light(id, on, ['written', 'reading']);
+    parts?.back?.light(id, on, ['written-back', 'reading-back']);
     for (const part of panel.querySelectorAll('[data-ref]')) part.classList.toggle('hot', on && part.dataset.ref === id);
   }
 
